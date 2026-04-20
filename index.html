@@ -252,8 +252,8 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 </div>
 
 <script>
-const SUPABASE_URL = 'https://rwjiqxwzaeieyedpvsth.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_KEY = 'YOUR_ANON_KEY';
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -448,23 +448,40 @@ async function authSubmit(){
   if(error){errEl.textContent=error.message;errEl.style.display='block';}
 }
 
-async function signOut(){
-  await sb.auth.signOut();
+function showAuth(){
   currentUser=null;
   courses=[];
+  document.getElementById('tbody').innerHTML='';
+  document.getElementById('auth-email').value='';
+  document.getElementById('auth-pass').value='';
+  document.getElementById('auth-err').style.display='none';
+  document.getElementById('auth-ok').style.display='none';
   document.getElementById('app-screen').style.display='none';
   document.getElementById('auth-screen').style.display='flex';
 }
 
+function showApp(user){
+  currentUser=user;
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+  const email=currentUser.email||'';
+  document.getElementById('disp-name').textContent=email.split('@')[0];
+  document.getElementById('disp-email').textContent=email;
+  document.getElementById('avatar').textContent=initials(email.split('@')[0]);
+}
+
+async function signOut(){
+  setSync('syncing','Signing out…');
+  const {error}=await sb.auth.signOut();
+  if(error){setSync('err','Sign out failed: '+error.message);return;}
+  showAuth();
+}
+
 sb.auth.onAuthStateChange(async(event,session)=>{
-  if(session){
-    currentUser=session.user;
-    document.getElementById('auth-screen').style.display='none';
-    document.getElementById('app-screen').style.display='block';
-    const email=currentUser.email||'';
-    document.getElementById('disp-name').textContent=email.split('@')[0];
-    document.getElementById('disp-email').textContent=email;
-    document.getElementById('avatar').textContent=initials(email.split('@')[0]);
+  if(event==='SIGNED_OUT'||!session){
+    showAuth();
+  } else if(session){
+    showApp(session.user);
     await loadCourses();
   }
 });
