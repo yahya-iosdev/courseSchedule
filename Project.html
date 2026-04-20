@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Course Manager</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+--bg:#fafafa;--surface:#ffffff;--surface2:#f4f4f8;
+--text:#18181b;--text2:#71717a;--text3:#a1a1aa;
+--border:#e4e4e7;--border2:#d4d4d8;
+--p:#7F77DD;--p-bg:#EEEDFE;--p-light:#CECBF6;--p-dark:#3C3489;
+--t:#1D9E75;--t-bg:#E1F5EE;--t-border:#5DCAA5;--t-dark:#085041;
+--a:#BA7517;--a-bg:#FAEEDA;--a-border:#EF9F27;--a-dark:#412402;
+--r-bg:#FCEBEB;--r-border:#F09595;--r-dark:#A32D2D;
+}
+.dark{
+--bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;
+--text:#f0f0f5;--text2:#8888aa;--text3:#55556a;
+--border:#2a2a38;--border2:#35354a;
+--p:#AFA9EC;--p-bg:#26215C;--p-light:#3C3489;--p-dark:#CECBF6;
+--t:#5DCAA5;--t-bg:#04342C;--t-border:#0F6E56;--t-dark:#9FE1CB;
+--a:#EF9F27;--a-bg:#412402;--a-border:#854F0B;--a-dark:#FAC775;
+--r-bg:#501313;--r-border:#A32D2D;--r-dark:#F09595;
+}
+body{background:var(--bg);font-family:system-ui,sans-serif;min-height:100vh;transition:background .2s;}
+.page{max-width:860px;margin:0 auto;padding:2rem 1.25rem;color:var(--text);}
+
+/* Auth screen */
+#auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.auth-card{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:380px;}
+.auth-logo{width:40px;height:40px;border-radius:12px;background:var(--p-bg);border:0.5px solid var(--p-light);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;}
+.auth-logo svg{width:20px;height:20px;color:var(--p);}
+.auth-title{font-size:18px;font-weight:500;margin-bottom:4px;color:var(--text);}
+.auth-sub{font-size:13px;color:var(--text3);margin-bottom:1.5rem;}
+.auth-tabs{display:flex;background:var(--surface2);border-radius:10px;padding:3px;margin-bottom:1.25rem;}
+.auth-tab{flex:1;text-align:center;padding:7px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text3);transition:all .15s;border:none;background:transparent;}
+.auth-tab.active{background:var(--surface);color:var(--text);border:0.5px solid var(--border);}
+.auth-field{margin-bottom:12px;}
+.auth-field label{display:block;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.auth-field input{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;color:var(--text);background:var(--surface2);outline:none;transition:border-color .15s,box-shadow .15s;}
+.auth-field input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);background:var(--surface);}
+.auth-btn{width:100%;padding:10px;border-radius:10px;border:none;background:var(--p);color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s;margin-top:4px;}
+.auth-btn:hover{opacity:.88;}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;}
+.auth-err{font-size:12px;color:var(--r-dark);background:var(--r-bg);border:0.5px solid var(--r-border);border-radius:8px;padding:8px 12px;margin-top:10px;display:none;}
+.auth-ok{font-size:12px;color:var(--t-dark);background:var(--t-bg);border:0.5px solid var(--t-border);border-radius:8px;padding:8px 12px;margin-top:10px;display:none;}
+
+/* App */
+#app-screen{display:none;}
+.hero{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.hero-left{display:flex;align-items:center;gap:14px;}
+.avatar-wrap{position:relative;}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--p-bg);border:2px solid var(--p-light);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--p);}
+.online-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#1D9E75;border:2px solid var(--surface);}
+.user-name-display{font-size:16px;font-weight:500;color:var(--text);}
+.user-email{font-size:12px;color:var(--text3);margin-top:2px;}
+.hero-right{display:flex;align-items:center;gap:8px;}
+.pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:999px;border:0.5px solid var(--p-light);background:var(--p-bg);color:var(--p-dark);}
+.icon-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;border:0.5px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
+.icon-btn:hover{border-color:var(--p);color:var(--p);background:var(--p-bg);}
+.icon-btn svg{width:13px;height:13px;flex-shrink:0;}
+.icon-btn.danger:hover{border-color:var(--r-border);color:var(--r-dark);background:var(--r-bg);}
+
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1rem;}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:.875rem 1rem;}
+.stat-val{font-size:22px;font-weight:500;color:var(--text);}
+.stat-label{font-size:11px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em;}
+
+.progress-bar-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:.875rem 1rem;margin-bottom:1rem;}
+.progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+.progress-track{height:10px;background:var(--surface2);border-radius:999px;overflow:hidden;display:flex;border:0.5px solid var(--border);}
+.seg{height:100%;transition:width .4s ease;}
+.seg-done{background:#1D9E75;}
+.seg-prog{background:#7F77DD;}
+.seg-drop{background:#E24B4A;}
+.legend{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.table-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:1rem;}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-bottom:0.5px solid var(--border);gap:10px;flex-wrap:wrap;}
+.table-title{font-size:14px;font-weight:500;color:var(--text);}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.filter-btn.active{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);}
+.search-box{display:flex;align-items:center;gap:6px;background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:5px 10px;}
+.search-box svg{width:13px;height:13px;color:var(--text3);flex-shrink:0;}
+.search-box input{background:transparent;border:none;outline:none;font-size:12px;color:var(--text);width:100px;}
+.search-box input::placeholder{color:var(--text3);}
+
+table{width:100%;border-collapse:collapse;table-layout:fixed;}
+thead tr{background:var(--surface2);}
+thead th{padding:9px 10px;font-size:11px;font-weight:500;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.06em;}
+thead th:first-child{width:40px;text-align:center;}
+thead th.th-status{width:128px;text-align:center;}
+thead th:last-child{width:40px;text-align:center;}
+tbody tr{border-top:0.5px solid var(--border);transition:background .12s;}
+tbody tr:hover{background:var(--surface2);}
+tbody tr.hidden{display:none;}
+td{padding:6px 6px;vertical-align:middle;}
+td:first-child{text-align:center;}
+td:last-child{text-align:center;}
+.num{width:24px;height:24px;border-radius:6px;background:var(--p-bg);color:var(--p);font-size:11px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;}
+.del-btn{width:26px;height:26px;border-radius:6px;border:0.5px solid var(--r-border);background:var(--r-bg);color:var(--r-dark);font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:opacity .15s;line-height:1;}
+.del-btn:hover{opacity:.7;}
+input.ci{width:100%;border:0.5px solid var(--border);border-radius:8px;padding:6px 9px;font-size:13px;color:var(--text);background:transparent;outline:none;transition:border-color .15s,box-shadow .15s;}
+input.ci:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);}
+input.di{width:100%;border:0.5px solid var(--t-border);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--t-dark);background:var(--t-bg);outline:none;}
+input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--a-dark);background:var(--a-bg);outline:none;}
+.status-select{width:116px;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid;outline:none;appearance:none;-webkit-appearance:none;text-align:center;transition:all .15s;}
+.s-none{background:var(--surface2);border-color:var(--border2);color:var(--text2);}
+.s-progress{background:#EEEDFE;border-color:#CECBF6;color:#3C3489;}
+.s-done{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
+.s-dropped{background:#FCEBEB;border-color:#F09595;color:#A32D2D;}
+
+.add-row{display:flex;align-items:center;gap:10px;padding:.875rem 1.25rem;border-top:0.5px solid var(--border);}
+.add-ci{flex:1;border:0.5px solid var(--border);border-radius:8px;padding:7px 11px;font-size:13px;color:var(--text);background:var(--surface2);outline:none;transition:border-color .15s,box-shadow .15s;}
+.add-ci:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);background:var(--surface);}
+.add-ci::placeholder{color:var(--text3);}
+.add-btn{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;border:0.5px solid var(--p-light);background:var(--p-bg);color:var(--p-dark);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.add-btn:hover{background:var(--p-light);}
+.add-btn svg{width:14px;height:14px;}
+
+.sync-bar{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text3);padding:.5rem 0;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--t);flex-shrink:0;}
+.sync-dot.syncing{background:var(--a);animation:pulse .8s infinite alternate;}
+.sync-dot.err{background:var(--r-dark);}
+@keyframes pulse{from{opacity:1}to{opacity:.3}}
+</style>
+</head>
+<body>
+
+<div id="auth-screen">
+  <div class="auth-card" id="auth-card-el">
+    <div class="auth-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="auth-title">Course Manager</div>
+    <div class="auth-sub">Sign in to sync your progress across devices</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-in" onclick="switchTab('in')">Sign in</button>
+      <button class="auth-tab" id="tab-up" onclick="switchTab('up')">Sign up</button>
+    </div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')authSubmit()"/>
+    </div>
+    <div class="auth-field">
+      <label>Password</label>
+      <input type="password" id="auth-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authSubmit()"/>
+    </div>
+    <button class="auth-btn" id="auth-submit-btn" onclick="authSubmit()">Sign in</button>
+    <div class="auth-err" id="auth-err"></div>
+    <div class="auth-ok" id="auth-ok"></div>
+  </div>
+</div>
+
+<div id="app-screen">
+<div class="page" id="page">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatar">?</div>
+        <div class="online-dot"></div>
+      </div>
+      <div>
+        <div class="user-name-display" id="disp-name">Loading…</div>
+        <div class="user-email" id="disp-email"></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <span class="pill" id="course-pill">0 courses</span>
+      <button class="icon-btn" onclick="toggleDark()" id="mbtn">
+        <svg id="mico" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        <span id="mlbl">Dark</span>
+      </button>
+      <button class="icon-btn danger" onclick="signOut()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val" id="s-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat" style="border-color:#CECBF6"><div class="stat-val" style="color:#7F77DD" id="s-prog">0</div><div class="stat-label">In progress</div></div>
+    <div class="stat" style="border-color:#5DCAA5"><div class="stat-val" style="color:#1D9E75" id="s-done">0</div><div class="stat-label">Finished</div></div>
+    <div class="stat" style="border-color:#F09595"><div class="stat-val" style="color:#A32D2D" id="s-drop">0</div><div class="stat-label">Dropped</div></div>
+    <div class="stat"><div class="stat-val" id="s-pct">0%</div><div class="stat-label">Completion</div></div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-labels"><span>Overall progress</span><span id="prog-label">0 / 0 finished</span></div>
+    <div class="progress-track">
+      <div class="seg seg-done" id="seg-done" style="width:0%"></div>
+      <div class="seg seg-prog" id="seg-prog" style="width:0%"></div>
+      <div class="seg seg-drop" id="seg-drop" style="width:0%"></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Finished</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>In progress</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Dropped</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d4d4d8"></div>Not started</div>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-title">All courses</span>
+      <div class="header-right">
+        <button class="filter-btn active" id="f-all" onclick="setFilter('all')">All</button>
+        <button class="filter-btn" id="f-none" onclick="setFilter('none')">Not started</button>
+        <button class="filter-btn" id="f-progress" onclick="setFilter('progress')">In progress</button>
+        <button class="filter-btn" id="f-done" onclick="setFilter('done')">Finished</button>
+        <button class="filter-btn" id="f-dropped" onclick="setFilter('dropped')">Dropped</button>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search…" oninput="filterRows(this.value)"/>
+        </div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Course name</th>
+          <th>Start date</th>
+          <th>End date</th>
+          <th class="th-status">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="add-row">
+      <input class="add-ci" id="new-name" type="text" placeholder="New course name…" onkeydown="if(event.key==='Enter')addCourse()"/>
+      <button class="add-btn" onclick="addCourse()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        Add course
+      </button>
+    </div>
+  </div>
+
+  <div class="sync-bar">
+    <div class="sync-dot" id="sync-dot"></div>
+    <span id="sync-label">Connected — changes save automatically</span>
+  </div>
+</div>
+</div>
+
+<script>
+// ── CONFIG: replace these two values with yours from Supabase ──
+const SUPABASE_URL = 'https://rwjiqxwzaeieyedpvsth.supabase.co/';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
+// ──────────────────────────────────────────────────────────────
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const SC = {none:'s-none', progress:'s-progress', done:'s-done', dropped:'s-dropped'};
+let courses = [], currentUser = null, isDark = false;
+let activeFilter = 'all', searchQ = '', saveTimer = null;
+let appReady = false; // prevent onAuthStateChange double-firing on load
+
+// ── Helpers ──────────────────────────────────────────────────
+function initials(n) {
+  if (!n) return '?';
+  const p = n.trim().split(' ').filter(Boolean);
+  return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : p[0].slice(0,2).toUpperCase();
+}
+function $(id){ return document.getElementById(id); }
+function setSync(state, msg) {
+  const dot = $('sync-dot'), lbl = $('sync-label');
+  if (!dot || !lbl) return;
+  dot.className = 'sync-dot' + (state==='syncing' ? ' syncing' : state==='err' ? ' err' : '');
+  lbl.textContent = msg;
+}
+
+// ── Screen switching ──────────────────────────────────────────
+function showAuth() {
+  currentUser = null; courses = [];
+  $('tbody').innerHTML = '';
+  $('auth-email').value = ''; $('auth-pass').value = '';
+  $('auth-err').style.display = 'none'; $('auth-ok').style.display = 'none';
+  $('app-screen').style.display = 'none';
+  $('auth-screen').style.display = 'flex';
+  updateStats();
+}
+
+function showApp(user) {
+  currentUser = user;
+  $('auth-screen').style.display = 'none';
+  $('app-screen').style.display = 'block';
+  const email = user.email || '';
+  $('disp-name').textContent = email.split('@')[0];
+  $('disp-email').textContent = email;
+  $('avatar').textContent = initials(email.split('@')[0]);
+}
+
+// ── Auth ──────────────────────────────────────────────────────
+let authMode = 'in';
+function switchTab(m) {
+  authMode = m;
+  $('tab-in').classList.toggle('active', m==='in');
+  $('tab-up').classList.toggle('active', m==='up');
+  $('auth-submit-btn').textContent = m==='in' ? 'Sign in' : 'Create account';
+  $('auth-err').style.display = 'none';
+  $('auth-ok').style.display = 'none';
+}
+
+async function authSubmit() {
+  const email = $('auth-email').value.trim();
+  const pass  = $('auth-pass').value;
+  const btn   = $('auth-submit-btn');
+  const errEl = $('auth-err'), okEl = $('auth-ok');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Please enter email and password.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Please wait…';
+  let error, data;
+  if (authMode === 'in') {
+    ({ data, error } = await sb.auth.signInWithPassword({ email, password: pass }));
+    if (!error && data.session) { showApp(data.session.user); await loadCourses(); }
+  } else {
+    ({ error } = await sb.auth.signUp({ email, password: pass }));
+    if (!error) { okEl.textContent = 'Account created! You can sign in now.'; okEl.style.display = 'block'; }
+  }
+  btn.disabled = false;
+  btn.textContent = authMode==='in' ? 'Sign in' : 'Create account';
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; }
+}
+
+async function signOut() {
+  setSync('syncing', 'Signing out…');
+  await sb.auth.signOut();
+  showAuth();
+}
+
+// ── Data ──────────────────────────────────────────────────────
+async function loadCourses() {
+  setSync('syncing', 'Loading…');
+  const { data, error } = await sb.from('courses').select('*').order('created_at');
+  if (error) { setSync('err', 'Failed to load: ' + error.message); return; }
+  courses = data || [];
+  render();
+  setSync('ok', 'Connected — changes save automatically');
+}
+
+async function saveCourse(course) {
+  setSync('syncing', 'Saving…');
+  const { error } = await sb.from('courses').upsert({
+    id: course.id, user_id: currentUser.id,
+    name: course.name, start_date: course.start_date || '',
+    end_date: course.end_date || '', status: course.status || 'none'
+  });
+  setSync(error ? 'err' : 'ok', error ? 'Save failed: ' + error.message : 'Saved');
+}
+
+function debounceSave(course) {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => saveCourse(course), 800);
+}
+
+async function addCourse() {
+  const inp = $('new-name');
+  const name = inp.value.trim() || `Course ${courses.length + 1}`;
+  inp.value = '';
+  const { data, error } = await sb.from('courses')
+    .insert({ user_id: currentUser.id, name, start_date: '', end_date: '', status: 'none' })
+    .select().single();
+  if (error) { setSync('err', 'Failed to add: ' + error.message); return; }
+  courses.push(data);
+  render();
+  const rows = document.querySelectorAll('#tbody tr');
+  if (rows.length) rows[rows.length-1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function deleteCourse(id) {
+  if (courses.length <= 1) { alert('Keep at least one course.'); return; }
+  const { error } = await sb.from('courses').delete().eq('id', id);
+  if (error) { setSync('err', 'Delete failed: ' + error.message); return; }
+  courses = courses.filter(c => c.id !== id);
+  render();
+}
+
+// ── UI ────────────────────────────────────────────────────────
+function updateStats() {
+  const t = courses.length;
+  const done = courses.filter(c => c.status==='done').length;
+  const prog = courses.filter(c => c.status==='progress').length;
+  const drop = courses.filter(c => c.status==='dropped').length;
+  const pct  = t ? Math.round(done/t*100) : 0;
+  $('s-total').textContent = t;
+  $('s-done').textContent  = done;
+  $('s-prog').textContent  = prog;
+  $('s-drop').textContent  = drop;
+  $('s-pct').textContent   = pct + '%';
+  $('course-pill').textContent = t + ' course' + (t===1?'':'s');
+  $('prog-label').textContent  = done + ' / ' + t + ' finished';
+  $('seg-done').style.width = (t ? Math.round(done/t*100) : 0) + '%';
+  $('seg-prog').style.width = (t ? Math.round(prog/t*100) : 0) + '%';
+  $('seg-drop').style.width = (t ? Math.round(drop/t*100) : 0) + '%';
+}
+
+function applyVisibility() {
+  document.querySelectorAll('#tbody tr').forEach(tr => {
+    const mf = activeFilter==='all' || tr.dataset.status===activeFilter;
+    const ms = !searchQ || tr.dataset.name.includes(searchQ);
+    tr.classList.toggle('hidden', !mf || !ms);
+  });
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  ['all','none','progress','done','dropped'].forEach(id => $(('f-'+id)).classList.toggle('active', id===f));
+  applyVisibility();
+}
+
+function filterRows(q) { searchQ = q.toLowerCase(); applyVisibility(); }
+
+function changeStatus(i, val) {
+  courses[i].status = val;
+  const rows = document.querySelectorAll('#tbody tr');
+  if (rows[i]) {
+    rows[i].dataset.status = val;
+    const sel = rows[i].querySelector('.status-select');
+    if (sel) sel.className = 'status-select ' + SC[val];
+  }
+  updateStats(); applyVisibility();
+  saveCourse(courses[i]);
+}
+
+function render() {
+  const tb = $('tbody');
+  tb.innerHTML = '';
+  courses.forEach((c, i) => {
+    const st = c.status || 'none';
+    const tr = document.createElement('tr');
+    tr.dataset.name   = (c.name||'').toLowerCase();
+    tr.dataset.status = st;
+    tr.innerHTML = `
+      <td><span class="num">${i+1}</span></td>
+      <td><input class="ci" type="text" value="${(c.name||'').replace(/"/g,'&quot;')}" placeholder="Course name"
+        oninput="courses[${i}].name=this.value;this.closest('tr').dataset.name=this.value.toLowerCase();updateStats();debounceSave(courses[${i}])"/></td>
+      <td><input class="di" type="date" value="${c.start_date||''}"
+        oninput="courses[${i}].start_date=this.value;updateStats();debounceSave(courses[${i}])"/></td>
+      <td><input class="ei" type="date" value="${c.end_date||''}"
+        oninput="courses[${i}].end_date=this.value;updateStats();debounceSave(courses[${i}])"/></td>
+      <td style="text-align:center">
+        <select class="status-select ${SC[st]}" onchange="changeStatus(${i},this.value)">
+          <option value="none"${st==='none'?' selected':''}>Not started</option>
+          <option value="progress"${st==='progress'?' selected':''}>In progress</option>
+          <option value="done"${st==='done'?' selected':''}>Finished</option>
+          <option value="dropped"${st==='dropped'?' selected':''}>Dropped</option>
+        </select>
+      </td>
+      <td><button class="del-btn" onclick="deleteCourse('${c.id}')" title="Remove">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  updateStats(); applyVisibility();
+}
+
+function applyDark() {
+  $('page').classList.add('dark'); $('auth-card-el').classList.add('dark');
+  document.body.style.background = '#0f0f13';
+  $('mlbl').textContent = 'Light';
+  $('mico').innerHTML = '<circle cx="12" cy="12" r="4"/><path stroke="currentColor" stroke-width="2" fill="none" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>';
+}
+function applyLight() {
+  $('page').classList.remove('dark'); $('auth-card-el').classList.remove('dark');
+  document.body.style.background = '#fafafa';
+  $('mlbl').textContent = 'Dark';
+  $('mico').innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+}
+function toggleDark() { isDark = !isDark; isDark ? applyDark() : applyLight(); }
+
+// ── Boot ──────────────────────────────────────────────────────
+// Check for existing session on page load — don't rely on onAuthStateChange for initial load
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    showApp(session.user);
+    await loadCourses();
+  } else {
+    showAuth();
+  }
+  appReady = true;
+})();
+
+// Only handle changes AFTER initial boot (token refresh, sign-out from another tab)
+sb.auth.onAuthStateChange((event, session) => {
+  if (!appReady) return;
+  if (event === 'SIGNED_OUT') { showAuth(); }
+  else if (event === 'TOKEN_REFRESHED' && session) { currentUser = session.user; }
+});
+</script>
+</body>
+</html>
