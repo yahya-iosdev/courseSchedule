@@ -306,8 +306,7 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
           <tbody id="tbody"></tbody>
         </table>
         <div class="add-row">
-          <input class="add-ci" id="new-name" type="text" placeholder="New course name…" onkeydown="if(event.key==='Enter')addCourse()"/>
-          <button class="add-btn" onclick="addCourse()">
+          <button class="add-btn" onclick="openAddModal()" style="margin-left:auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             Add course
           </button>
@@ -337,6 +336,42 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
   </div>
 
 </div>
+</div>
+
+<!-- ── Add Course Modal ── -->
+<div id="modal-overlay" onclick="closeAddModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:100;"></div>
+<div id="modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:101;width:100%;max-width:420px;padding:0 1rem;">
+  <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:1.75rem;box-shadow:0 24px 60px rgba(0,0,0,.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+      <div style="font-size:16px;font-weight:600;color:var(--text);">Add new course</div>
+      <button onclick="closeAddModal()" style="width:28px;height:28px;border-radius:8px;border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text3);">✕</button>
+    </div>
+    <div class="auth-field">
+      <label>Course name <span style="color:var(--r-dark)">*</span></label>
+      <input type="text" id="modal-name" placeholder="e.g. Introduction to Python"
+        style="width:100%;border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;color:var(--text);background:var(--surface2);outline:none;transition:border-color .15s,box-shadow .15s;font-family:inherit;"
+        onfocus="this.style.borderColor='var(--p)';this.style.boxShadow='0 0 0 3px rgba(127,119,221,.12)';this.style.background='var(--surface)'"
+        onblur="this.style.borderColor='';this.style.boxShadow='';this.style.background='var(--surface2)'"
+        onkeydown="if(event.key==='Enter')$('modal-start').focus()"/>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div class="auth-field" style="margin-bottom:0">
+        <label>Start date <span style="color:var(--r-dark)">*</span></label>
+        <input type="date" id="modal-start"
+          style="width:100%;border:0.5px solid var(--t-border);border-radius:10px;padding:9px 10px;font-size:13px;color:var(--t-dark);background:var(--t-bg);outline:none;font-family:inherit;"/>
+      </div>
+      <div class="auth-field" style="margin-bottom:0">
+        <label>End date <span style="color:var(--r-dark)">*</span></label>
+        <input type="date" id="modal-end"
+          style="width:100%;border:0.5px solid var(--a-border);border-radius:10px;padding:9px 10px;font-size:13px;color:var(--a-dark);background:var(--a-bg);outline:none;font-family:inherit;"/>
+      </div>
+    </div>
+    <div id="modal-err" style="display:none;font-size:12px;color:var(--r-dark);background:var(--r-bg);border:0.5px solid var(--r-border);border-radius:8px;padding:8px 12px;margin-bottom:12px;"></div>
+    <button onclick="addCourse()" id="modal-submit-btn"
+      style="width:100%;padding:10px;border-radius:10px;border:none;background:var(--p);color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s;font-family:inherit;">
+      Add course
+    </button>
+  </div>
 </div>
 
 <script>
@@ -553,6 +588,23 @@ async function toggleTimer(courseId) {
     await stopActiveTimer();
     return;
   }
+  // Require dates before starting
+  const course = courses.find(c => c.id === courseId);
+  if (!course?.start_date || !course?.end_date) {
+    // Highlight the row's date inputs briefly
+    const idx = courses.indexOf(course);
+    const rows = document.querySelectorAll('#tbody tr');
+    if (rows[idx]) {
+      const inputs = rows[idx].querySelectorAll('input.di, input.ei');
+      inputs.forEach(inp => {
+        inp.style.outline = '2px solid var(--r-dark)';
+        setTimeout(() => inp.style.outline = '', 1800);
+      });
+    }
+    setSync('err', 'Set start & end dates before starting the timer.');
+    setTimeout(() => setSync('ok', 'Connected — changes save automatically'), 3000);
+    return;
+  }
   // If another course is running — stop it first
   if (activeTimerCourseId) await stopActiveTimer();
 
@@ -674,14 +726,43 @@ function debounceSave(course) {
   saveTimer = setTimeout(() => saveCourse(course), 800);
 }
 
+function openAddModal() {
+  $('modal-name').value = '';
+  $('modal-start').value = '';
+  $('modal-end').value = '';
+  $('modal-err').style.display = 'none';
+  $('modal-overlay').style.display = 'block';
+  $('modal').style.display = 'block';
+  setTimeout(() => $('modal-name').focus(), 50);
+}
+function closeAddModal() {
+  $('modal-overlay').style.display = 'none';
+  $('modal').style.display = 'none';
+}
+
 async function addCourse() {
-  const inp = $('new-name');
-  const name = inp.value.trim() || `Course ${courses.length + 1}`;
-  inp.value = '';
+  const name  = $('modal-name').value.trim();
+  const start = $('modal-start').value;
+  const end   = $('modal-end').value;
+  const errEl = $('modal-err');
+  errEl.style.display = 'none';
+
+  if (!name)  { errEl.textContent = 'Please enter a course name.'; errEl.style.display = 'block'; $('modal-name').focus(); return; }
+  if (!start) { errEl.textContent = 'Start date is required.'; errEl.style.display = 'block'; $('modal-start').focus(); return; }
+  if (!end)   { errEl.textContent = 'End date is required.'; errEl.style.display = 'block'; $('modal-end').focus(); return; }
+  if (end < start) { errEl.textContent = 'End date must be after start date.'; errEl.style.display = 'block'; $('modal-end').focus(); return; }
+
+  const btn = $('modal-submit-btn');
+  btn.disabled = true; btn.textContent = 'Adding…';
+
   const { data, error } = await sb.from('courses')
-    .insert({ user_id: currentUser.id, name, start_date: '', end_date: '', status: 'none' })
+    .insert({ user_id: currentUser.id, name, start_date: start, end_date: end, status: 'none' })
     .select().single();
-  if (error) { setSync('err', 'Failed to add: ' + error.message); return; }
+
+  btn.disabled = false; btn.textContent = 'Add course';
+  if (error) { errEl.textContent = 'Failed to add: ' + error.message; errEl.style.display = 'block'; return; }
+
+  closeAddModal();
   courses.push(data);
   render();
   const rows = document.querySelectorAll('#tbody tr');
@@ -819,6 +900,8 @@ sb.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_OUT') { showAuth(); }
   else if (event === 'TOKEN_REFRESHED' && session) { currentUser = session.user; }
 });
+
+window.addEventListener('keydown', e => { if (e.key === 'Escape') closeAddModal(); });
 
 // Save active session if user closes tab
 window.addEventListener('beforeunload', (e) => {
