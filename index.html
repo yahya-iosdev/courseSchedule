@@ -6,6 +6,8 @@
 <title>Course Manager</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
 --bg:#fafafa;--surface:#ffffff;--surface2:#f4f4f8;
@@ -15,6 +17,7 @@
 --t:#1D9E75;--t-bg:#E1F5EE;--t-border:#5DCAA5;--t-dark:#085041;
 --a:#BA7517;--a-bg:#FAEEDA;--a-border:#EF9F27;--a-dark:#412402;
 --r-bg:#FCEBEB;--r-border:#F09595;--r-dark:#A32D2D;
+--timer-active:#7F77DD;
 }
 .dark{
 --bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;
@@ -25,15 +28,15 @@
 --a:#EF9F27;--a-bg:#412402;--a-border:#854F0B;--a-dark:#FAC775;
 --r-bg:#501313;--r-border:#A32D2D;--r-dark:#F09595;
 }
-body{background:var(--bg);font-family:system-ui,sans-serif;min-height:100vh;transition:background .2s;}
-.page{max-width:860px;margin:0 auto;padding:2rem 1.25rem;color:var(--text);}
+body{background:var(--bg);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;transition:background .2s;}
+.page{max-width:960px;margin:0 auto;padding:2rem 1.25rem;color:var(--text);}
 
-/* Auth screen */
+/* ── Auth ── */
 #auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
 .auth-card{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:380px;}
 .auth-logo{width:40px;height:40px;border-radius:12px;background:var(--p-bg);border:0.5px solid var(--p-light);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;}
 .auth-logo svg{width:20px;height:20px;color:var(--p);}
-.auth-title{font-size:18px;font-weight:500;margin-bottom:4px;color:var(--text);}
+.auth-title{font-size:18px;font-weight:600;margin-bottom:4px;color:var(--text);}
 .auth-sub{font-size:13px;color:var(--text3);margin-bottom:1.5rem;}
 .auth-tabs{display:flex;background:var(--surface2);border-radius:10px;padding:3px;margin-bottom:1.25rem;}
 .auth-tab{flex:1;text-align:center;padding:7px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text3);transition:all .15s;border:none;background:transparent;}
@@ -48,27 +51,29 @@ body{background:var(--bg);font-family:system-ui,sans-serif;min-height:100vh;tran
 .auth-err{font-size:12px;color:var(--r-dark);background:var(--r-bg);border:0.5px solid var(--r-border);border-radius:8px;padding:8px 12px;margin-top:10px;display:none;}
 .auth-ok{font-size:12px;color:var(--t-dark);background:var(--t-bg);border:0.5px solid var(--t-border);border-radius:8px;padding:8px 12px;margin-top:10px;display:none;}
 
-/* App */
+/* ── App ── */
 #app-screen{display:none;}
 .hero{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .hero-left{display:flex;align-items:center;gap:14px;}
 .avatar-wrap{position:relative;}
-.avatar{width:46px;height:46px;border-radius:50%;background:var(--p-bg);border:2px solid var(--p-light);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--p);}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--p-bg);border:2px solid var(--p-light);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--p);}
 .online-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#1D9E75;border:2px solid var(--surface);}
-.user-name-display{font-size:16px;font-weight:500;color:var(--text);}
+.user-name-display{font-size:16px;font-weight:600;color:var(--text);}
 .user-email{font-size:12px;color:var(--text3);margin-top:2px;}
-.hero-right{display:flex;align-items:center;gap:8px;}
+.hero-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:999px;border:0.5px solid var(--p-light);background:var(--p-bg);color:var(--p-dark);}
 .icon-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;border:0.5px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
 .icon-btn:hover{border-color:var(--p);color:var(--p);background:var(--p-bg);}
 .icon-btn svg{width:13px;height:13px;flex-shrink:0;}
 .icon-btn.danger:hover{border-color:var(--r-border);color:var(--r-dark);background:var(--r-bg);}
 
+/* ── Stats ── */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1rem;}
 .stat{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:.875rem 1rem;}
-.stat-val{font-size:22px;font-weight:500;color:var(--text);}
+.stat-val{font-size:22px;font-weight:600;color:var(--text);font-family:'DM Mono',monospace;}
 .stat-label{font-size:11px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em;}
 
+/* ── Progress bar ── */
 .progress-bar-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:.875rem 1rem;margin-bottom:1rem;}
 .progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
 .progress-track{height:10px;background:var(--surface2);border-radius:999px;overflow:hidden;display:flex;border:0.5px solid var(--border);}
@@ -80,9 +85,14 @@ body{background:var(--bg);font-family:system-ui,sans-serif;min-height:100vh;tran
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
+/* ── Two-column layout ── */
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:1rem;align-items:start;}
+@media(max-width:780px){.two-col{grid-template-columns:1fr;}}
+
+/* ── Table card ── */
 .table-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:1rem;}
 .table-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-bottom:0.5px solid var(--border);gap:10px;flex-wrap:wrap;}
-.table-title{font-size:14px;font-weight:500;color:var(--text);}
+.table-title{font-size:14px;font-weight:600;color:var(--text);}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;}
 .filter-btn.active{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);}
@@ -90,16 +100,17 @@ body{background:var(--bg);font-family:system-ui,sans-serif;min-height:100vh;tran
 .search-box svg{width:13px;height:13px;color:var(--text3);flex-shrink:0;}
 .search-box input{background:transparent;border:none;outline:none;font-size:12px;color:var(--text);width:100px;}
 .search-box input::placeholder{color:var(--text3);}
-
 table{width:100%;border-collapse:collapse;table-layout:fixed;}
 thead tr{background:var(--surface2);}
 thead th{padding:9px 10px;font-size:11px;font-weight:500;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.06em;}
-thead th:first-child{width:40px;text-align:center;}
-thead th.th-status{width:128px;text-align:center;}
-thead th:last-child{width:40px;text-align:center;}
+thead th:first-child{width:36px;text-align:center;}
+thead th.th-status{width:120px;text-align:center;}
+thead th.th-timer{width:110px;text-align:center;}
+thead th:last-child{width:36px;text-align:center;}
 tbody tr{border-top:0.5px solid var(--border);transition:background .12s;}
 tbody tr:hover{background:var(--surface2);}
 tbody tr.hidden{display:none;}
+tbody tr.timer-running{background:var(--p-bg);}
 td{padding:6px 6px;vertical-align:middle;}
 td:first-child{text-align:center;}
 td:last-child{text-align:center;}
@@ -110,12 +121,23 @@ input.ci{width:100%;border:0.5px solid var(--border);border-radius:8px;padding:6
 input.ci:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);}
 input.di{width:100%;border:0.5px solid var(--t-border);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--t-dark);background:var(--t-bg);outline:none;}
 input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--a-dark);background:var(--a-bg);outline:none;}
-.status-select{width:116px;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid;outline:none;appearance:none;-webkit-appearance:none;text-align:center;transition:all .15s;}
+.status-select{width:108px;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid;outline:none;appearance:none;-webkit-appearance:none;text-align:center;transition:all .15s;}
 .s-none{background:var(--surface2);border-color:var(--border2);color:var(--text2);}
 .s-progress{background:#EEEDFE;border-color:#CECBF6;color:#3C3489;}
 .s-done{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
 .s-dropped{background:#FCEBEB;border-color:#F09595;color:#A32D2D;}
 
+/* ── Timer cell ── */
+.timer-cell{display:flex;align-items:center;justify-content:center;gap:6px;}
+.timer-display{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);min-width:54px;text-align:right;}
+.timer-display.active{color:var(--p);font-weight:600;}
+.timer-toggle{width:26px;height:26px;border-radius:6px;border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.timer-toggle:hover{border-color:var(--p);background:var(--p-bg);}
+.timer-toggle.running{border-color:var(--p);background:var(--p-bg);}
+.timer-toggle svg{width:11px;height:11px;color:var(--text2);}
+.timer-toggle.running svg{color:var(--p);}
+
+/* ── Add row ── */
 .add-row{display:flex;align-items:center;gap:10px;padding:.875rem 1.25rem;border-top:0.5px solid var(--border);}
 .add-ci{flex:1;border:0.5px solid var(--border);border-radius:8px;padding:7px 11px;font-size:13px;color:var(--text);background:var(--surface2);outline:none;transition:border-color .15s,box-shadow .15s;}
 .add-ci:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);background:var(--surface);}
@@ -124,15 +146,54 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .add-btn:hover{background:var(--p-light);}
 .add-btn svg{width:14px;height:14px;}
 
+/* ── Sync bar ── */
 .sync-bar{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text3);padding:.5rem 0;}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--t);flex-shrink:0;}
 .sync-dot.syncing{background:var(--a);animation:pulse .8s infinite alternate;}
 .sync-dot.err{background:var(--r-dark);}
 @keyframes pulse{from{opacity:1}to{opacity:.3}}
+
+/* ── Leaderboard ── */
+.lb-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.lb-header{padding:.875rem 1.25rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.lb-title{font-size:14px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+.lb-title svg{width:15px;height:15px;color:#EF9F27;}
+.lb-refresh{width:26px;height:26px;border-radius:6px;border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.lb-refresh:hover{border-color:var(--p);background:var(--p-bg);}
+.lb-refresh svg{width:12px;height:12px;color:var(--text3);}
+.lb-refresh:hover svg{color:var(--p);}
+.lb-refresh.spinning svg{animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.lb-list{padding:.5rem 0;}
+.lb-row{display:flex;align-items:center;gap:10px;padding:.5rem 1.25rem;transition:background .12s;}
+.lb-row:hover{background:var(--surface2);}
+.lb-row.me{background:var(--p-bg);}
+.lb-rank{width:22px;text-align:center;font-size:12px;font-weight:600;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;}
+.lb-rank.gold{color:#BA7517;}
+.lb-rank.silver{color:#71717a;}
+.lb-rank.bronze{color:#9a5a2a;}
+.lb-medal{font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.lb-avatar{width:28px;height:28px;border-radius:50%;background:var(--p-bg);border:1.5px solid var(--p-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--p);flex-shrink:0;}
+.lb-avatar.me{border-color:var(--p);background:var(--p-bg);}
+.lb-name{flex:1;font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lb-name.me{color:var(--p-dark);}
+.lb-time{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);white-space:nowrap;}
+.lb-empty{padding:2rem 1.25rem;text-align:center;color:var(--text3);font-size:13px;}
+.lb-you-badge{font-size:10px;font-weight:600;padding:1px 6px;border-radius:999px;background:var(--p-bg);border:0.5px solid var(--p-light);color:var(--p-dark);margin-left:4px;white-space:nowrap;}
+
+/* ── Active session banner ── */
+.session-banner{display:none;background:var(--p-bg);border:0.5px solid var(--p-light);border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1rem;align-items:center;gap:12px;flex-wrap:wrap;}
+.session-banner.visible{display:flex;}
+.session-pulse{width:8px;height:8px;border-radius:50%;background:var(--p);flex-shrink:0;animation:pulse .8s infinite alternate;}
+.session-text{flex:1;font-size:13px;font-weight:500;color:var(--p-dark);}
+.session-time{font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--p);}
+.session-stop{padding:5px 14px;border-radius:999px;border:0.5px solid var(--p-light);background:var(--surface);color:var(--p-dark);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
+.session-stop:hover{background:var(--r-bg);border-color:var(--r-border);color:var(--r-dark);}
 </style>
 </head>
 <body>
 
+<!-- ── AUTH ── -->
 <div id="auth-screen">
   <div class="auth-card" id="auth-card-el">
     <div class="auth-logo">
@@ -144,22 +205,18 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
       <button class="auth-tab active" id="tab-in" onclick="switchTab('in')">Sign in</button>
       <button class="auth-tab" id="tab-up" onclick="switchTab('up')">Sign up</button>
     </div>
-    <div class="auth-field">
-      <label>Email</label>
-      <input type="email" id="auth-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')authSubmit()"/>
-    </div>
-    <div class="auth-field">
-      <label>Password</label>
-      <input type="password" id="auth-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authSubmit()"/>
-    </div>
+    <div class="auth-field"><label>Email</label><input type="email" id="auth-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')authSubmit()"/></div>
+    <div class="auth-field"><label>Password</label><input type="password" id="auth-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authSubmit()"/></div>
     <button class="auth-btn" id="auth-submit-btn" onclick="authSubmit()">Sign in</button>
     <div class="auth-err" id="auth-err"></div>
     <div class="auth-ok" id="auth-ok"></div>
   </div>
 </div>
 
+<!-- ── APP ── -->
 <div id="app-screen">
 <div class="page" id="page">
+
   <div class="hero">
     <div class="hero-left">
       <div class="avatar-wrap">
@@ -173,6 +230,7 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
     </div>
     <div class="hero-right">
       <span class="pill" id="course-pill">0 courses</span>
+      <span class="pill" id="total-time-pill" style="border-color:var(--a-border);background:var(--a-bg);color:var(--a-dark);">0h studied</span>
       <button class="icon-btn" onclick="toggleDark()" id="mbtn">
         <svg id="mico" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
         <span id="mlbl">Dark</span>
@@ -182,6 +240,14 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
         Sign out
       </button>
     </div>
+  </div>
+
+  <!-- Active session banner -->
+  <div class="session-banner" id="session-banner">
+    <div class="session-pulse"></div>
+    <div class="session-text">Studying: <strong id="session-course-name">—</strong></div>
+    <div class="session-time" id="session-elapsed">00:00:00</div>
+    <button class="session-stop" onclick="stopActiveTimer()">Stop</button>
   </div>
 
   <div class="stats">
@@ -207,55 +273,77 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
     </div>
   </div>
 
-  <div class="table-card">
-    <div class="table-header">
-      <span class="table-title">All courses</span>
-      <div class="header-right">
-        <button class="filter-btn active" id="f-all" onclick="setFilter('all')">All</button>
-        <button class="filter-btn" id="f-none" onclick="setFilter('none')">Not started</button>
-        <button class="filter-btn" id="f-progress" onclick="setFilter('progress')">In progress</button>
-        <button class="filter-btn" id="f-done" onclick="setFilter('done')">Finished</button>
-        <button class="filter-btn" id="f-dropped" onclick="setFilter('dropped')">Dropped</button>
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" placeholder="Search…" oninput="filterRows(this.value)"/>
+  <div class="two-col">
+    <!-- Courses table -->
+    <div>
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">All courses</span>
+          <div class="header-right">
+            <button class="filter-btn active" id="f-all" onclick="setFilter('all')">All</button>
+            <button class="filter-btn" id="f-none" onclick="setFilter('none')">Not started</button>
+            <button class="filter-btn" id="f-progress" onclick="setFilter('progress')">In progress</button>
+            <button class="filter-btn" id="f-done" onclick="setFilter('done')">Done</button>
+            <button class="filter-btn" id="f-dropped" onclick="setFilter('dropped')">Dropped</button>
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" placeholder="Search…" oninput="filterRows(this.value)"/>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Course name</th>
+              <th>Start</th>
+              <th>End</th>
+              <th class="th-status">Status</th>
+              <th class="th-timer">⏱ Time</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="add-row">
+          <input class="add-ci" id="new-name" type="text" placeholder="New course name…" onkeydown="if(event.key==='Enter')addCourse()"/>
+          <button class="add-btn" onclick="addCourse()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add course
+          </button>
         </div>
       </div>
+      <div class="sync-bar">
+        <div class="sync-dot" id="sync-dot"></div>
+        <span id="sync-label">Connected — changes save automatically</span>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Course name</th>
-          <th>Start date</th>
-          <th>End date</th>
-          <th class="th-status">Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div class="add-row">
-      <input class="add-ci" id="new-name" type="text" placeholder="New course name…" onkeydown="if(event.key==='Enter')addCourse()"/>
-      <button class="add-btn" onclick="addCourse()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-        Add course
-      </button>
+
+    <!-- Leaderboard -->
+    <div class="lb-card">
+      <div class="lb-header">
+        <div class="lb-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          Leaderboard
+        </div>
+        <button class="lb-refresh" id="lb-refresh-btn" onclick="loadLeaderboard()" title="Refresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
+      <div class="lb-list" id="lb-list">
+        <div class="lb-empty">Loading leaderboard…</div>
+      </div>
     </div>
   </div>
 
-  <div class="sync-bar">
-    <div class="sync-dot" id="sync-dot"></div>
-    <span id="sync-label">Connected — changes save automatically</span>
-  </div>
 </div>
 </div>
 
 <script>
-// ── CONFIG: replace these two values with yours from Supabase ──
+// ── CONFIG ──────────────────────────────────────────────────
 const SUPABASE_URL = 'https://rwjiqxwzaeieyedpvsth.supabase.co/';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
-// ──────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -263,7 +351,31 @@ const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const SC = {none:'s-none', progress:'s-progress', done:'s-done', dropped:'s-dropped'};
 let courses = [], currentUser = null, isDark = false;
 let activeFilter = 'all', searchQ = '', saveTimer = null;
-let appReady = false; // prevent onAuthStateChange double-firing on load
+let appReady = false;
+
+// ── Timer state ──────────────────────────────────────────────
+// courseTimers: { [courseId]: { elapsed: seconds, sessionStart: Date|null } }
+let courseTimers = {};
+let activeTimerCourseId = null;  // only one running at a time
+let tickInterval = null;
+
+function fmtTime(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function fmtTimeLong(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function fmtHours(sec) {
+  const h = (sec / 3600).toFixed(1);
+  return h + 'h';
+}
 
 // ── Helpers ──────────────────────────────────────────────────
 function initials(n) {
@@ -322,7 +434,7 @@ async function authSubmit() {
   let error, data;
   if (authMode === 'in') {
     ({ data, error } = await sb.auth.signInWithPassword({ email, password: pass }));
-    if (!error && data.session) { showApp(data.session.user); await loadCourses(); }
+    if (!error && data.session) { showApp(data.session.user); await loadAll(); }
   } else {
     ({ error } = await sb.auth.signUp({ email, password: pass }));
     if (!error) { okEl.textContent = 'Account created! You can sign in now.'; okEl.style.display = 'block'; }
@@ -333,12 +445,20 @@ async function authSubmit() {
 }
 
 async function signOut() {
+  // Stop any running timer and save session first
+  if (activeTimerCourseId) await stopActiveTimer();
   setSync('syncing', 'Signing out…');
   await sb.auth.signOut();
   showAuth();
 }
 
-// ── Data ──────────────────────────────────────────────────────
+// ── Data loading ──────────────────────────────────────────────
+async function loadAll() {
+  await loadCourses();
+  await loadTimers();
+  await loadLeaderboard();
+}
+
 async function loadCourses() {
   setSync('syncing', 'Loading…');
   const { data, error } = await sb.from('courses').select('*').order('created_at');
@@ -348,6 +468,197 @@ async function loadCourses() {
   setSync('ok', 'Connected — changes save automatically');
 }
 
+// Load total elapsed seconds per course from study_sessions
+async function loadTimers() {
+  if (!currentUser) return;
+  const { data, error } = await sb
+    .from('study_sessions')
+    .select('course_id, duration_seconds')
+    .eq('user_id', currentUser.id)
+    .not('duration_seconds', 'is', null);
+  if (error) { console.warn('Timer load error:', error.message); return; }
+  courseTimers = {};
+  (data || []).forEach(row => {
+    if (!courseTimers[row.course_id]) courseTimers[row.course_id] = { elapsed: 0, sessionStart: null };
+    courseTimers[row.course_id].elapsed += row.duration_seconds;
+  });
+  refreshTimerDisplays();
+  updateTotalTimePill();
+}
+
+// ── Leaderboard ───────────────────────────────────────────────
+async function loadLeaderboard() {
+  const btn = $('lb-refresh-btn');
+  btn.classList.add('spinning');
+  // Sum all completed sessions per user
+  const { data, error } = await sb
+    .from('study_sessions')
+    .select('user_id, duration_seconds, user_email')
+    .not('duration_seconds', 'is', null);
+
+  btn.classList.remove('spinning');
+
+  if (error) {
+    $('lb-list').innerHTML = `<div class="lb-empty">Failed to load: ${error.message}</div>`;
+    return;
+  }
+
+  // Aggregate by user
+  const map = {};
+  (data || []).forEach(row => {
+    if (!map[row.user_id]) map[row.user_id] = { user_id: row.user_id, email: row.user_email || row.user_id, total: 0 };
+    map[row.user_id].total += (row.duration_seconds || 0);
+  });
+
+  const sorted = Object.values(map).sort((a, b) => b.total - a.total);
+  renderLeaderboard(sorted);
+}
+
+function renderLeaderboard(rows) {
+  const list = $('lb-list');
+  if (!rows.length) {
+    list.innerHTML = '<div class="lb-empty">No study time recorded yet.<br>Start a timer to appear here!</div>';
+    return;
+  }
+  const medals = ['🥇','🥈','🥉'];
+  const rankCls = ['gold','silver','bronze'];
+  list.innerHTML = rows.map((r, i) => {
+    const isMe = currentUser && r.user_id === currentUser.id;
+    const name = (r.email || '').split('@')[0];
+    const av = initials(name);
+    const medal = i < 3 ? medals[i] : '';
+    const rc = i < 3 ? rankCls[i] : '';
+    return `<div class="lb-row${isMe?' me':''}">
+      <div class="lb-rank ${rc}">${i+1}</div>
+      <div class="lb-medal">${medal}</div>
+      <div class="lb-avatar${isMe?' me':''}">${av}</div>
+      <div class="lb-name${isMe?' me':''}">${name}${isMe?'<span class="lb-you-badge">you</span>':''}</div>
+      <div class="lb-time">${fmtTimeLong(r.total)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Timer logic ───────────────────────────────────────────────
+function getElapsed(courseId) {
+  const t = courseTimers[courseId];
+  if (!t) return 0;
+  let total = t.elapsed;
+  if (t.sessionStart) total += Math.floor((Date.now() - t.sessionStart) / 1000);
+  return total;
+}
+
+async function toggleTimer(courseId) {
+  // If this course is already running — stop it
+  if (activeTimerCourseId === courseId) {
+    await stopActiveTimer();
+    return;
+  }
+  // If another course is running — stop it first
+  if (activeTimerCourseId) await stopActiveTimer();
+
+  // Start timer for this course
+  if (!courseTimers[courseId]) courseTimers[courseId] = { elapsed: 0, sessionStart: null };
+  courseTimers[courseId].sessionStart = new Date();
+  activeTimerCourseId = courseId;
+
+  // Update UI
+  updateBanner();
+  refreshTimerDisplays();
+  startTick();
+}
+
+async function stopActiveTimer() {
+  const courseId = activeTimerCourseId;
+  if (!courseId) return;
+  const t = courseTimers[courseId];
+  if (!t || !t.sessionStart) { activeTimerCourseId = null; updateBanner(); return; }
+
+  const duration = Math.floor((Date.now() - t.sessionStart) / 1000);
+  const course = courses.find(c => c.id === courseId);
+  const email = currentUser?.email || '';
+
+  // Save session to DB
+  setSync('syncing', 'Saving session…');
+  const { error } = await sb.from('study_sessions').insert({
+    user_id: currentUser.id,
+    user_email: email,
+    course_id: courseId,
+    course_name: course?.name || '',
+    started_at: t.sessionStart.toISOString(),
+    duration_seconds: duration
+  });
+  if (error) setSync('err', 'Failed to save session: ' + error.message);
+  else setSync('ok', 'Session saved');
+
+  // Update local state
+  t.elapsed += duration;
+  t.sessionStart = null;
+  activeTimerCourseId = null;
+
+  clearInterval(tickInterval); tickInterval = null;
+  updateBanner();
+  refreshTimerDisplays();
+  updateTotalTimePill();
+  // Refresh leaderboard after saving
+  loadLeaderboard();
+}
+
+function startTick() {
+  if (tickInterval) clearInterval(tickInterval);
+  tickInterval = setInterval(() => {
+    updateBanner();
+    // Update only the active row's timer display
+    if (activeTimerCourseId) {
+      const idx = courses.findIndex(c => c.id === activeTimerCourseId);
+      if (idx !== -1) {
+        const rows = document.querySelectorAll('#tbody tr');
+        if (rows[idx]) {
+          const disp = rows[idx].querySelector('.timer-display');
+          if (disp) { disp.textContent = fmtTime(getElapsed(activeTimerCourseId)); disp.classList.add('active'); }
+        }
+      }
+    }
+    updateTotalTimePill();
+  }, 1000);
+}
+
+function updateBanner() {
+  const banner = $('session-banner');
+  if (!activeTimerCourseId) {
+    banner.classList.remove('visible'); return;
+  }
+  banner.classList.add('visible');
+  const course = courses.find(c => c.id === activeTimerCourseId);
+  $('session-course-name').textContent = course?.name || '—';
+  $('session-elapsed').textContent = fmtTimeLong(getElapsed(activeTimerCourseId));
+}
+
+function refreshTimerDisplays() {
+  const rows = document.querySelectorAll('#tbody tr');
+  courses.forEach((c, i) => {
+    const row = rows[i];
+    if (!row) return;
+    const disp = row.querySelector('.timer-display');
+    const btn  = row.querySelector('.timer-toggle');
+    if (!disp || !btn) return;
+    const running = activeTimerCourseId === c.id;
+    disp.textContent = fmtTime(getElapsed(c.id));
+    disp.classList.toggle('active', running);
+    btn.classList.toggle('running', running);
+    row.classList.toggle('timer-running', running);
+    btn.innerHTML = running
+      ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  });
+}
+
+function updateTotalTimePill() {
+  let total = 0;
+  courses.forEach(c => { total += getElapsed(c.id); });
+  $('total-time-pill').textContent = fmtHours(total) + ' studied';
+}
+
+// ── Courses CRUD ──────────────────────────────────────────────
 async function saveCourse(course) {
   setSync('syncing', 'Saving…');
   const { error } = await sb.from('courses').upsert({
@@ -374,11 +685,12 @@ async function addCourse() {
   courses.push(data);
   render();
   const rows = document.querySelectorAll('#tbody tr');
-  if (rows.length) rows[rows.length-1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (rows.length) rows[rows.length-1].scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 async function deleteCourse(id) {
   if (courses.length <= 1) { alert('Keep at least one course.'); return; }
+  if (activeTimerCourseId === id) await stopActiveTimer();
   const { error } = await sb.from('courses').delete().eq('id', id);
   if (error) { setSync('err', 'Delete failed: ' + error.message); return; }
   courses = courses.filter(c => c.id !== id);
@@ -414,7 +726,7 @@ function applyVisibility() {
 
 function setFilter(f) {
   activeFilter = f;
-  ['all','none','progress','done','dropped'].forEach(id => $(('f-'+id)).classList.toggle('active', id===f));
+  ['all','none','progress','done','dropped'].forEach(id => $('f-'+id).classList.toggle('active', id===f));
   applyVisibility();
 }
 
@@ -437,9 +749,12 @@ function render() {
   tb.innerHTML = '';
   courses.forEach((c, i) => {
     const st = c.status || 'none';
+    const elapsed = getElapsed(c.id);
+    const running = activeTimerCourseId === c.id;
     const tr = document.createElement('tr');
     tr.dataset.name   = (c.name||'').toLowerCase();
     tr.dataset.status = st;
+    if (running) tr.classList.add('timer-running');
     tr.innerHTML = `
       <td><span class="num">${i+1}</span></td>
       <td><input class="ci" type="text" value="${(c.name||'').replace(/"/g,'&quot;')}" placeholder="Course name"
@@ -456,10 +771,21 @@ function render() {
           <option value="dropped"${st==='dropped'?' selected':''}>Dropped</option>
         </select>
       </td>
+      <td>
+        <div class="timer-cell">
+          <span class="timer-display${running?' active':''}">${fmtTime(elapsed)}</span>
+          <button class="timer-toggle${running?' running':''}" onclick="toggleTimer('${c.id}')" title="${running?'Stop timer':'Start timer'}">
+            ${running
+              ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+              : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`
+            }
+          </button>
+        </div>
+      </td>
       <td><button class="del-btn" onclick="deleteCourse('${c.id}')" title="Remove">✕</button></td>`;
     tb.appendChild(tr);
   });
-  updateStats(); applyVisibility();
+  updateStats(); applyVisibility(); updateTotalTimePill();
 }
 
 function applyDark() {
@@ -477,23 +803,31 @@ function applyLight() {
 function toggleDark() { isDark = !isDark; isDark ? applyDark() : applyLight(); }
 
 // ── Boot ──────────────────────────────────────────────────────
-// Check for existing session on page load — don't rely on onAuthStateChange for initial load
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
     showApp(session.user);
-    await loadCourses();
+    await loadAll();
   } else {
     showAuth();
   }
   appReady = true;
 })();
 
-// Only handle changes AFTER initial boot (token refresh, sign-out from another tab)
 sb.auth.onAuthStateChange((event, session) => {
   if (!appReady) return;
   if (event === 'SIGNED_OUT') { showAuth(); }
   else if (event === 'TOKEN_REFRESHED' && session) { currentUser = session.user; }
+});
+
+// Save active session if user closes tab
+window.addEventListener('beforeunload', (e) => {
+  if (activeTimerCourseId) {
+    // Sync stop (best-effort)
+    stopActiveTimer();
+    e.preventDefault();
+    e.returnValue = 'You have an active study timer. Are you sure you want to leave?';
+  }
 });
 </script>
 </body>
