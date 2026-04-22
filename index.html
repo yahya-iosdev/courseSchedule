@@ -136,6 +136,48 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .mark-done-btn.overdue{border-color:var(--a-border);background:var(--a-bg);color:var(--a-dark);}
 .mark-done-btn.overdue:hover{background:var(--a-border);color:#fff;}
 
+/* ── Task count badge on row ── */
+.task-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 8px;border-radius:999px;background:var(--surface2);border:0.5px solid var(--border2);color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.task-badge:hover{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);}
+.task-badge.has-tasks{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);}
+.task-badge svg{width:10px;height:10px;}
+
+/* ── Task panel (slide-in sidebar) ── */
+#task-panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(3px);z-index:200;}
+#task-panel{display:none;position:fixed;top:0;right:0;height:100vh;width:360px;max-width:95vw;background:var(--surface);border-left:0.5px solid var(--border);z-index:201;flex-direction:column;box-shadow:-12px 0 40px rgba(0,0,0,.1);transition:transform .25s cubic-bezier(.4,0,.2,1);}
+#task-panel.open{display:flex;}
+.tp-head{padding:1.25rem 1.25rem .875rem;border-bottom:0.5px solid var(--border);flex-shrink:0;}
+.tp-course-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.tp-course-name{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tp-close{width:28px;height:28px;border-radius:8px;border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text3);flex-shrink:0;transition:all .15s;}
+.tp-close:hover{border-color:var(--r-border);color:var(--r-dark);background:var(--r-bg);}
+.tp-progress{margin-top:.75rem;}
+.tp-progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;}
+.tp-track{height:6px;background:var(--surface2);border-radius:999px;overflow:hidden;border:0.5px solid var(--border);}
+.tp-fill{height:100%;background:var(--p);border-radius:999px;transition:width .3s ease;}
+.tp-body{flex:1;overflow-y:auto;padding:.75rem 1.25rem;}
+.tp-empty{padding:2rem 0;text-align:center;color:var(--text3);font-size:13px;}
+.task-item{display:flex;align-items:center;gap:10px;padding:.6rem 0;border-bottom:0.5px solid var(--border);}
+.task-item:last-child{border-bottom:none;}
+.task-cb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.task-cb:hover{border-color:var(--p);}
+.task-cb.checked{background:var(--p);border-color:var(--p);}
+.task-cb.checked svg{display:block;}
+.task-cb svg{display:none;width:10px;height:10px;color:#fff;}
+.task-name{flex:1;font-size:13px;color:var(--text);transition:all .15s;}
+.task-name.done{text-decoration:line-through;color:var(--text3);}
+.task-del{width:22px;height:22px;border-radius:5px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);opacity:0;transition:all .15s;flex-shrink:0;}
+.task-item:hover .task-del{opacity:1;}
+.task-del:hover{color:var(--r-dark);background:var(--r-bg);}
+.task-del svg{width:12px;height:12px;}
+.tp-add{padding:.875rem 1.25rem;border-top:0.5px solid var(--border);flex-shrink:0;display:flex;gap:8px;}
+.tp-add-input{flex:1;border:0.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--text);background:var(--surface2);outline:none;transition:border-color .15s,box-shadow .15s;font-family:inherit;}
+.tp-add-input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);background:var(--surface);}
+.tp-add-input::placeholder{color:var(--text3);}
+.tp-add-btn{padding:7px 14px;border-radius:8px;border:0.5px solid var(--p-light);background:var(--p-bg);color:var(--p-dark);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
+.tp-add-btn:hover{background:var(--p-light);}
+.tp-loading{padding:2rem 0;text-align:center;color:var(--text3);font-size:13px;}
+
 /* ── Timer cell ── */
 .timer-cell{display:flex;align-items:center;justify-content:center;gap:6px;}
 .timer-display{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);min-width:54px;text-align:right;}
@@ -309,6 +351,7 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
               <th>End</th>
               <th class="th-status">Status</th>
               <th class="th-timer">⏱ Time</th>
+              <th style="width:80px;text-align:center">Tasks</th>
               <th></th>
             </tr>
           </thead>
@@ -345,6 +388,30 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
   </div>
 
 </div>
+</div>
+
+<!-- ── Task Panel ── -->
+<div id="task-panel-overlay" onclick="closeTaskPanel()"></div>
+<div id="task-panel">
+  <div class="tp-head">
+    <div class="tp-course-label">Course tasks</div>
+    <div class="tp-course-name">
+      <span id="tp-course-name">—</span>
+      <button class="tp-close" onclick="closeTaskPanel()">✕</button>
+    </div>
+    <div class="tp-progress">
+      <div class="tp-progress-labels">
+        <span>Tasks completed</span>
+        <span id="tp-prog-label">0 / 0</span>
+      </div>
+      <div class="tp-track"><div class="tp-fill" id="tp-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="tp-body" id="tp-body"><div class="tp-loading">Loading…</div></div>
+  <div class="tp-add">
+    <input class="tp-add-input" id="tp-new-task" placeholder="New task…" onkeydown="if(event.key==='Enter')addTask()"/>
+    <button class="tp-add-btn" onclick="addTask()">+ Add</button>
+  </div>
 </div>
 
 <!-- ── Add Course Modal ── -->
@@ -501,6 +568,7 @@ async function loadAll() {
   await loadCourses();
   await checkDeadlines();
   await loadTimers();
+  await loadTaskCounts();
   await loadLeaderboard();
 }
 
@@ -892,13 +960,120 @@ function render() {
           </button>
         </div>
       </td>
+      <td style="text-align:center">
+        <button class="task-badge ${(taskCounts[c.id]||0)>0?'has-tasks':''}" onclick="openTaskPanel('${c.id}')" id="tbadge-${c.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="tbadge-count-${c.id}">${taskCounts[c.id]||0}</span>
+        </button>
+      </td>
       <td><button class="del-btn" onclick="deleteCourse('${c.id}')" title="Remove">✕</button></td>`;
     tb.appendChild(tr);
   });
   updateStats(); applyVisibility(); updateTotalTimePill();
 }
 
-function applyDark() {
+// ── Tasks ─────────────────────────────────────────────────────
+let tasks = [];           // tasks for currently open panel
+let taskCounts = {};      // { courseId: totalCount }
+let activePanelCourseId = null;
+
+async function loadTaskCounts() {
+  if (!currentUser) return;
+  const { data } = await sb.from('tasks').select('course_id').eq('user_id', currentUser.id);
+  taskCounts = {};
+  (data || []).forEach(t => { taskCounts[t.course_id] = (taskCounts[t.course_id] || 0) + 1; });
+}
+
+async function openTaskPanel(courseId) {
+  activePanelCourseId = courseId;
+  const course = courses.find(c => c.id === courseId);
+  $('tp-course-name').textContent = course?.name || '—';
+  $('tp-body').innerHTML = '<div class="tp-loading">Loading tasks…</div>';
+  $('task-panel-overlay').style.display = 'block';
+  $('task-panel').classList.add('open');
+  setTimeout(() => $('tp-new-task').focus(), 100);
+  await loadTasks(courseId);
+}
+
+function closeTaskPanel() {
+  $('task-panel-overlay').style.display = 'none';
+  $('task-panel').classList.remove('open');
+  activePanelCourseId = null;
+  tasks = [];
+}
+
+async function loadTasks(courseId) {
+  const { data, error } = await sb.from('tasks')
+    .select('*').eq('course_id', courseId).eq('user_id', currentUser.id).order('created_at');
+  if (error) { $('tp-body').innerHTML = `<div class="tp-empty">Error: ${error.message}</div>`; return; }
+  tasks = data || [];
+  renderTasks();
+}
+
+function renderTasks() {
+  const body = $('tp-body');
+  const total = tasks.length;
+  const done  = tasks.filter(t => t.done).length;
+  $('tp-prog-label').textContent = `${done} / ${total}`;
+  $('tp-fill').style.width = total ? Math.round(done/total*100)+'%' : '0%';
+
+  if (!total) { body.innerHTML = '<div class="tp-empty">No tasks yet.<br>Add your first task below!</div>'; return; }
+
+  body.innerHTML = tasks.map((t, i) => `
+    <div class="task-item" id="task-${t.id}">
+      <div class="task-cb ${t.done?'checked':''}" onclick="toggleTask(${i})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <span class="task-name ${t.done?'done':''}">${escHtml(t.name)}</span>
+      <button class="task-del" onclick="deleteTask(${i})" title="Delete task">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`).join('');
+
+  // Update badge in table
+  updateTaskBadge(activePanelCourseId, total);
+}
+
+function updateTaskBadge(courseId, count) {
+  taskCounts[courseId] = count;
+  const badge = $('tbadge-' + courseId);
+  const countEl = $('tbadge-count-' + courseId);
+  if (badge) badge.classList.toggle('has-tasks', count > 0);
+  if (countEl) countEl.textContent = count;
+}
+
+async function addTask() {
+  const inp = $('tp-new-task');
+  const name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  inp.value = '';
+  const { data, error } = await sb.from('tasks')
+    .insert({ user_id: currentUser.id, course_id: activePanelCourseId, name, done: false })
+    .select().single();
+  if (error) { console.error('Add task failed:', error.message); return; }
+  tasks.push(data);
+  renderTasks();
+  inp.focus();
+}
+
+async function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  renderTasks();
+  await sb.from('tasks').update({ done: tasks[i].done }).eq('id', tasks[i].id);
+}
+
+async function deleteTask(i) {
+  const id = tasks[i].id;
+  tasks.splice(i, 1);
+  renderTasks();
+  await sb.from('tasks').delete().eq('id', id);
+}
+
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+
   $('page').classList.add('dark'); $('auth-card-el').classList.add('dark');
   document.body.style.background = '#0f0f13';
   $('mlbl').textContent = 'Light';
@@ -930,7 +1105,9 @@ sb.auth.onAuthStateChange((event, session) => {
   else if (event === 'TOKEN_REFRESHED' && session) { currentUser = session.user; }
 });
 
-window.addEventListener('keydown', e => { if (e.key === 'Escape') closeAddModal(); });
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeTaskPanel(); closeAddModal(); }
+});
 
 // Re-check deadlines every hour (catches midnight crossover)
 setInterval(() => { if (currentUser) checkDeadlines(); }, 60 * 60 * 1000);
