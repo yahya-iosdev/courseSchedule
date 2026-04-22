@@ -127,6 +127,15 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .s-done{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
 .s-dropped{background:#FCEBEB;border-color:#F09595;color:#A32D2D;}
 
+/* Status badges (read-only) */
+.status-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 12px;border-radius:999px;font-size:11px;font-weight:600;border:0.5px solid;white-space:nowrap;}
+
+/* Mark done button */
+.mark-done-btn{padding:5px 10px;border-radius:999px;border:0.5px solid var(--t-border);background:var(--t-bg);color:var(--t-dark);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
+.mark-done-btn:hover{background:var(--t-border);color:#fff;}
+.mark-done-btn.overdue{border-color:var(--a-border);background:var(--a-bg);color:var(--a-dark);}
+.mark-done-btn.overdue:hover{background:var(--a-border);color:#fff;}
+
 /* ── Timer cell ── */
 .timer-cell{display:flex;align-items:center;justify-content:center;gap:6px;}
 .timer-display{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);min-width:54px;text-align:right;}
@@ -490,6 +499,7 @@ async function signOut() {
 // ── Data loading ──────────────────────────────────────────────
 async function loadAll() {
   await loadCourses();
+  await checkDeadlines();
   await loadTimers();
   await loadLeaderboard();
 }
@@ -710,7 +720,23 @@ function updateTotalTimePill() {
   $('total-time-pill').textContent = fmtHours(total) + ' studied';
 }
 
-// ── Courses CRUD ──────────────────────────────────────────────
+// ── Deadline auto-drop ────────────────────────────────────────
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+async function checkDeadlines() {
+  const today = todayStr();
+  const toUpdate = courses.filter(c => c.status === 'progress' && c.end_date && c.end_date < today);
+  if (!toUpdate.length) return;
+  for (const c of toUpdate) {
+    c.status = 'dropped';
+    await saveCourse(c);
+  }
+  render();
+}
+
+
 async function saveCourse(course) {
   setSync('syncing', 'Saving…');
   const { error } = await sb.from('courses').upsert({
@@ -756,7 +782,7 @@ async function addCourse() {
   btn.disabled = true; btn.textContent = 'Adding…';
 
   const { data, error } = await sb.from('courses')
-    .insert({ user_id: currentUser.id, name, start_date: start, end_date: end, status: 'none' })
+    .insert({ user_id: currentUser.id, name, start_date: start, end_date: end, status: 'progress' })
     .select().single();
 
   btn.disabled = false; btn.textContent = 'Add course';
@@ -813,16 +839,26 @@ function setFilter(f) {
 
 function filterRows(q) { searchQ = q.toLowerCase(); applyVisibility(); }
 
-function changeStatus(i, val) {
-  courses[i].status = val;
-  const rows = document.querySelectorAll('#tbody tr');
-  if (rows[i]) {
-    rows[i].dataset.status = val;
-    const sel = rows[i].querySelector('.status-select');
-    if (sel) sel.className = 'status-select ' + SC[val];
+function statusCell(c, i) {
+  const st = c.status || 'progress';
+  if (st === 'done') {
+    return `<span class="status-badge s-done">✓ Finished</span>`;
   }
-  updateStats(); applyVisibility();
-  saveCourse(courses[i]);
+  if (st === 'dropped') {
+    return `<span class="status-badge s-dropped">✕ Dropped</span>`;
+  }
+  // progress — show "Mark done" button
+  const today = todayStr();
+  const overdue = c.end_date && c.end_date < today;
+  return `<button class="mark-done-btn${overdue?' overdue':''}" onclick="markDone(${i})" title="Mark as finished">
+    ${overdue ? '⚠ Overdue — mark done?' : '✓ Mark done'}
+  </button>`;
+}
+
+async function markDone(i) {
+  courses[i].status = 'done';
+  await saveCourse(courses[i]);
+  render();
 }
 
 function render() {
@@ -844,14 +880,7 @@ function render() {
         oninput="courses[${i}].start_date=this.value;updateStats();debounceSave(courses[${i}])"/></td>
       <td><input class="ei" type="date" value="${c.end_date||''}"
         oninput="courses[${i}].end_date=this.value;updateStats();debounceSave(courses[${i}])"/></td>
-      <td style="text-align:center">
-        <select class="status-select ${SC[st]}" onchange="changeStatus(${i},this.value)">
-          <option value="none"${st==='none'?' selected':''}>Not started</option>
-          <option value="progress"${st==='progress'?' selected':''}>In progress</option>
-          <option value="done"${st==='done'?' selected':''}>Finished</option>
-          <option value="dropped"${st==='dropped'?' selected':''}>Dropped</option>
-        </select>
-      </td>
+      <td style="text-align:center">${statusCell(c, i)}</td>
       <td>
         <div class="timer-cell">
           <span class="timer-display${running?' active':''}">${fmtTime(elapsed)}</span>
@@ -902,6 +931,9 @@ sb.auth.onAuthStateChange((event, session) => {
 });
 
 window.addEventListener('keydown', e => { if (e.key === 'Escape') closeAddModal(); });
+
+// Re-check deadlines every hour (catches midnight crossover)
+setInterval(() => { if (currentUser) checkDeadlines(); }, 60 * 60 * 1000);
 
 // Save active session if user closes tab
 window.addEventListener('beforeunload', (e) => {
