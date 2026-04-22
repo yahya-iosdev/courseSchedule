@@ -3,507 +3,572 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CourseFlow</title>
+<title>Momentum — Habits & Focus</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;--surface3:#25252f;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
-  --text:#f0eff6;--text2:#9997b3;--text3:#5a5876;
-  --accent:#c084fc;--accent2:#818cf8;--glow:rgba(192,132,252,.15);
-  --green:#34d399;--green-bg:rgba(52,211,153,.1);--green-border:rgba(52,211,153,.25);
-  --red:#f87171;--red-bg:rgba(248,113,113,.1);--red-border:rgba(248,113,113,.25);
-  --amber:#fbbf24;--amber-bg:rgba(251,191,36,.1);--amber-border:rgba(251,191,36,.25);
-  --shadow:0 4px 24px rgba(0,0,0,.4);--shadow-lg:0 12px 56px rgba(0,0,0,.6);
+  --bg:#080810;
+  --s1:#0f0f1a;
+  --s2:#161625;
+  --s3:#1e1e30;
+  --s4:#262640;
+  --b1:rgba(255,255,255,.06);
+  --b2:rgba(255,255,255,.11);
+  --b3:rgba(255,255,255,.18);
+  --t1:#eeeef5;
+  --t2:#8888aa;
+  --t3:#44445a;
+  --cyan:#00e5ff;
+  --cyan-d:#00b8cc;
+  --cyan-bg:rgba(0,229,255,.08);
+  --cyan-border:rgba(0,229,255,.2);
+  --green:#00ff94;
+  --green-d:#00cc76;
+  --green-bg:rgba(0,255,148,.08);
+  --green-border:rgba(0,255,148,.2);
+  --orange:#ff6b35;
+  --orange-bg:rgba(255,107,53,.08);
+  --orange-border:rgba(255,107,53,.25);
+  --red:#ff4466;
+  --red-bg:rgba(255,68,102,.08);
+  --red-border:rgba(255,68,102,.25);
+  --amber:#ffcc00;
+  --amber-bg:rgba(255,204,0,.08);
+  --shadow:0 4px 32px rgba(0,0,0,.5);
+  --shadow-lg:0 16px 64px rgba(0,0,0,.7);
+  --glow-cyan:0 0 30px rgba(0,229,255,.15);
+  --glow-green:0 0 30px rgba(0,255,148,.15);
 }
-html{scroll-behavior:smooth;}
-body{background:var(--bg);font-family:'Sora',sans-serif;min-height:100vh;color:var(--text);overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 15% -5%,rgba(192,132,252,.07),transparent 55%),radial-gradient(ellipse 50% 40% at 85% 105%,rgba(129,140,248,.05),transparent 50%);pointer-events:none;z-index:0;}
 
-/* ── AUTH ── */
-#auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
-.auth-wrap{width:100%;max-width:400px;padding:1.5rem;}
-.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2.5rem;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
-.auth-card::after{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;background:radial-gradient(circle,rgba(192,132,252,.1),transparent 70%);pointer-events:none;}
-.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:2rem;}
-.auth-logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px var(--glow);}
-.auth-logo svg{width:20px;height:20px;color:#fff;}
-.brand-name{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);}
-.auth-h{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:6px;}
-.auth-sub{font-size:13px;color:var(--text3);margin-bottom:2rem;line-height:1.6;}
-.auth-tabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:1.5rem;}
-.auth-tab{flex:1;padding:9px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text3);border:none;background:transparent;font-family:'Sora',sans-serif;transition:all .2s;}
-.auth-tab.active{background:var(--surface3);color:var(--text);border:1px solid var(--border2);}
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
-.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 15px;font-size:14px;color:var(--text);outline:none;font-family:'Sora',sans-serif;transition:all .2s;}
-.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,132,252,.12);}
-.field input::placeholder{color:var(--text3);}
-.auth-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;margin-top:6px;transition:all .2s;box-shadow:0 4px 20px rgba(192,132,252,.25);}
-.auth-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(192,132,252,.35);}
-.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.amsg{font-size:12px;border-radius:10px;padding:10px 14px;margin-top:12px;display:none;line-height:1.5;}
-.amsg-err{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
-.amsg-ok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+html,body{height:100%;}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--t1);overflow-x:hidden;}
 
-/* ── APP ── */
-#app-screen{display:none;position:relative;z-index:1;}
-.app{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+/* Ambient background */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 20%,rgba(0,229,255,.04) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%,rgba(0,255,148,.03) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
 
-/* Topbar */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:2.5rem;flex-wrap:wrap;}
-.topbar-left{display:flex;align-items:center;gap:14px;}
-.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 18px var(--glow);position:relative;}
-.av::after{content:'';position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg);}
-.uname{font-size:16px;font-weight:600;color:var(--text);}
-.uemail{font-size:12px;color:var(--text3);margin-top:2px;}
+/* ═══ AUTH ═══════════════════════════════════════════════════ */
+#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
+.auth-card{background:var(--s1);border:1px solid var(--b1);border-radius:24px;padding:2.5rem;width:100%;max-width:380px;margin:1.5rem;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.auth-card::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:300px;height:200px;background:radial-gradient(circle,rgba(0,229,255,.07),transparent 70%);pointer-events:none;}
+.auth-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--green));display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:var(--glow-cyan);}
+.auth-icon svg{width:22px;height:22px;color:#000;}
+.auth-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--t1);margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--t3);margin-bottom:2rem;line-height:1.6;}
+.auth-tabs{display:flex;background:var(--s2);border-radius:12px;padding:4px;gap:4px;margin-bottom:1.5rem;}
+.atab{flex:1;padding:9px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;color:var(--t3);border:none;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.atab.on{background:var(--s3);color:var(--t1);border:1px solid var(--b2);}
+.afield{margin-bottom:13px;}
+.afield label{display:block;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px;}
+.afield input{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:11px;padding:12px 15px;font-size:14px;color:var(--t1);outline:none;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.afield input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.1);}
+.afield input::placeholder{color:var(--t3);}
+.abtn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),var(--green));color:#000;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px;transition:all .2s;letter-spacing:.3px;}
+.abtn:hover{transform:translateY(-2px);box-shadow:var(--glow-cyan);}
+.abtn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.amsg{font-size:12px;border-radius:10px;padding:10px 14px;margin-top:10px;display:none;line-height:1.5;}
+.aerr{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
+.aok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+
+/* ═══ APP ════════════════════════════════════════════════════ */
+#app{display:none;position:relative;z-index:1;min-height:100vh;}
+.wrap{max-width:1140px;margin:0 auto;padding:2rem 1.5rem;}
+
+/* ── Topbar ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;gap:12px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--green));display:flex;align-items:center;justify-content:center;}
+.brand-icon svg{width:16px;height:16px;color:#000;}
+.brand-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--t1);}
 .topbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;white-space:nowrap;}
-.chip:hover{border-color:var(--border2);color:var(--text);}
-.chip svg{width:13px;height:13px;flex-shrink:0;}
-.chip.accent-chip{border-color:var(--amber-border);background:var(--amber-bg);color:var(--amber);}
-.chip.danger:hover{border-color:var(--red-border);color:var(--red);}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--green));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#000;flex-shrink:0;}
+.uname{font-size:13px;font-weight:500;color:var(--t2);}
+.tbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;border:1px solid var(--b2);background:var(--s2);color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+.tbtn:hover{border-color:var(--b3);color:var(--t1);}
+.tbtn svg{width:13px;height:13px;}
+.tbtn.danger:hover{border-color:var(--red-border);color:var(--red);}
 
-/* Stats */
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:1.5rem;}
-@media(max-width:640px){.stats-row{grid-template-columns:repeat(3,1fr);}}
-.scard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.1rem 1.2rem;transition:all .25s;}
-.scard:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow);}
-.sval{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:500;color:var(--text);line-height:1;}
-.slabel{font-size:10px;color:var(--text3);margin-top:8px;text-transform:uppercase;letter-spacing:.08em;}
-.scard.sp .sval{color:var(--accent);}
-.scard.sd .sval{color:var(--green);}
-.scard.sr .sval{color:var(--red);}
+/* ── Nav tabs ── */
+.nav{display:flex;gap:4px;background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:4px;margin-bottom:2rem;width:fit-content;}
+.ntab{padding:9px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--t3);border:none;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:7px;}
+.ntab:hover{color:var(--t2);}
+.ntab.on{background:var(--s3);color:var(--t1);border:1px solid var(--b2);}
+.ntab svg{width:14px;height:14px;}
 
-/* Progress */
-.prog-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
-.donut{position:relative;width:72px;height:72px;flex-shrink:0;}
-.donut svg{transform:rotate(-90deg);}
-.donut-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;}
-.pi{flex:1;min-width:180px;}
-.plabels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
-.ptrack{height:6px;background:var(--surface2);border-radius:999px;overflow:hidden;display:flex;}
-.seg{height:100%;transition:width .6s cubic-bezier(.4,0,.2,1);}
-.legend{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
-.li{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
-.ld{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+/* ═══ HABIT TRACKER ══════════════════════════════════════════ */
+#page-habits{display:none;}
+#page-habits.on{display:block;}
 
-/* Session banner */
-.sbanner{display:none;background:linear-gradient(135deg,rgba(192,132,252,.08),rgba(129,140,248,.06));border:1px solid rgba(192,132,252,.2);border-radius:16px;padding:1rem 1.5rem;margin-bottom:1.5rem;align-items:center;gap:14px;flex-wrap:wrap;}
-.sbanner.on{display:flex;}
-.spulse{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1s ease infinite alternate;flex-shrink:0;}
-@keyframes pulse{from{opacity:1;transform:scale(1)}to{opacity:.3;transform:scale(.7)}}
-.slabel{flex:1;font-size:13px;font-weight:500;color:var(--text);}
-.slabel strong{color:var(--accent);}
-.stimr{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:500;color:var(--accent);}
-.sstop{padding:7px 18px;border-radius:999px;border:1px solid var(--red-border);background:var(--red-bg);color:var(--red);font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
-.sstop:hover{background:rgba(248,113,113,.18);}
+.habits-grid{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start;}
+@media(max-width:860px){.habits-grid{grid-template-columns:1fr;}}
 
-/* Grid layout */
-.mgrid{display:grid;grid-template-columns:1fr 290px;gap:1.5rem;align-items:start;}
-@media(max-width:860px){.mgrid{grid-template-columns:1fr;}}
+/* Today panel */
+.today-section{}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:10px;flex-wrap:wrap;}
+.sh-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;color:var(--t1);}
+.sh-date{font-size:12px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+.add-habit-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:999px;border:1px solid var(--cyan-border);background:var(--cyan-bg);color:var(--cyan);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.add-habit-btn:hover{background:rgba(0,229,255,.15);transform:translateY(-1px);}
+.add-habit-btn svg{width:14px;height:14px;}
 
-/* Section head */
-.shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px;}
-.stitle{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);}
-.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.flt{font-size:11px;font-weight:500;padding:5px 13px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;white-space:nowrap;}
-.flt:hover{border-color:var(--border2);color:var(--text2);}
-.flt.active{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.08);color:var(--accent);}
-.swrap{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:6px 12px;transition:border-color .2s;}
-.swrap:focus-within{border-color:var(--accent);}
-.swrap svg{width:13px;height:13px;color:var(--text3);}
-.swrap input{background:none;border:none;outline:none;font-size:12px;color:var(--text);font-family:'Sora',sans-serif;width:100px;}
-.swrap input::placeholder{color:var(--text3);}
+/* Habit list */
+.habit-list{display:flex;flex-direction:column;gap:10px;}
+.habit-item{background:var(--s1);border:1px solid var(--b1);border-radius:18px;padding:1rem 1.25rem;display:flex;align-items:center;gap:14px;transition:all .25s;cursor:pointer;position:relative;overflow:hidden;}
+.habit-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0;background:var(--b2);}
+.habit-item:hover{border-color:var(--b2);transform:translateX(2px);}
+.habit-item.done{background:rgba(0,255,148,.04);border-color:var(--green-border);}
+.habit-item.done::before{background:var(--green);}
 
-/* Cards grid */
-.cgrid{display:grid;grid-template-columns:1fr;gap:12px;}
+.hcheck{width:28px;height:28px;border-radius:9px;border:1.5px solid var(--b3);background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.hcheck svg{display:none;width:14px;height:14px;color:#000;}
+.habit-item.done .hcheck{background:var(--green);border-color:var(--green);box-shadow:0 0 12px rgba(0,255,148,.3);}
+.habit-item.done .hcheck svg{display:block;}
 
-/* ─── COURSE CARD ─── */
-.ccard{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .25s;position:relative;}
-.ccard:hover{border-color:var(--border2);box-shadow:var(--shadow);}
-.ccard.status-done{border-left:3px solid var(--green);}
-.ccard.status-dropped{border-left:3px solid var(--red);}
-.ccard.status-progress{border-left:3px solid var(--accent);}
-.ccard.ton{background:rgba(192,132,252,.03);border-color:rgba(192,132,252,.25);}
-.ccard.hidden{display:none;}
+.hinfo{flex:1;min-width:0;}
+.hname{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:3px;transition:color .2s;}
+.habit-item.done .hname{color:var(--t2);text-decoration:line-through;}
+.hmeta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.hstreak{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--orange);font-family:'JetBrains Mono',monospace;font-weight:500;}
+.hstreak-icon{font-size:12px;}
+.htag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid var(--b2);color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
 
-/* Card body — course name is PROMINENT */
-.cbody{padding:1.1rem 1.25rem .9rem;}
-.ctop{display:flex;align-items:flex-start;gap:10px;margin-bottom:.85rem;}
-.cnum{width:22px;height:22px;border-radius:7px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);flex-shrink:0;margin-top:4px;}
-.ctitle-group{flex:1;min-width:0;}
+.hcolor{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.hdel{width:26px;height:26px;border-radius:7px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t3);opacity:0;transition:all .15s;flex-shrink:0;}
+.habit-item:hover .hdel{opacity:1;}
+.hdel:hover{color:var(--red);background:var(--red-bg);}
+.hdel svg{width:12px;height:12px;}
 
-/* BIG editable course name */
-.cname-input{width:100%;background:transparent;border:none;outline:none;font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--text);padding:0;line-height:1.3;transition:color .2s;}
-.cname-input::placeholder{color:var(--text3);}
-.cname-input:focus{color:var(--accent);}
+.empty-habits{padding:3rem;text-align:center;color:var(--t3);font-size:14px;line-height:1.8;background:var(--s1);border:1px dashed var(--b2);border-radius:18px;}
+.empty-icon{font-size:40px;display:block;margin-bottom:1rem;opacity:.3;}
 
-/* Task progress bar directly under the name */
-.task-mini{display:flex;align-items:center;gap:8px;margin-top:7px;}
-.tmtrack{flex:1;height:3px;background:var(--surface3);border-radius:999px;overflow:hidden;max-width:140px;}
-.tmfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:width .4s;}
-.tmlabel{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);white-space:nowrap;}
+/* Streak & stats sidebar */
+.side-card{background:var(--s1);border:1px solid var(--b1);border-radius:20px;overflow:hidden;margin-bottom:1.25rem;}
+.sc-head{padding:1rem 1.25rem;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.sc-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--t1);}
+.sc-body{padding:1.1rem 1.25rem;}
 
-.cbadge-wrap{flex-shrink:0;margin-top:3px;}
-.cbadge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:600;white-space:nowrap;}
-.b-prog{background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.25);color:var(--accent);}
-.b-done{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
-.b-drop{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
-.b-over{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
+/* Stats row */
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem;}
+.stat3{background:var(--s2);border-radius:12px;padding:.75rem;text-align:center;border:1px solid var(--b1);}
+.stat3-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--t1);line-height:1;}
+.stat3-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;}
+.stat3.c .stat3-val{color:var(--cyan);}
+.stat3.g .stat3-val{color:var(--green);}
+.stat3.o .stat3-val{color:var(--orange);}
 
-/* Date row */
-.cdates{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.dfield{display:flex;align-items:center;gap:7px;flex:1;min-width:120px;}
-.dlabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;width:26px;}
-.dinput{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 9px;font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;outline:none;transition:all .2s;min-width:0;}
-.dinput:focus{border-color:var(--accent);color:var(--text);}
-.dsep{color:var(--text3);font-size:14px;flex-shrink:0;}
+/* Heatmap */
+.heatmap-wrap{overflow-x:auto;padding-bottom:4px;}
+.heatmap-months{display:flex;gap:2px;margin-bottom:5px;padding-left:22px;}
+.hm-month{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;flex:1;text-align:left;}
+.heatmap{display:flex;gap:3px;}
+.hm-days-col{display:flex;flex-direction:column;gap:2px;}
+.hm-day-label{width:18px;font-size:8px;color:var(--t3);font-family:'JetBrains Mono',monospace;line-height:13px;text-align:right;padding-right:3px;}
+.hm-col{display:flex;flex-direction:column;gap:2px;}
+.hm-cell{width:13px;height:13px;border-radius:3px;background:var(--s3);cursor:pointer;transition:transform .1s;position:relative;}
+.hm-cell:hover{transform:scale(1.3);z-index:10;}
+.hm-cell[data-level="1"]{background:rgba(0,229,255,.2);}
+.hm-cell[data-level="2"]{background:rgba(0,229,255,.45);}
+.hm-cell[data-level="3"]{background:rgba(0,229,255,.7);}
+.hm-cell[data-level="4"]{background:var(--cyan);}
+.hm-legend{display:flex;align-items:center;gap:5px;margin-top:8px;justify-content:flex-end;}
+.hm-legend-label{font-size:9px;color:var(--t3);}
+.hm-legend-cells{display:flex;gap:3px;}
+.hm-legend-cell{width:11px;height:11px;border-radius:2px;}
 
-/* Actions bar */
-.cactions{display:flex;align-items:center;gap:8px;padding:.75rem 1.25rem;border-top:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;}
-.abtn{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;white-space:nowrap;}
-.abtn:hover{border-color:var(--border2);color:var(--text);}
-.abtn svg{width:12px;height:12px;flex-shrink:0;}
-/* Tasks button */
-.tbtn{border-color:rgba(192,132,252,.3);color:var(--accent);}
-.tbtn:hover,.tbtn.ht{background:rgba(192,132,252,.1);border-color:rgba(192,132,252,.5);}
-.tcnt{background:var(--accent);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:999px;font-family:'JetBrains Mono',monospace;}
-/* Timer button */
-.timerbtn{border-color:var(--green-border);color:var(--green);}
-.timerbtn:hover,.timerbtn.run{background:var(--green-bg);border-color:rgba(52,211,153,.5);}
-.timedisp{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);}
-.timedisp.run{color:var(--green);}
-/* Mark done */
-.mkbtn{border-color:var(--green-border);color:var(--green);}
-.mkbtn:hover{background:var(--green-bg);}
-.mkbtn.ov{border-color:var(--amber-border);color:var(--amber);}
-.mkbtn.ov:hover{background:var(--amber-bg);}
-/* Delete */
-.delbtn{margin-left:auto;width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
-.delbtn:hover{border-color:var(--red-border);background:var(--red-bg);color:var(--red);}
-.delbtn svg{width:12px;height:12px;}
+/* ═══ POMODORO ═══════════════════════════════════════════════ */
+#page-pomo{display:none;}
+#page-pomo.on{display:block;}
 
-/* Add card */
-.addcard{border:1px dashed var(--border);border-radius:20px;padding:1.25rem;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .2s;color:var(--text3);font-size:13px;font-weight:500;margin-top:12px;}
-.addcard:hover{border-color:rgba(192,132,252,.4);color:var(--accent);background:rgba(192,132,252,.03);}
-.addcard svg{width:16px;height:16px;}
+.pomo-layout{display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start;}
+@media(max-width:860px){.pomo-layout{grid-template-columns:1fr;}}
 
-/* Sync */
-.syncbar{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3);margin-top:1rem;}
-.sdot{width:6px;height:6px;border-radius:50%;background:var(--green);}
-.sdot.sy{background:var(--amber);animation:pulse .8s infinite alternate;}
-.sdot.er{background:var(--red);}
+/* Timer card */
+.timer-card{background:var(--s1);border:1px solid var(--b1);border-radius:24px;padding:2.5rem;text-align:center;position:relative;overflow:hidden;}
+.timer-card::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:300px;background:radial-gradient(circle,rgba(0,229,255,.05),transparent 70%);pointer-events:none;transition:background .5s;}
+.timer-card.break-mode::before{background:radial-gradient(circle,rgba(0,255,148,.05),transparent 70%);}
 
-/* ── LEADERBOARD ── */
-.lbcard{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
-.lbhead{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .15s;}
-.lbhead:hover{background:var(--surface2);}
-.lbtitle{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);display:flex;align-items:center;gap:8px;}
-.lbstar{color:var(--amber);}
-.lbactions{display:flex;align-items:center;gap:8px;}
-.lbrbtn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.lbrbtn:hover{border-color:var(--accent);}
-.lbrbtn svg{width:12px;height:12px;color:var(--text3);transition:color .2s;}
-.lbrbtn:hover svg{color:var(--accent);}
-.lbrbtn.spinning svg{animation:spin .6s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.lbchev{width:16px;height:16px;color:var(--text3);transition:transform .25s;}
-.lbchev.open{transform:rotate(180deg);}
-.lbbody{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);}
-.lblist{padding:.5rem 0;}
-.lbrow{display:flex;align-items:center;gap:8px;padding:.5rem 1.25rem;transition:background .12s;}
-.lbrow:hover{background:var(--surface2);}
-.lbrow.me{background:rgba(192,132,252,.05);}
-.lbrank{width:22px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);flex-shrink:0;}
-.lbrank.g{color:var(--amber);}
-.lbrank.s{color:#94a3b8;}
-.lbrank.b{color:#b07c4f;}
-.lbmedal{width:18px;text-align:center;font-size:13px;flex-shrink:0;}
-.lbav{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
-.lbname{flex:1;font-size:12px;font-weight:500;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.lbname.me{color:var(--accent);}
-.lbyou{font-size:9px;font-weight:700;padding:1px 5px;border-radius:999px;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.25);color:var(--accent);margin-left:4px;}
-.lbtime{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);}
-.lbempty{padding:2.5rem 1.25rem;text-align:center;color:var(--text3);font-size:13px;line-height:1.8;}
+/* Mode tabs */
+.pomo-modes{display:flex;gap:6px;justify-content:center;margin-bottom:2rem;}
+.pmode{padding:7px 18px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b2);background:transparent;color:var(--t3);font-family:'DM Sans',sans-serif;transition:all .2s;}
+.pmode:hover{color:var(--t2);}
+.pmode.on{background:var(--s3);color:var(--t1);border-color:var(--b3);}
 
-/* ── TASK PANEL ── */
-#tpov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:200;}
-#tp{position:fixed;top:0;right:0;height:100vh;width:400px;max-width:96vw;background:var(--surface);border-left:1px solid var(--border);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-10px 0 50px rgba(0,0,0,.5);}
-#tp.open{transform:translateX(0);}
-.tptop{padding:1.5rem;border-bottom:1px solid var(--border);flex-shrink:0;}
-.tplabel{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
-.tpnrow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.tpname{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tpclose{width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all .2s;font-size:14px;}
-.tpclose:hover{border-color:var(--red-border);color:var(--red);background:var(--red-bg);}
-.tpprog{margin-top:1rem;}
-.tpplabels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:8px;}
-.tpptrack{height:5px;background:var(--surface2);border-radius:999px;overflow:hidden;}
-.tppfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:width .35s ease;}
-.tpbody{flex:1;overflow-y:auto;padding:1rem 1.5rem;}
-.tpbody::-webkit-scrollbar{width:3px;}
-.tpbody::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
-.tpempty{padding:3rem 0;text-align:center;color:var(--text3);font-size:13px;line-height:1.8;}
-.tpei{font-size:40px;display:block;margin-bottom:1rem;opacity:.25;}
-@keyframes taskIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
-.titem{display:flex;align-items:center;gap:10px;padding:.7rem 0;border-bottom:1px solid var(--border);animation:taskIn .2s ease both;}
-.titem:last-child{border-bottom:none;}
-.titem.rem{opacity:0;transform:translateX(12px);transition:all .18s;}
-.tcb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
-.tcb:hover{border-color:var(--accent);}
-.tcb.ck{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;}
-.tcb svg{display:none;width:10px;height:10px;color:#fff;}
-.tcb.ck svg{display:block;}
-.tname{flex:1;font-size:13px;color:var(--text);line-height:1.5;}
-.tname.done{text-decoration:line-through;color:var(--text3);}
-.tdelbtn{width:24px;height:24px;border-radius:6px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);opacity:0;transition:all .15s;flex-shrink:0;}
-.titem:hover .tdelbtn{opacity:1;}
-.tdelbtn:hover{color:var(--red);background:var(--red-bg);}
-.tdelbtn svg{width:12px;height:12px;}
-.tpadd{padding:1rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;}
-.tpaddinput{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;color:var(--text);outline:none;font-family:'Sora',sans-serif;transition:all .2s;}
-.tpaddinput:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,132,252,.1);}
-.tpaddinput::placeholder{color:var(--text3);}
-.tpaddbtn{padding:10px 18px;border-radius:10px;border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.08);color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;transition:all .2s;}
-.tpaddbtn:hover{background:rgba(192,132,252,.18);}
+/* SVG ring timer */
+.ring-wrap{position:relative;width:240px;height:240px;margin:0 auto 2rem;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--s3);stroke-width:8;}
+.ring-prog{fill:none;stroke:var(--cyan);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .5s ease, stroke .5s;}
+.break-mode .ring-prog{stroke:var(--green);}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.ring-time{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:3px;color:var(--t1);line-height:1;}
+.ring-label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.15em;font-weight:600;}
 
-/* ── MODAL ── */
-#mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:300;}
-#mbox{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-55%);opacity:0;z-index:301;width:100%;max-width:440px;padding:0 1.25rem;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s;}
-#mbox.open{transform:translate(-50%,-50%);opacity:1;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2rem;box-shadow:var(--shadow-lg);}
-.mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
-.mtitle{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);}
-.mclosebtn{width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:14px;transition:all .2s;}
-.mclosebtn:hover{border-color:var(--red-border);color:var(--red);background:var(--red-bg);}
-.mdates{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.mdfield label{display:block;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
-.mdfield input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:11px 13px;font-size:13px;color:var(--text);outline:none;font-family:'JetBrains Mono',monospace;transition:all .2s;}
-.mdfield input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,132,252,.1);}
-.merr{font-size:12px;color:var(--red);background:var(--red-bg);border:1px solid var(--red-border);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:none;line-height:1.5;}
-.msubmit{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;box-shadow:0 4px 20px rgba(192,132,252,.2);}
-.msubmit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(192,132,252,.3);}
-.msubmit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* Controls */
+.pomo-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem;}
+.pctrl{width:52px;height:52px;border-radius:50%;border:1px solid var(--b2);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:all .2s;}
+.pctrl:hover{border-color:var(--b3);color:var(--t1);transform:scale(1.05);}
+.pctrl.main{width:64px;height:64px;background:linear-gradient(135deg,var(--cyan),var(--cyan-d));border:none;color:#000;box-shadow:var(--glow-cyan);}
+.break-mode .pctrl.main{background:linear-gradient(135deg,var(--green),var(--green-d));box-shadow:var(--glow-green);}
+.pctrl.main:hover{transform:scale(1.1);}
+.pctrl svg{width:20px;height:20px;}
+.pctrl.main svg{width:22px;height:22px;}
+
+/* Habit link */
+.habit-link-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+.habit-link-label{font-size:12px;color:var(--t3);}
+.habit-link-select{background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:7px 12px;font-size:12px;color:var(--t1);outline:none;font-family:'DM Sans',sans-serif;cursor:pointer;transition:border-color .2s;}
+.habit-link-select:focus{border-color:var(--cyan);}
+
+/* Session counter */
+.session-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1.5rem;}
+.sdot{width:10px;height:10px;border-radius:50%;background:var(--s3);border:1.5px solid var(--b2);transition:all .3s;}
+.sdot.done{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px rgba(0,229,255,.4);}
+.break-mode .sdot.done{background:var(--green);border-color:var(--green);}
+
+/* Settings */
+.pomo-settings{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:1.5rem;border-top:1px solid var(--b1);}
+.pset{display:flex;flex-direction:column;gap:5px;}
+.pset label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
+.pset input{background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:8px 11px;font-size:14px;font-weight:600;color:var(--t1);outline:none;font-family:'JetBrains Mono',monospace;text-align:center;transition:border-color .2s;width:100%;}
+.pset input:focus{border-color:var(--cyan);}
+
+/* History sidebar */
+.hist-card{background:var(--s1);border:1px solid var(--b1);border-radius:20px;overflow:hidden;}
+.hc-head{padding:1rem 1.25rem;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.hc-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--t1);}
+.hc-clear{font-size:11px;color:var(--t3);cursor:pointer;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.hc-clear:hover{color:var(--red);}
+.hc-body{max-height:420px;overflow-y:auto;}
+.hc-body::-webkit-scrollbar{width:3px;}
+.hc-body::-webkit-scrollbar-thumb{background:var(--s4);border-radius:3px;}
+.hist-item{display:flex;align-items:center;gap:10px;padding:.75rem 1.25rem;border-bottom:1px solid var(--b1);transition:background .12s;}
+.hist-item:last-child{border-bottom:none;}
+.hist-item:hover{background:var(--s2);}
+.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.hist-dot.work{background:var(--cyan);}
+.hist-dot.brk{background:var(--green);}
+.hist-info{flex:1;min-width:0;}
+.hist-label{font-size:12px;font-weight:500;color:var(--t1);}
+.hist-habit{font-size:11px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hist-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);text-align:right;white-space:nowrap;}
+.hist-empty{padding:2.5rem;text-align:center;color:var(--t3);font-size:13px;line-height:1.8;}
+
+/* Today stats */
+.today-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:1rem 1.25rem;}
+.tstat{background:var(--s2);border-radius:12px;padding:.85rem;border:1px solid var(--b1);}
+.tstat-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--t1);}
+.tstat-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;}
+.tstat.c .tstat-val{color:var(--cyan);}
+.tstat.g .tstat-val{color:var(--green);}
+
+/* ── Add Habit Modal ── */
+#hmodal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:300;}
+#hmodal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-55%);opacity:0;z-index:301;width:100%;max-width:420px;padding:0 1.25rem;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s;}
+#hmodal.open{transform:translate(-50%,-50%);opacity:1;}
+.hm-inner{background:var(--s1);border:1px solid var(--b2);border-radius:22px;padding:2rem;box-shadow:var(--shadow-lg);}
+.hm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.hm-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--t1);}
+.hm-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--b2);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:14px;transition:all .2s;}
+.hm-close:hover{border-color:var(--red-border);color:var(--red);}
+.color-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.copt{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;}
+.copt.sel{border-color:#fff;transform:scale(1.15);}
+.hm-err{font-size:12px;color:var(--red);background:var(--red-bg);border:1px solid var(--red-border);border-radius:9px;padding:9px 13px;margin-bottom:12px;display:none;}
+.hm-submit{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),var(--green));color:#000;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.hm-submit:hover{transform:translateY(-2px);box-shadow:var(--glow-cyan);}
+.hm-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* Notification */
+.notif{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--s2);border:1px solid var(--b2);border-radius:14px;padding:.85rem 1.25rem;font-size:13px;font-weight:500;color:var(--t1);box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);z-index:500;max-width:300px;display:flex;align-items:center;gap:10px;}
+.notif.show{transform:translateY(0);opacity:1;}
+.notif-icon{font-size:18px;flex-shrink:0;}
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
-<div id="auth-screen">
-  <div class="auth-wrap">
-    <div class="auth-card">
-      <div class="auth-brand">
-        <div class="auth-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-        <div class="brand-name">CourseFlow</div>
-      </div>
-      <div class="auth-h">Welcome back</div>
-      <div class="auth-sub">Sign in to sync your learning progress across all your devices.</div>
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tab-in" onclick="switchTab('in')">Sign in</button>
-        <button class="auth-tab" id="tab-up" onclick="switchTab('up')">Sign up</button>
-      </div>
-      <div class="field"><label>Email</label><input type="email" id="auth-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')authSubmit()"/></div>
-      <div class="field"><label>Password</label><input type="password" id="auth-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authSubmit()"/></div>
-      <button class="auth-btn" id="auth-btn" onclick="authSubmit()">Sign in</button>
-      <div class="amsg amsg-err" id="auth-err"></div>
-      <div class="amsg amsg-ok" id="auth-ok"></div>
+<!-- ══ AUTH ══════════════════════════════════════════════════ -->
+<div id="auth">
+  <div class="auth-card">
+    <div class="auth-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
     </div>
+    <div class="auth-title">MOMENTUM</div>
+    <div class="auth-sub">Build habits. Focus deeply. Track your growth.</div>
+    <div class="auth-tabs">
+      <button class="atab on" id="tab-in" onclick="switchTab('in')">Sign in</button>
+      <button class="atab" id="tab-up" onclick="switchTab('up')">Sign up</button>
+    </div>
+    <div class="afield"><label>Email</label><input type="email" id="a-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doAuth()"/></div>
+    <div class="afield"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAuth()"/></div>
+    <button class="abtn" id="a-btn" onclick="doAuth()">Sign in</button>
+    <div class="amsg aerr" id="a-err"></div>
+    <div class="amsg aok" id="a-ok"></div>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app-screen">
-<div class="app">
+<!-- ══ APP ═══════════════════════════════════════════════════ -->
+<div id="app">
+<div class="wrap">
 
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="av" id="avatar">?</div>
-      <div>
-        <div class="uname" id="disp-name">Loading…</div>
-        <div class="uemail" id="disp-email"></div>
-      </div>
+    <div class="brand">
+      <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="brand-name">MOMENTUM</div>
     </div>
     <div class="topbar-right">
-      <span class="chip accent-chip" id="time-pill">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        0h studied
-      </span>
-      <span class="chip" id="course-pill">0 courses</span>
-      <button class="chip" onclick="toggleDark()" id="dark-btn">
-        <svg id="dark-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
-        <span id="dark-lbl">Light</span>
-      </button>
-      <button class="chip danger" onclick="signOut()">
+      <div class="av" id="av">?</div>
+      <span class="uname" id="uname">—</span>
+      <button class="tbtn danger" onclick="signOut()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sign out
       </button>
     </div>
   </div>
 
-  <div class="sbanner" id="sbanner">
-    <div class="spulse"></div>
-    <div class="slabel">Studying: <strong id="sname">—</strong></div>
-    <div class="stimr" id="selapsed">00:00:00</div>
-    <button class="sstop" onclick="stopActiveTimer()">Stop session</button>
+  <div class="nav">
+    <button class="ntab on" id="ntab-habits" onclick="showPage('habits')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Habits
+    </button>
+    <button class="ntab" id="ntab-pomo" onclick="showPage('pomo')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Focus
+    </button>
   </div>
 
-  <div class="stats-row">
-    <div class="scard"><div class="sval" id="s-total">0</div><div class="slabel">Total</div></div>
-    <div class="scard sp"><div class="sval" id="s-prog">0</div><div class="slabel">In progress</div></div>
-    <div class="scard sd"><div class="sval" id="s-done">0</div><div class="slabel">Finished</div></div>
-    <div class="scard sr"><div class="sval" id="s-drop">0</div><div class="slabel">Dropped</div></div>
-    <div class="scard"><div class="sval" id="s-pct">0%</div><div class="slabel">Completion</div></div>
-  </div>
-
-  <div class="prog-card">
-    <div class="donut">
-      <svg width="72" height="72" viewBox="0 0 72 72">
-        <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="8"/>
-        <circle id="donut-done" cx="36" cy="36" r="28" fill="none" stroke="#34d399" stroke-width="8" stroke-dasharray="0 176" stroke-linecap="round" style="transition:stroke-dasharray .6s ease"/>
-        <circle id="donut-prog" cx="36" cy="36" r="28" fill="none" stroke="#c084fc" stroke-width="8" stroke-dasharray="0 176" stroke-dashoffset="0" stroke-linecap="round" style="transition:all .6s ease"/>
-      </svg>
-      <div class="donut-txt" id="donut-pct">0%</div>
-    </div>
-    <div class="pi">
-      <div class="plabels"><span>Progress overview</span><span id="prog-lbl">0 / 0 finished</span></div>
-      <div class="ptrack">
-        <div class="seg" id="seg-done" style="width:0%;background:#34d399"></div>
-        <div class="seg" id="seg-prog" style="width:0%;background:#c084fc"></div>
-        <div class="seg" id="seg-drop" style="width:0%;background:#f87171"></div>
+  <!-- ══ HABITS PAGE ══ -->
+  <div id="page-habits" class="on">
+    <div class="habits-grid">
+      <div>
+        <div class="sh">
+          <div>
+            <div class="sh-title">TODAY</div>
+            <div class="sh-date" id="today-date">—</div>
+          </div>
+          <button class="add-habit-btn" onclick="openHabitModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            New habit
+          </button>
+        </div>
+        <div class="habit-list" id="habit-list">
+          <div class="empty-habits"><span class="empty-icon">✦</span>No habits yet.<br>Add your first habit to start building momentum.</div>
+        </div>
       </div>
-      <div class="legend">
-        <div class="li"><div class="ld" style="background:#34d399"></div>Finished</div>
-        <div class="li"><div class="ld" style="background:#c084fc"></div>In progress</div>
-        <div class="li"><div class="ld" style="background:#f87171"></div>Dropped</div>
-        <div class="li"><div class="ld" style="background:rgba(255,255,255,.1)"></div>Not started</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="mgrid">
-    <div>
-      <div class="shead">
-        <div class="stitle">Courses</div>
-        <div class="filters">
-          <button class="flt active" id="f-all" onclick="setFilter('all')">All</button>
-          <button class="flt" id="f-progress" onclick="setFilter('progress')">In progress</button>
-          <button class="flt" id="f-done" onclick="setFilter('done')">Done</button>
-          <button class="flt" id="f-dropped" onclick="setFilter('dropped')">Dropped</button>
-          <div class="swrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" placeholder="Search…" oninput="filterCards(this.value)"/>
+      <div>
+        <!-- Stats -->
+        <div class="side-card">
+          <div class="sc-head"><div class="sc-title">OVERVIEW</div></div>
+          <div class="sc-body">
+            <div class="stats3">
+              <div class="stat3 c"><div class="stat3-val" id="h-total">0</div><div class="stat3-label">Habits</div></div>
+              <div class="stat3 g"><div class="stat3-val" id="h-done-today">0</div><div class="stat3-label">Done today</div></div>
+              <div class="stat3 o"><div class="stat3-val" id="h-best-streak">0</div><div class="stat3-label">Best streak</div></div>
+            </div>
+            <!-- Progress ring for today -->
+            <div style="display:flex;align-items:center;gap:14px;margin-top:.5rem;">
+              <svg width="54" height="54" viewBox="0 0 54 54" style="transform:rotate(-90deg);flex-shrink:0">
+                <circle cx="27" cy="27" r="22" fill="none" stroke="var(--s3)" stroke-width="5"/>
+                <circle id="today-ring" cx="27" cy="27" r="22" fill="none" stroke="var(--cyan)" stroke-width="5" stroke-dasharray="138" stroke-dashoffset="138" stroke-linecap="round" style="transition:stroke-dashoffset .6s ease"/>
+              </svg>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--t1)" id="today-pct">0%</div>
+                <div style="font-size:11px;color:var(--t3);margin-top:2px">today's completion</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Heatmap -->
+        <div class="side-card">
+          <div class="sc-head">
+            <div class="sc-title">ACTIVITY</div>
+            <div style="font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace">last 16 weeks</div>
+          </div>
+          <div class="sc-body">
+            <div class="heatmap-wrap" id="heatmap-wrap">
+              <!-- generated by JS -->
+            </div>
+            <div class="hm-legend">
+              <span class="hm-legend-label">Less</span>
+              <div class="hm-legend-cells">
+                <div class="hm-legend-cell" style="background:var(--s3)"></div>
+                <div class="hm-legend-cell" data-level="1" style="background:rgba(0,229,255,.2)"></div>
+                <div class="hm-legend-cell" data-level="2" style="background:rgba(0,229,255,.45)"></div>
+                <div class="hm-legend-cell" data-level="3" style="background:rgba(0,229,255,.7)"></div>
+                <div class="hm-legend-cell" data-level="4" style="background:var(--cyan)"></div>
+              </div>
+              <span class="hm-legend-label">More</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="cgrid" id="cgrid"></div>
-      <div class="addcard" onclick="openModal()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        Add new course
-      </div>
-      <div class="syncbar">
-        <div class="sdot" id="sync-dot"></div>
-        <span id="sync-label">Connected — changes save automatically</span>
-      </div>
     </div>
+  </div>
 
-    <div class="lbcard">
-      <div class="lbhead" onclick="toggleLb()">
-        <div class="lbtitle"><span class="lbstar">★</span> Leaderboard</div>
-        <div class="lbactions">
-          <button class="lbrbtn" id="lb-refresh-btn" onclick="event.stopPropagation();loadLeaderboard()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          </button>
-          <svg class="lbchev open" id="lb-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+  <!-- ══ POMO PAGE ══ -->
+  <div id="page-pomo">
+    <div class="pomo-layout">
+      <div>
+        <div class="timer-card" id="timer-card">
+          <div class="pomo-modes">
+            <button class="pmode on" id="pm-work" onclick="setMode('work')">Focus</button>
+            <button class="pmode" id="pm-short" onclick="setMode('short')">Short break</button>
+            <button class="pmode" id="pm-long" onclick="setMode('long')">Long break</button>
+          </div>
+
+          <div class="session-dots" id="session-dots"></div>
+
+          <div class="ring-wrap">
+            <svg width="240" height="240" viewBox="0 0 240 240">
+              <circle class="ring-bg" cx="120" cy="120" r="104"/>
+              <circle class="ring-prog" id="ring-prog" cx="120" cy="120" r="104" stroke-dasharray="653" stroke-dashoffset="0"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-time" id="ring-time">25:00</div>
+              <div class="ring-label" id="ring-label">FOCUS TIME</div>
+            </div>
+          </div>
+
+          <div class="pomo-controls">
+            <button class="pctrl" onclick="resetTimer()" title="Reset">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+            <button class="pctrl main" id="play-btn" onclick="toggleTimer()">
+              <svg id="play-ico" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+            <button class="pctrl" onclick="skipSession()" title="Skip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            </button>
+          </div>
+
+          <div class="habit-link-row">
+            <span class="habit-link-label">Focusing on:</span>
+            <select class="habit-link-select" id="pomo-habit-link">
+              <option value="">— General focus —</option>
+            </select>
+          </div>
+
+          <div class="pomo-settings">
+            <div class="pset">
+              <label>Focus (min)</label>
+              <input type="number" id="set-work" value="25" min="1" max="90" onchange="applySettings()"/>
+            </div>
+            <div class="pset">
+              <label>Short break</label>
+              <input type="number" id="set-short" value="5" min="1" max="30" onchange="applySettings()"/>
+            </div>
+            <div class="pset">
+              <label>Long break</label>
+              <input type="number" id="set-long" value="15" min="1" max="60" onchange="applySettings()"/>
+            </div>
+            <div class="pset">
+              <label>Sessions → long</label>
+              <input type="number" id="set-sessions" value="4" min="2" max="8" onchange="applySettings()"/>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="lbbody" id="lb-body" style="max-height:600px">
-        <div class="lblist" id="lb-list"><div class="lbempty">Loading…</div></div>
+
+      <div>
+        <!-- Today summary -->
+        <div class="hist-card" style="margin-bottom:1.25rem;">
+          <div class="hc-head"><div class="hc-title">TODAY'S FOCUS</div></div>
+          <div class="today-stats">
+            <div class="tstat c"><div class="tstat-val" id="p-sessions-today">0</div><div class="tstat-label">Sessions</div></div>
+            <div class="tstat g"><div class="tstat-val" id="p-time-today">0m</div><div class="tstat-label">Focus time</div></div>
+            <div class="tstat"><div class="tstat-val" id="p-sessions-total">0</div><div class="tstat-label">All sessions</div></div>
+            <div class="tstat"><div class="tstat-val" id="p-time-total">0h</div><div class="tstat-label">Total time</div></div>
+          </div>
+        </div>
+
+        <!-- Session history -->
+        <div class="hist-card">
+          <div class="hc-head">
+            <div class="hc-title">HISTORY</div>
+            <button class="hc-clear" onclick="clearHistory()">Clear all</button>
+          </div>
+          <div class="hc-body" id="hist-body">
+            <div class="hist-empty">No sessions yet.<br>Start your first focus session!</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
 </div>
 
-<!-- Task panel -->
-<div id="tpov" onclick="closePanel()"></div>
-<div id="tp">
-  <div class="tptop">
-    <div class="tplabel">Course Tasks</div>
-    <div class="tpnrow">
-      <div class="tpname" id="tp-name">—</div>
-      <button class="tpclose" onclick="closePanel()">✕</button>
+<!-- Add Habit Modal -->
+<div id="hmodal-ov" onclick="closeHabitModal()"></div>
+<div id="hmodal">
+  <div class="hm-inner">
+    <div class="hm-head">
+      <div class="hm-title">NEW HABIT</div>
+      <button class="hm-close" onclick="closeHabitModal()">✕</button>
     </div>
-    <div class="tpprog">
-      <div class="tpplabels"><span>Completed</span><span id="tp-plbl">0 / 0</span></div>
-      <div class="tpptrack"><div class="tppfill" id="tp-fill" style="width:0%"></div></div>
+    <div class="afield">
+      <label>Habit name <span style="color:var(--red)">*</span></label>
+      <input type="text" id="h-name" placeholder="e.g. Morning meditation" onkeydown="if(event.key==='Enter')addHabit()"/>
     </div>
-  </div>
-  <div class="tpbody" id="tp-body"></div>
-  <div class="tpadd">
-    <input class="tpaddinput" id="tp-input" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()"/>
-    <button class="tpaddbtn" onclick="addTask()">+ Add</button>
+    <div class="afield">
+      <label>Color</label>
+      <div class="color-row" id="color-row"></div>
+    </div>
+    <div class="hm-err" id="h-err"></div>
+    <button class="hm-submit" id="h-submit" onclick="addHabit()">Add habit</button>
   </div>
 </div>
 
-<!-- Modal -->
-<div id="mov" onclick="closeModal()"></div>
-<div id="mbox">
-  <div class="modal">
-    <div class="mhead">
-      <div class="mtitle">New course</div>
-      <button class="mclosebtn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="field">
-      <label>Course name <span style="color:var(--red)">*</span></label>
-      <input type="text" id="m-name" placeholder="e.g. Introduction to Python" onkeydown="if(event.key==='Enter')document.getElementById('m-start').focus()"/>
-    </div>
-    <div class="mdates">
-      <div class="mdfield">
-        <label>Start date <span style="color:var(--red)">*</span></label>
-        <input type="date" id="m-start"/>
-      </div>
-      <div class="mdfield">
-        <label>End date <span style="color:var(--red)">*</span></label>
-        <input type="date" id="m-end"/>
-      </div>
-    </div>
-    <div class="merr" id="m-err"></div>
-    <button class="msubmit" id="m-submit" onclick="addCourse()">Add course</button>
-  </div>
+<!-- Notification -->
+<div class="notif" id="notif">
+  <span class="notif-icon" id="notif-icon">✓</span>
+  <span id="notif-msg">Done!</span>
 </div>
 
 <script>
+// ── Supabase ───────────────────────────────────────────────────
 const SUPABASE_URL='https://rwjiqxwzaeieyedpvsth.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
 const{createClient}=supabase;
 const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
 
-let courses=[],currentUser=null,isDark=true;
-let activeFilter='all',searchQ='',saveTimer=null,appReady=false;
-let courseTimers={},activeTimerCourseId=null,tickInterval=null;
-let tasks=[],taskCounts={},taskMiniData={},activePanelCourseId=null;
-let lbOpen=true,countTimers={};
+// ── State ──────────────────────────────────────────────────────
+let user=null,appReady=false;
+let habits=[],completions={};           // habits: [{id,name,color,created_at}], completions: {date:[habit_id,...]}
+let pomoSessions=[];                    // [{id,type,duration,habit_id,habit_name,started_at}]
+
+// Pomodoro state
+let poMode='work',poRunning=false,poSeconds=0,poTotal=0,poInterval=null;
+let poSessionsDone=0;
+const poColors={work:getComputedStyle(document.documentElement).getPropertyValue('--cyan').trim(),short:'var(--green)',long:'var(--green)'};
+const HABIT_COLORS=['#00e5ff','#00ff94','#ff6b35','#ff4466','#ffcc00','#c084fc','#818cf8','#f472b6','#34d399','#fb923c'];
 
 function $(id){return document.getElementById(id);}
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function initials(n){if(!n)return'?';const p=n.trim().split(' ').filter(Boolean);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():p[0].slice(0,2).toUpperCase();}
-function fmtTime(sec){const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-function fmtLong(sec){const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-function fmtHours(sec){return(sec/3600).toFixed(1)+'h';}
-function setSync(state,msg){const d=$('sync-dot'),l=$('sync-label');if(!d||!l)return;d.className='sdot'+(state==='syncing'?' sy':state==='err'?' er':'');l.textContent=msg;}
-function animateCount(id,target){clearInterval(countTimers[id]);const el=$(id);const cur=parseInt(el.textContent)||0;if(cur===target)return;const diff=target-cur,steps=20;let step=0;countTimers[id]=setInterval(()=>{step++;el.textContent=Math.round(cur+diff*(step/steps));if(step>=steps){el.textContent=target;clearInterval(countTimers[id]);}},16);}
+function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});}
+function fmtTimeAgo(iso){const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return d.toLocaleDateString();}
 
-function showAuth(){currentUser=null;courses=[];$('app-screen').style.display='none';$('auth-screen').style.display='flex';$('auth-email').value='';$('auth-pass').value='';$('auth-err').style.display='none';$('auth-ok').style.display='none';updateStats();}
-function showApp(user){currentUser=user;$('auth-screen').style.display='none';$('app-screen').style.display='block';const em=user.email||'';$('disp-name').textContent=em.split('@')[0];$('disp-email').textContent=em;$('avatar').textContent=initials(em.split('@')[0]);}
+let notifTimer=null;
+function notify(msg,icon='✓'){
+  const n=$('notif');$('notif-msg').textContent=msg;$('notif-icon').textContent=icon;
+  n.classList.add('show');clearTimeout(notifTimer);notifTimer=setTimeout(()=>n.classList.remove('show'),3000);
+}
+
+// ── Auth ───────────────────────────────────────────────────────
 let authMode='in';
-function switchTab(m){authMode=m;$('tab-in').classList.toggle('active',m==='in');$('tab-up').classList.toggle('active',m==='up');$('auth-btn').textContent=m==='in'?'Sign in':'Create account';$('auth-err').style.display='none';$('auth-ok').style.display='none';}
-async function authSubmit(){
-  const email=$('auth-email').value.trim(),pass=$('auth-pass').value;
-  const btn=$('auth-btn'),err=$('auth-err'),ok=$('auth-ok');
+function switchTab(m){authMode=m;$('tab-in').classList.toggle('on',m==='in');$('tab-up').classList.toggle('on',m==='up');$('a-btn').textContent=m==='in'?'Sign in':'Create account';$('a-err').style.display='none';$('a-ok').style.display='none';}
+async function doAuth(){
+  const email=$('a-email').value.trim(),pass=$('a-pass').value;
+  const btn=$('a-btn'),err=$('a-err'),ok=$('a-ok');
   err.style.display='none';ok.style.display='none';
   if(!email||!pass){err.textContent='Please fill in all fields.';err.style.display='block';return;}
   btn.disabled=true;btn.textContent='Please wait…';
@@ -513,185 +578,308 @@ async function authSubmit(){
     else if(error){err.textContent=error.message;err.style.display='block';}
   }else{
     const{error}=await sb.auth.signUp({email,password:pass});
-    if(!error){ok.textContent='Account created! You can sign in now.';ok.style.display='block';}
+    if(!error){ok.textContent='Account created! Check your email or sign in now.';ok.style.display='block';}
     else{err.textContent=error.message;err.style.display='block';}
   }
   btn.disabled=false;btn.textContent=authMode==='in'?'Sign in':'Create account';
 }
-async function signOut(){if(activeTimerCourseId)await stopActiveTimer();setSync('syncing','Signing out…');await sb.auth.signOut();showAuth();}
+function showApp(u){user=u;$('auth').style.display='none';$('app').style.display='block';const em=u.email||'';$('uname').textContent=em.split('@')[0];$('av').textContent=initials(em.split('@')[0]);$('today-date').textContent=fmtDate(todayStr());buildColorRow();}
+function showAuth(){user=null;$('app').style.display='none';$('auth').style.display='flex';}
+async function signOut(){stopTimer();await sb.auth.signOut();showAuth();}
 
-async function loadAll(){await loadCourses();await checkDeadlines();await loadTimers();await loadTaskCounts();await loadLeaderboard();}
-async function loadCourses(){setSync('syncing','Loading…');const{data,error}=await sb.from('courses').select('*').order('created_at');if(error){setSync('err','Failed: '+error.message);return;}courses=data||[];renderCards();setSync('ok','Connected — changes save automatically');}
-async function checkDeadlines(){const today=todayStr();const toUp=courses.filter(c=>c.status==='progress'&&c.end_date&&c.end_date<today);if(!toUp.length)return;for(const c of toUp){c.status='dropped';await saveCourse(c);}renderCards();}
-async function saveCourse(c){setSync('syncing','Saving…');const{error}=await sb.from('courses').upsert({id:c.id,user_id:currentUser.id,name:c.name,start_date:c.start_date||'',end_date:c.end_date||'',status:c.status||'progress'});setSync(error?'err':'ok',error?'Save failed: '+error.message:'Saved');}
-function debounceSave(c){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveCourse(c),800);}
+// ── Load all ───────────────────────────────────────────────────
+async function loadAll(){await loadHabits();await loadCompletions();await loadPomoSessions();renderHabits();renderHistory();renderHeatmap();updatePomoStats();}
 
-function openModal(){$('m-name').value='';$('m-start').value='';$('m-end').value='';$('m-err').style.display='none';$('mov').style.display='block';$('mbox').style.display='block';setTimeout(()=>{$('mbox').classList.add('open');$('m-name').focus();},10);}
-function closeModal(){$('mbox').classList.remove('open');setTimeout(()=>{$('mov').style.display='none';$('mbox').style.display='none';},220);}
-async function addCourse(){
-  const name=$('m-name').value.trim(),start=$('m-start').value,end=$('m-end').value,errEl=$('m-err');
-  errEl.style.display='none';
-  if(!name){errEl.textContent='Course name is required.';errEl.style.display='block';$('m-name').focus();return;}
-  if(!start){errEl.textContent='Start date is required.';errEl.style.display='block';return;}
-  if(!end){errEl.textContent='End date is required.';errEl.style.display='block';return;}
-  if(end<start){errEl.textContent='End date must be after start date.';errEl.style.display='block';return;}
-  const btn=$('m-submit');btn.disabled=true;btn.textContent='Adding…';
-  const{data,error}=await sb.from('courses').insert({user_id:currentUser.id,name,start_date:start,end_date:end,status:'progress'}).select().single();
-  btn.disabled=false;btn.textContent='Add course';
-  if(error){errEl.textContent='Failed: '+error.message;errEl.style.display='block';return;}
-  closeModal();courses.push(data);renderCards();
+// ── Habits CRUD ────────────────────────────────────────────────
+async function loadHabits(){
+  const{data,error}=await sb.from('habits').select('*').eq('user_id',user.id).order('created_at');
+  if(error)return;habits=data||[];updateHabitLinkSelect();
 }
-async function deleteCourse(id){if(courses.length<=1){alert('Keep at least one course.');return;}if(activeTimerCourseId===id)await stopActiveTimer();const{error}=await sb.from('courses').delete().eq('id',id);if(error){setSync('err','Delete failed: '+error.message);return;}courses=courses.filter(c=>c.id!==id);renderCards();}
-
-async function loadTimers(){if(!currentUser)return;const{data,error}=await sb.from('study_sessions').select('course_id,duration_seconds').eq('user_id',currentUser.id).not('duration_seconds','is',null);if(error){console.warn(error.message);return;}courseTimers={};(data||[]).forEach(r=>{if(!courseTimers[r.course_id])courseTimers[r.course_id]={elapsed:0,sessionStart:null};courseTimers[r.course_id].elapsed+=r.duration_seconds;});updateTotalTimePill();}
-function getElapsed(id){const t=courseTimers[id];if(!t)return 0;let s=t.elapsed;if(t.sessionStart)s+=Math.floor((Date.now()-t.sessionStart)/1000);return s;}
-async function toggleTimer(courseId){
-  if(activeTimerCourseId===courseId){await stopActiveTimer();return;}
-  const course=courses.find(c=>c.id===courseId);
-  if(!course?.start_date||!course?.end_date){setSync('err','Set start & end dates first.');setTimeout(()=>setSync('ok','Connected'),3000);return;}
-  if(activeTimerCourseId)await stopActiveTimer();
-  if(!courseTimers[courseId])courseTimers[courseId]={elapsed:0,sessionStart:null};
-  courseTimers[courseId].sessionStart=new Date();activeTimerCourseId=courseId;
-  updateBanner();renderCards();startTick();
+async function loadCompletions(){
+  // load last 120 days of completions
+  const from=new Date();from.setDate(from.getDate()-120);const fromStr=from.toISOString().slice(0,10);
+  const{data,error}=await sb.from('habit_completions').select('habit_id,completed_date').eq('user_id',user.id).gte('completed_date',fromStr);
+  if(error)return;
+  completions={};
+  (data||[]).forEach(r=>{if(!completions[r.completed_date])completions[r.completed_date]=[];completions[r.completed_date].push(r.habit_id);});
 }
-async function stopActiveTimer(){
-  const courseId=activeTimerCourseId;if(!courseId)return;
-  const t=courseTimers[courseId];if(!t||!t.sessionStart){activeTimerCourseId=null;updateBanner();return;}
-  const duration=Math.floor((Date.now()-t.sessionStart)/1000),course=courses.find(c=>c.id===courseId);
-  setSync('syncing','Saving session…');
-  const{error}=await sb.from('study_sessions').insert({user_id:currentUser.id,user_email:currentUser.email||'',course_id:courseId,course_name:course?.name||'',started_at:t.sessionStart.toISOString(),duration_seconds:duration});
-  if(error)setSync('err','Failed: '+error.message);else setSync('ok','Session saved');
-  t.elapsed+=duration;t.sessionStart=null;activeTimerCourseId=null;
-  clearInterval(tickInterval);tickInterval=null;
-  updateBanner();renderCards();updateTotalTimePill();loadLeaderboard();
+
+let selectedColor=HABIT_COLORS[0];
+function buildColorRow(){
+  const row=$('color-row');row.innerHTML='';
+  HABIT_COLORS.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='copt'+(i===0?' sel':'');d.style.background=c;d.style.cursor='pointer';
+    d.onclick=()=>{selectedColor=c;row.querySelectorAll('.copt').forEach(x=>x.classList.remove('sel'));d.classList.add('sel');};
+    row.appendChild(d);
+  });selectedColor=HABIT_COLORS[0];
 }
-function startTick(){if(tickInterval)clearInterval(tickInterval);tickInterval=setInterval(()=>{updateBanner();if(activeTimerCourseId){const el=document.querySelector(`[data-timer="${activeTimerCourseId}"]`);if(el){el.textContent=fmtTime(getElapsed(activeTimerCourseId));el.classList.add('run');}}updateTotalTimePill();},1000);}
-function updateBanner(){const b=$('sbanner');if(!activeTimerCourseId){b.classList.remove('on');return;}b.classList.add('on');const c=courses.find(c=>c.id===activeTimerCourseId);$('sname').textContent=c?.name||'—';$('selapsed').textContent=fmtLong(getElapsed(activeTimerCourseId));}
-function updateTotalTimePill(){let t=0;courses.forEach(c=>{t+=getElapsed(c.id);});$('time-pill').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${fmtHours(t)} studied`;}
-
-async function loadTaskCounts(){if(!currentUser)return;const{data}=await sb.from('tasks').select('course_id,done').eq('user_id',currentUser.id);taskCounts={};taskMiniData={};(data||[]).forEach(t=>{taskCounts[t.course_id]=(taskCounts[t.course_id]||0)+1;if(!taskMiniData[t.course_id])taskMiniData[t.course_id]={total:0,done:0};taskMiniData[t.course_id].total++;if(t.done)taskMiniData[t.course_id].done++;});}
-async function openPanel(courseId){activePanelCourseId=courseId;const c=courses.find(c=>c.id===courseId);$('tp-name').textContent=c?.name||'—';$('tp-body').innerHTML='<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px;">Loading…</div>';$('tpov').style.display='block';$('tp').classList.add('open');setTimeout(()=>$('tp-input').focus(),300);await loadTasks(courseId);}
-function closePanel(){$('tpov').style.display='none';$('tp').classList.remove('open');activePanelCourseId=null;tasks=[];}
-async function loadTasks(courseId){const{data,error}=await sb.from('tasks').select('*').eq('course_id',courseId).eq('user_id',currentUser.id).order('created_at');if(error){$('tp-body').innerHTML=`<div class="tpempty">Error: ${error.message}</div>`;return;}tasks=data||[];renderTasks();}
-function renderTasks(){
-  const body=$('tp-body'),total=tasks.length,done=tasks.filter(t=>t.done).length;
-  $('tp-plbl').textContent=`${done} / ${total}`;$('tp-fill').style.width=total?Math.round(done/total*100)+'%':'0%';
-  if(activePanelCourseId){taskMiniData[activePanelCourseId]={total,done};updateMiniBar(activePanelCourseId);}
-  if(!total){body.innerHTML=`<div class="tpempty"><span class="tpei">📋</span>No tasks yet.<br>Add your first task below!</div>`;updateTaskBadge(activePanelCourseId,0);return;}
-  body.innerHTML=tasks.map((t,i)=>`<div class="titem" id="task-${t.id}"><div class="tcb${t.done?' ck':''}" onclick="toggleTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tname${t.done?' done':''}">${esc(t.name)}</span><button class="tdelbtn" onclick="deleteTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`).join('');
-  updateTaskBadge(activePanelCourseId,total);
+function openHabitModal(){$('h-name').value='';$('h-err').style.display='none';$('hmodal-ov').style.display='block';$('hmodal').style.display='block';setTimeout(()=>{$('hmodal').classList.add('open');$('h-name').focus();},10);}
+function closeHabitModal(){$('hmodal').classList.remove('open');setTimeout(()=>{$('hmodal-ov').style.display='none';$('hmodal').style.display='none';},220);}
+async function addHabit(){
+  const name=$('h-name').value.trim();
+  if(!name){$('h-err').textContent='Habit name required.';$('h-err').style.display='block';return;}
+  const btn=$('h-submit');btn.disabled=true;btn.textContent='Adding…';
+  const{data,error}=await sb.from('habits').insert({user_id:user.id,name,color:selectedColor}).select().single();
+  btn.disabled=false;btn.textContent='Add habit';
+  if(error){$('h-err').textContent='Failed: '+error.message;$('h-err').style.display='block';return;}
+  closeHabitModal();habits.push(data);renderHabits();updateHabitLinkSelect();notify('Habit added!','✦');
 }
-function updateTaskBadge(courseId,count){taskCounts[courseId]=count;const b=document.querySelector(`[data-tbadge="${courseId}"]`);const cn=document.querySelector(`[data-tcount="${courseId}"]`);if(b)b.classList.toggle('ht',count>0);if(cn)cn.textContent=count;}
-function updateMiniBar(courseId){const fill=document.querySelector(`[data-mfill="${courseId}"]`);const lbl=document.querySelector(`[data-mlbl="${courseId}"]`);const d=taskMiniData[courseId];if(!fill||!d)return;fill.style.width=d.total?Math.round(d.done/d.total*100)+'%':'0%';if(lbl)lbl.textContent=d.total?`${d.done}/${d.total} tasks`:'0/0 tasks';}
-async function addTask(){const inp=$('tp-input'),name=inp.value.trim();if(!name){inp.focus();return;}inp.value='';const{data,error}=await sb.from('tasks').insert({user_id:currentUser.id,course_id:activePanelCourseId,name,done:false}).select().single();if(error){console.error(error.message);return;}tasks.push(data);renderTasks();inp.focus();}
-async function toggleTask(i){tasks[i].done=!tasks[i].done;renderTasks();await sb.from('tasks').update({done:tasks[i].done}).eq('id',tasks[i].id);}
-async function deleteTask(i){const el=$('task-'+tasks[i].id);if(el){el.classList.add('rem');await new Promise(r=>setTimeout(r,180));}const id=tasks[i].id;tasks.splice(i,1);renderTasks();await sb.from('tasks').delete().eq('id',id);}
-
-async function loadLeaderboard(){
-  const btn=$('lb-refresh-btn');btn.classList.add('spinning');
-  const{data,error}=await sb.from('study_sessions').select('user_id,duration_seconds,user_email').not('duration_seconds','is',null);
-  btn.classList.remove('spinning');
-  if(error){$('lb-list').innerHTML=`<div class="lbempty">Failed: ${error.message}</div>`;return;}
-  const map={};(data||[]).forEach(r=>{if(!map[r.user_id])map[r.user_id]={user_id:r.user_id,email:r.user_email||r.user_id,total:0};map[r.user_id].total+=(r.duration_seconds||0);});
-  const sorted=Object.values(map).sort((a,b)=>b.total-a.total);
-  const medals=['🥇','🥈','🥉'],rc=['g','s','b'];
-  if(!sorted.length){$('lb-list').innerHTML='<div class="lbempty">No study time yet.<br>Start a timer to appear here!</div>';return;}
-  $('lb-list').innerHTML=sorted.map((r,i)=>{const isMe=currentUser&&r.user_id===currentUser.id,name=(r.email||'').split('@')[0];return`<div class="lbrow${isMe?' me':''}"><div class="lbrank ${i<3?rc[i]:''}">${i+1}</div><div class="lbmedal">${i<3?medals[i]:''}</div><div class="lbav">${initials(name)}</div><div class="lbname${isMe?' me':''}">${esc(name)}${isMe?'<span class="lbyou">you</span>':''}</div><div class="lbtime">${fmtLong(r.total)}</div></div>`;}).join('');
+async function deleteHabit(id){
+  await sb.from('habits').delete().eq('id',id);
+  await sb.from('habit_completions').delete().eq('habit_id',id);
+  habits=habits.filter(h=>h.id!==id);
+  Object.keys(completions).forEach(d=>{completions[d]=completions[d].filter(x=>x!==id);});
+  renderHabits();renderHeatmap();updateHabitLinkSelect();notify('Habit removed','✕');
 }
-function toggleLb(){lbOpen=!lbOpen;$('lb-body').style.maxHeight=lbOpen?'600px':'0';$('lb-chevron').classList.toggle('open',lbOpen);}
-
-function updateStats(){
-  const t=courses.length,done=courses.filter(c=>c.status==='done').length,prog=courses.filter(c=>c.status==='progress').length,drop=courses.filter(c=>c.status==='dropped').length,pct=t?Math.round(done/t*100):0;
-  animateCount('s-total',t);animateCount('s-done',done);animateCount('s-prog',prog);animateCount('s-drop',drop);
-  $('s-pct').textContent=pct+'%';$('course-pill').textContent=t+' course'+(t===1?'':'s');$('prog-lbl').textContent=done+' / '+t+' finished';
-  $('seg-done').style.width=(t?Math.round(done/t*100):0)+'%';$('seg-prog').style.width=(t?Math.round(prog/t*100):0)+'%';$('seg-drop').style.width=(t?Math.round(drop/t*100):0)+'%';
-  const circ=176,dp=t?done/t:0,pp=t?prog/t:0;
-  $('donut-done').setAttribute('stroke-dasharray',`${dp*circ} ${circ}`);$('donut-prog').setAttribute('stroke-dasharray',`${pp*circ} ${circ}`);$('donut-prog').setAttribute('stroke-dashoffset',`${-dp*circ}`);$('donut-pct').textContent=pct+'%';
+async function toggleCompletion(habitId){
+  const today=todayStr();
+  if(!completions[today])completions[today]=[];
+  const done=completions[today].includes(habitId);
+  if(done){
+    // uncomplete
+    completions[today]=completions[today].filter(x=>x!==habitId);
+    await sb.from('habit_completions').delete().eq('habit_id',habitId).eq('completed_date',today).eq('user_id',user.id);
+  }else{
+    completions[today].push(habitId);
+    await sb.from('habit_completions').insert({user_id:user.id,habit_id:habitId,completed_date:today});
+    notify('Habit completed! 🎉','🔥');
+  }
+  renderHabits();renderHeatmap();
 }
-function applyVis(){document.querySelectorAll('.ccard').forEach(card=>{const mf=activeFilter==='all'||card.dataset.status===activeFilter;const ms=!searchQ||card.dataset.name.includes(searchQ);card.classList.toggle('hidden',!mf||!ms);});}
-function setFilter(f){activeFilter=f;['all','progress','done','dropped'].forEach(id=>$('f-'+id).classList.toggle('active',id===f));applyVis();}
-function filterCards(q){searchQ=q.toLowerCase();applyVis();}
 
-function renderCards(){
-  const grid=$('cgrid');grid.innerHTML='';const today=todayStr();
-  courses.forEach((c,i)=>{
-    const st=c.status||'progress',elapsed=getElapsed(c.id),running=activeTimerCourseId===c.id;
-    const overdue=st==='progress'&&c.end_date&&c.end_date<today;
-    const mini=taskMiniData[c.id]||{total:0,done:0};
-    const miniPct=mini.total?Math.round(mini.done/mini.total*100):0;
-    const tc=taskCounts[c.id]||0;
-    const card=document.createElement('div');
-    card.className='ccard status-'+st+(running?' ton':'');
-    card.dataset.name=(c.name||'').toLowerCase();card.dataset.status=st;
+function getStreak(habitId){
+  let streak=0,d=new Date();
+  // if not done today, start from yesterday
+  const todayDone=(completions[todayStr()]||[]).includes(habitId);
+  if(!todayDone)d.setDate(d.getDate()-1);
+  while(true){
+    const ds=d.toISOString().slice(0,10);
+    if((completions[ds]||[]).includes(habitId)){streak++;d.setDate(d.getDate()-1);}
+    else break;
+  }
+  return streak;
+}
+function getBestStreak(habitId){
+  let best=0,cur=0;
+  const allDates=Object.keys(completions).sort();
+  allDates.forEach(d=>{if((completions[d]||[]).includes(habitId)){cur++;best=Math.max(best,cur);}else cur=0;});
+  return best;
+}
 
-    let badge='';
-    if(st==='done')badge=`<span class="cbadge b-done">✓ Done</span>`;
-    else if(st==='dropped')badge=`<span class="cbadge b-drop">✕ Dropped</span>`;
-    else if(overdue)badge=`<span class="cbadge b-over">⚠ Overdue</span>`;
-    else badge=`<span class="cbadge b-prog">● In progress</span>`;
-
-    let mkbtn='';
-    if(st==='progress')mkbtn=`<button class="abtn mkbtn${overdue?' ov':''}" onclick="markDone(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Mark done</button>`;
-
-    card.innerHTML=`
-      <div class="cbody">
-        <div class="ctop">
-          <div class="cnum">${i+1}</div>
-          <div class="ctitle-group">
-            <input class="cname-input" type="text" value="${esc(c.name||'')}" placeholder="Course name…"
-              oninput="courses[${i}].name=this.value;this.closest('.ccard').dataset.name=this.value.toLowerCase();debounceSave(courses[${i}])"/>
-            ${mini.total>0?`<div class="task-mini"><div class="tmtrack"><div class="tmfill" data-mfill="${c.id}" style="width:${miniPct}%"></div></div><span class="tmlabel" data-mlbl="${c.id}">${mini.done}/${mini.total} tasks</span></div>`:''}
-          </div>
-          <div class="cbadge-wrap">${badge}</div>
-        </div>
-        <div class="cdates">
-          <div class="dfield">
-            <span class="dlabel">Start</span>
-            <input class="dinput" type="date" value="${c.start_date||''}" oninput="courses[${i}].start_date=this.value;debounceSave(courses[${i}])"/>
-          </div>
-          <span class="dsep">→</span>
-          <div class="dfield">
-            <span class="dlabel">End</span>
-            <input class="dinput" type="date" value="${c.end_date||''}" oninput="courses[${i}].end_date=this.value;debounceSave(courses[${i}])"/>
-          </div>
+function renderHabits(){
+  const list=$('habit-list');const today=todayStr();
+  const todayDone=(completions[today]||[]);
+  if(!habits.length){list.innerHTML='<div class="empty-habits"><span class="empty-icon">✦</span>No habits yet.<br>Add your first habit to start building momentum.</div>';updateHabitStats();return;}
+  list.innerHTML=habits.map(h=>{
+    const done=todayDone.includes(h.id);
+    const streak=getStreak(h.id);
+    return`<div class="habit-item${done?' done':''}" onclick="toggleCompletion('${h.id}')">
+      <div class="hcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="hinfo">
+        <div class="hname">${esc(h.name)}</div>
+        <div class="hmeta">
+          ${streak>0?`<div class="hstreak"><span class="hstreak-icon">🔥</span>${streak} day streak</div>`:''}
+          <span class="htag" style="border-color:${h.color}20;color:${h.color}">${done?'Done':'Pending'}</span>
         </div>
       </div>
-      <div class="cactions">
-        <button class="abtn tbtn${tc>0?' ht':''}" onclick="openPanel('${c.id}')" data-tbadge="${c.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          Tasks<span class="tcnt" data-tcount="${c.id}">${tc}</span>
-        </button>
-        <button class="abtn timerbtn${running?' run':''}" onclick="toggleTimer('${c.id}')">
-          ${running?`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`:`<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`}
-          <span class="timedisp${running?' run':''}" data-timer="${c.id}">${fmtTime(elapsed)}</span>
-        </button>
-        ${mkbtn}
-        <button class="delbtn" onclick="deleteCourse('${c.id}')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>`;
-    grid.appendChild(card);
-  });
-  updateStats();applyVis();updateTotalTimePill();
+      <div class="hcolor" style="background:${h.color}"></div>
+      <button class="hdel" onclick="event.stopPropagation();deleteHabit('${h.id}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`;
+  }).join('');
+  updateHabitStats();
 }
-async function markDone(i){courses[i].status='done';await saveCourse(courses[i]);renderCards();}
+function updateHabitStats(){
+  const today=todayStr();const todayDone=(completions[today]||[]);
+  const total=habits.length,done=todayDone.filter(id=>habits.find(h=>h.id===id)).length;
+  $('h-total').textContent=total;$('h-done-today').textContent=done;
+  const best=habits.length?Math.max(...habits.map(h=>getBestStreak(h.id))):0;
+  $('h-best-streak').textContent=best;
+  const pct=total?Math.round(done/total*100):0;
+  $('today-pct').textContent=pct+'%';
+  const circ=138;$('today-ring').setAttribute('stroke-dashoffset',String(circ-(pct/100*circ)));
+}
+function updateHabitLinkSelect(){
+  const sel=$('pomo-habit-link');const cur=sel.value;
+  sel.innerHTML='<option value="">— General focus —</option>'+habits.map(h=>`<option value="${h.id}">${esc(h.name)}</option>`).join('');
+  sel.value=cur||'';
+}
 
-function toggleDark(){
-  isDark=!isDark;
-  if(isDark){
-    document.documentElement.style.setProperty('--bg','#0f0f13');document.documentElement.style.setProperty('--surface','#17171e');document.documentElement.style.setProperty('--surface2','#1e1e28');document.documentElement.style.setProperty('--surface3','#25252f');document.documentElement.style.setProperty('--border','rgba(255,255,255,.07)');document.documentElement.style.setProperty('--border2','rgba(255,255,255,.13)');document.documentElement.style.setProperty('--text','#f0eff6');document.documentElement.style.setProperty('--text2','#9997b3');document.documentElement.style.setProperty('--text3','#5a5876');
-    $('dark-lbl').textContent='Light';$('dark-ico').innerHTML='<circle cx="12" cy="12" r="4"/><path stroke="currentColor" stroke-width="2" fill="none" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>';
-  }else{
-    document.documentElement.style.setProperty('--bg','#f4f4f8');document.documentElement.style.setProperty('--surface','#ffffff');document.documentElement.style.setProperty('--surface2','#f0f0f5');document.documentElement.style.setProperty('--surface3','#e8e8f0');document.documentElement.style.setProperty('--border','rgba(0,0,0,.08)');document.documentElement.style.setProperty('--border2','rgba(0,0,0,.14)');document.documentElement.style.setProperty('--text','#18181b');document.documentElement.style.setProperty('--text2','#52525b');document.documentElement.style.setProperty('--text3','#a1a1aa');
-    $('dark-lbl').textContent='Dark';$('dark-ico').innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+// ── Heatmap ────────────────────────────────────────────────────
+function renderHeatmap(){
+  const wrap=$('heatmap-wrap');
+  const weeks=16,days=7;
+  const today=new Date();today.setHours(0,0,0,0);
+  // find last Sunday
+  const startDate=new Date(today);startDate.setDate(today.getDate()-(today.getDay())-(weeks-1)*7);
+  const maxPerDay=habits.length||1;
+
+  let html='<div class="heatmap">';
+  // Day labels col
+  html+='<div class="hm-days-col">';
+  ['','Mon','','Wed','','Fri',''].forEach(l=>html+=`<div class="hm-day-label">${l}</div>`);
+  html+='</div>';
+
+  for(let w=0;w<weeks;w++){
+    html+='<div class="hm-col">';
+    for(let d=0;d<days;d++){
+      const date=new Date(startDate);date.setDate(startDate.getDate()+w*7+d);
+      if(date>today){html+='<div class="hm-cell" style="opacity:0"></div>';continue;}
+      const ds=date.toISOString().slice(0,10);
+      const count=(completions[ds]||[]).filter(id=>habits.find(h=>h.id===id)).length;
+      const level=count===0?0:count<=1?1:count<=2?2:count<=3?3:4;
+      const dateLabel=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      html+=`<div class="hm-cell" data-level="${level}" title="${dateLabel}: ${count} habit${count!==1?'s':''} done"></div>`;
+    }
+    html+='</div>';
   }
+  html+='</div>';
+  wrap.innerHTML=html;
 }
 
-(async()=>{const{data:{session}}=await sb.auth.getSession();if(session){showApp(session.user);await loadAll();}else showAuth();appReady=true;})();
-sb.auth.onAuthStateChange((event,session)=>{if(!appReady)return;if(event==='SIGNED_OUT')showAuth();else if(event==='TOKEN_REFRESHED'&&session)currentUser=session.user;});
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();closeModal();}});
-setInterval(()=>{if(currentUser)checkDeadlines();},60*60*1000);
-window.addEventListener('beforeunload',e=>{if(activeTimerCourseId){stopActiveTimer();e.preventDefault();e.returnValue='Active timer running. Leave?';}});
+// ── Pomodoro ───────────────────────────────────────────────────
+let workMin=25,shortMin=5,longMin=15,sessionsBeforeLong=4;
+function applySettings(){
+  workMin=parseInt($('set-work').value)||25;
+  shortMin=parseInt($('set-short').value)||5;
+  longMin=parseInt($('set-long').value)||15;
+  sessionsBeforeLong=parseInt($('set-sessions').value)||4;
+  if(!poRunning)setMode(poMode);
+}
+function modeMinutes(m){return m==='work'?workMin:m==='short'?shortMin:longMin;}
+function setMode(m){
+  if(poRunning)stopTimer();
+  poMode=m;
+  const mins=modeMinutes(m);
+  poSeconds=mins*60;poTotal=mins*60;
+  updateRing();updateRingLabel();
+  ['work','short','long'].forEach(x=>$('pm-'+x).classList.toggle('on',x===m));
+  const card=$('timer-card');card.classList.toggle('break-mode',m!=='work');
+}
+function toggleTimer(){
+  if(poRunning)stopTimer(); else startTimer();
+}
+function startTimer(){
+  if(poSeconds<=0)setMode(poMode);
+  poRunning=true;
+  $('play-ico').innerHTML='<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>';
+  poInterval=setInterval(tick,1000);
+}
+function stopTimer(){
+  poRunning=false;clearInterval(poInterval);poInterval=null;
+  $('play-ico').innerHTML='<polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>';
+}
+function resetTimer(){stopTimer();setMode(poMode);}
+function skipSession(){stopTimer();completeSession(true);}
+function tick(){
+  if(poSeconds>0){poSeconds--;updateRing();}
+  else{completeSession(false);}
+}
+async function completeSession(skipped){
+  stopTimer();
+  if(!skipped&&poMode==='work'){
+    poSessionsDone++;
+    const habitSel=$('pomo-habit-link');
+    const habitId=habitSel.value||null;
+    const habitName=habitId?(habits.find(h=>h.id===habitId)?.name||''):'';
+    const session={user_id:user.id,type:'work',duration_minutes:workMin,habit_id:habitId,habit_name:habitName,started_at:new Date().toISOString()};
+    const{data,error}=await sb.from('pomo_sessions').insert(session).select().single();
+    if(!error&&data){pomoSessions.unshift(data);}
+    renderHistory();updatePomoStats();
+    renderSessionDots();
+    notify('Focus session complete! 🎯','🎯');
+    // auto-switch to break
+    if(poSessionsDone%sessionsBeforeLong===0)setMode('long');else setMode('short');
+    startTimer();
+  }else if(!skipped){
+    // break done
+    notify('Break over! Ready to focus?','⚡');
+    setMode('work');
+  }else{
+    setMode(poMode==='work'?'short':'work');
+  }
+  renderSessionDots();
+}
+function updateRing(){
+  const pct=poTotal>0?poSeconds/poTotal:0;
+  const circ=653;$('ring-prog').setAttribute('stroke-dashoffset',String(circ*(1-pct)));
+  const m=Math.floor(poSeconds/60),s=poSeconds%60;
+  $('ring-time').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function updateRingLabel(){
+  const labels={work:'FOCUS TIME',short:'SHORT BREAK',long:'LONG BREAK'};
+  $('ring-label').textContent=labels[poMode];
+}
+function renderSessionDots(){
+  const n=sessionsBeforeLong;
+  $('session-dots').innerHTML=Array.from({length:n},(_,i)=>`<div class="sdot${i<(poSessionsDone%n||0)?' done':''}"></div>`).join('');
+}
+
+// ── Pomo sessions ──────────────────────────────────────────────
+async function loadPomoSessions(){
+  const{data,error}=await sb.from('pomo_sessions').select('*').eq('user_id',user.id).order('started_at',{ascending:false}).limit(100);
+  if(error)return;pomoSessions=data||[];
+}
+function renderHistory(){
+  const body=$('hist-body');
+  if(!pomoSessions.length){body.innerHTML='<div class="hist-empty">No sessions yet.<br>Start your first focus session!</div>';return;}
+  body.innerHTML=pomoSessions.slice(0,40).map(s=>`
+    <div class="hist-item">
+      <div class="hist-dot ${s.type==='work'?'work':'brk'}"></div>
+      <div class="hist-info">
+        <div class="hist-label">${s.type==='work'?`${s.duration_minutes}m Focus`:'Break'}</div>
+        ${s.habit_name?`<div class="hist-habit">📌 ${esc(s.habit_name)}</div>`:''}
+      </div>
+      <div class="hist-time">${fmtTimeAgo(s.started_at)}</div>
+    </div>`).join('');
+}
+function updatePomoStats(){
+  const today=todayStr();
+  const todaySessions=pomoSessions.filter(s=>s.started_at.slice(0,10)===today&&s.type==='work');
+  const totalSessions=pomoSessions.filter(s=>s.type==='work');
+  $('p-sessions-today').textContent=todaySessions.length;
+  const minsToday=todaySessions.reduce((a,s)=>a+(s.duration_minutes||0),0);
+  $('p-time-today').textContent=minsToday>=60?Math.floor(minsToday/60)+'h '+(minsToday%60)+'m':minsToday+'m';
+  $('p-sessions-total').textContent=totalSessions.length;
+  const totalMins=totalSessions.reduce((a,s)=>a+(s.duration_minutes||0),0);
+  $('p-time-total').textContent=totalMins>=60?(totalMins/60).toFixed(1)+'h':totalMins+'m';
+}
+async function clearHistory(){
+  if(!confirm('Clear all session history?'))return;
+  await sb.from('pomo_sessions').delete().eq('user_id',user.id);
+  pomoSessions=[];renderHistory();updatePomoStats();notify('History cleared','🗑');
+}
+
+// ── Page nav ───────────────────────────────────────────────────
+function showPage(p){
+  $('page-habits').classList.toggle('on',p==='habits');
+  $('page-pomo').classList.toggle('on',p==='pomo');
+  $('ntab-habits').classList.toggle('on',p==='habits');
+  $('ntab-pomo').classList.toggle('on',p==='pomo');
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── Boot ───────────────────────────────────────────────────────
+setMode('work');renderSessionDots();
+(async()=>{
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){showApp(session.user);await loadAll();}
+  else showAuth();
+  appReady=true;
+})();
+sb.auth.onAuthStateChange((event,session)=>{
+  if(!appReady)return;
+  if(event==='SIGNED_OUT')showAuth();
+  else if(event==='TOKEN_REFRESHED'&&session)user=session.user;
+});
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeHabitModal();
+  if(e.key===' '&&$('app').style.display!=='none'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();toggleTimer();}
+});
+// Notify on tab change if timer running
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&poRunning)document.title='⏱ Momentum';else document.title='Momentum';});
 </script>
 </body>
 </html>
