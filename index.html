@@ -150,7 +150,6 @@ thead th.th-timer{width:106px;text-align:center;}
 thead th.th-tasks{width:72px;text-align:center;}
 thead th:last-child{width:34px;text-align:center;}
 
-/* coloured left border per status */
 tbody tr{border-top:0.5px solid var(--border);transition:background .15s;position:relative;}
 tbody tr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0;opacity:0;transition:opacity .2s;}
 tbody tr.status-progress::before{background:var(--p);opacity:1;}
@@ -170,7 +169,6 @@ td:first-child{text-align:center;}td:last-child{text-align:center;}
 input.di{width:100%;border:0.5px solid var(--t-border);border-radius:8px;padding:6px 8px;font-size:12px;color:var(--t-dark);background:var(--t-bg);outline:none;font-family:inherit;}
 input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding:6px 8px;font-size:12px;color:var(--a-dark);background:var(--a-bg);outline:none;font-family:inherit;}
 
-/* course cell with mini task bar */
 .course-cell{display:flex;flex-direction:column;gap:5px;}
 .course-name-input{width:100%;border:0.5px solid var(--border);border-radius:8px;padding:6px 9px;font-size:13px;color:var(--text);background:transparent;outline:none;transition:border-color .15s,box-shadow .15s;font-family:inherit;}
 .course-name-input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(127,119,221,.12);}
@@ -179,7 +177,6 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .mini-fill{height:100%;background:var(--p);border-radius:999px;transition:width .4s ease;}
 .mini-label{font-size:10px;color:var(--text3);white-space:nowrap;font-family:'DM Mono',monospace;min-width:28px;}
 
-/* status badges */
 .s-done{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
 .s-dropped{background:#FCEBEB;border-color:#F09595;color:#A32D2D;}
 .status-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:600;border:0.5px solid;white-space:nowrap;}
@@ -188,7 +185,6 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .mark-done-btn.overdue{border-color:var(--a-border);background:var(--a-bg);color:var(--a-dark);}
 .mark-done-btn.overdue:hover{background:var(--a-border);color:#fff;}
 
-/* timer */
 .timer-cell{display:flex;align-items:center;justify-content:center;gap:6px;}
 .timer-display{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);min-width:50px;text-align:right;}
 .timer-display.active{color:var(--p);font-weight:600;}
@@ -198,26 +194,22 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .timer-toggle svg{width:10px;height:10px;color:var(--text2);}
 .timer-toggle.running svg{color:var(--p);}
 
-/* task badge */
 .task-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:999px;background:var(--surface2);border:0.5px solid var(--border2);color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit;}
 .task-badge:hover{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);transform:translateY(-1px);}
 .task-badge.has-tasks{border-color:var(--p-light);background:var(--p-bg);color:var(--p-dark);}
 .task-badge svg{width:10px;height:10px;}
 
-/* add row */
 .add-row{display:flex;align-items:center;justify-content:flex-end;padding:.9rem 1.25rem;border-top:0.5px solid var(--border);}
 .add-btn{display:flex;align-items:center;gap:7px;padding:8px 18px;border-radius:999px;border:0.5px solid var(--p-light);background:var(--p-bg);color:var(--p-dark);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
 .add-btn:hover{background:var(--p-light);transform:translateY(-1px);box-shadow:0 4px 14px rgba(127,119,221,.2);}
 .add-btn svg{width:14px;height:14px;}
 
-/* sync bar */
 .sync-bar{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text3);padding:.5rem 0;}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--t);flex-shrink:0;transition:background .3s;}
 .sync-dot.syncing{background:var(--a);animation:pulse .8s infinite alternate;}
 .sync-dot.err{background:var(--r-dark);}
 @keyframes pulse{from{opacity:1}to{opacity:.3}}
 
-/* session banner */
 .session-banner{display:none;background:var(--p-bg);border:0.5px solid var(--p-light);border-radius:14px;padding:.85rem 1.25rem;margin-bottom:1rem;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow);}
 .session-banner.visible{display:flex;}
 .session-pulse{width:8px;height:8px;border-radius:50%;background:var(--p);flex-shrink:0;animation:pulse .8s infinite alternate;}
@@ -244,7 +236,7 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 .tp-empty{padding:3rem 0;text-align:center;color:var(--text3);font-size:13px;line-height:1.7;}
 .tp-empty-icon{font-size:36px;display:block;margin-bottom:.75rem;opacity:.4;}
 @keyframes taskIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
-@keyframes taskOut{from{opacity:1;transform:translateX(0))}to{opacity:0;transform:translateX(14px)}}
+@keyframes taskOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(14px)}}
 .task-item{display:flex;align-items:center;gap:10px;padding:.65rem 0;border-bottom:0.5px solid var(--border);animation:taskIn .2s ease both;}
 .task-item:last-child{border-bottom:none;}
 .task-item.removing{animation:taskOut .18s ease both;}
@@ -418,7 +410,6 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
       </div>
     </div>
 
-    <!-- Leaderboard collapsible -->
     <div class="lb-card">
       <div class="lb-header" onclick="toggleLb()">
         <div class="lb-title">
@@ -471,7 +462,7 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
     </div>
     <div class="modal-field">
       <label>Course name <span style="color:var(--r-dark)">*</span></label>
-      <input type="text" id="modal-name" placeholder="e.g. Introduction to Python" onkeydown="if(event.key==='Enter')$('modal-start').focus()"/>
+      <input type="text" id="modal-name" placeholder="e.g. Introduction to Python" onkeydown="if(event.key==='Enter')document.getElementById('modal-start').focus()"/>
     </div>
     <div class="modal-dates">
       <div class="modal-date-field">
@@ -489,213 +480,553 @@ input.ei{width:100%;border:0.5px solid var(--a-border);border-radius:8px;padding
 </div>
 
 <script>
-const SUPABASE_URL='https://rwjiqxwzaeieyedpvsth.supabase.co/';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
-const{createClient}=supabase;
-const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+// ── Supabase Init ─────────────────────────────────────────────
+// NOTE: trailing slash removed from URL (was causing API failures)
+const SUPABASE_URL = 'https://rwjiqxwzaeieyedpvsth.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let courses=[],currentUser=null,isDark=false;
-let activeFilter='all',searchQ='',saveTimer=null,appReady=false;
-let courseTimers={},activeTimerCourseId=null,tickInterval=null;
-let tasks=[],taskCounts={},taskMiniData={},activePanelCourseId=null;
-let lbOpen=true,countTimers={};
+// ── State ─────────────────────────────────────────────────────
+let courses = [], currentUser = null, isDark = false;
+let activeFilter = 'all', searchQ = '', saveTimer = null, appReady = false;
+let courseTimers = {}, activeTimerCourseId = null, tickInterval = null;
+let tasks = [], taskCounts = {}, taskMiniData = {}, activePanelCourseId = null;
+let lbOpen = true, countTimers = {};
 
 // ── Util ─────────────────────────────────────────────────────
-function$(id){return document.getElementById(id);}
-const $=id=>document.getElementById(id);
-function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function todayStr(){return new Date().toISOString().slice(0,10);}
-function initials(n){if(!n)return'?';const p=n.trim().split(' ').filter(Boolean);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():p[0].slice(0,2).toUpperCase();}
-function fmtTime(sec){const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-function fmtTimeLong(sec){const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-function fmtHours(sec){return(sec/3600).toFixed(1)+'h';}
-function setSync(state,msg){const dot=$('sync-dot'),lbl=$('sync-label');if(!dot||!lbl)return;dot.className='sync-dot'+(state==='syncing'?' syncing':state==='err'?' err':'');lbl.textContent=msg;}
+// Single clean $ helper — no duplicate declaration
+function $(id) { return document.getElementById(id); }
 
-function animateCount(id,target){
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function initials(n) {
+  if (!n) return '?';
+  const p = n.trim().split(' ').filter(Boolean);
+  return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : p[0].slice(0, 2).toUpperCase();
+}
+function fmtTime(sec) {
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return h > 0
+    ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+    : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function fmtTimeLong(sec) {
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function fmtHours(sec) { return (sec / 3600).toFixed(1) + 'h'; }
+function setSync(state, msg) {
+  const dot = $('sync-dot'), lbl = $('sync-label');
+  if (!dot || !lbl) return;
+  dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'err' ? ' err' : '');
+  lbl.textContent = msg;
+}
+function animateCount(id, target) {
   clearInterval(countTimers[id]);
-  const el=$(id);const cur=parseInt(el.textContent)||0;if(cur===target)return;
-  const diff=target-cur,steps=20;let step=0;
-  countTimers[id]=setInterval(()=>{step++;el.textContent=Math.round(cur+diff*(step/steps));if(step>=steps){el.textContent=target;clearInterval(countTimers[id]);}},16);
+  const el = $(id);
+  const cur = parseInt(el.textContent) || 0;
+  if (cur === target) return;
+  const diff = target - cur, steps = 20;
+  let step = 0;
+  countTimers[id] = setInterval(() => {
+    step++;
+    el.textContent = Math.round(cur + diff * (step / steps));
+    if (step >= steps) { el.textContent = target; clearInterval(countTimers[id]); }
+  }, 16);
 }
 
 // ── Auth ─────────────────────────────────────────────────────
-function showAuth(){currentUser=null;courses=[];$('tbody').innerHTML='';$('auth-email').value='';$('auth-pass').value='';$('auth-err').style.display='none';$('auth-ok').style.display='none';$('app-screen').style.display='none';$('auth-screen').style.display='flex';updateStats();}
-function showApp(user){currentUser=user;$('auth-screen').style.display='none';$('app-screen').style.display='block';const email=user.email||'';$('disp-name').textContent=email.split('@')[0];$('disp-email').textContent=email;$('avatar').textContent=initials(email.split('@')[0]);}
-let authMode='in';
-function switchTab(m){authMode=m;$('tab-in').classList.toggle('active',m==='in');$('tab-up').classList.toggle('active',m==='up');$('auth-submit-btn').textContent=m==='in'?'Sign in':'Create account';$('auth-err').style.display='none';$('auth-ok').style.display='none';}
-async function authSubmit(){
-  const email=$('auth-email').value.trim(),pass=$('auth-pass').value;
-  const btn=$('auth-submit-btn'),errEl=$('auth-err'),okEl=$('auth-ok');
-  errEl.style.display='none';okEl.style.display='none';
-  if(!email||!pass){errEl.textContent='Please enter email and password.';errEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Please wait…';
-  let error,data;
-  if(authMode==='in'){({data,error}=await sb.auth.signInWithPassword({email,password:pass}));if(!error&&data.session){showApp(data.session.user);await loadAll();}}
-  else{({error}=await sb.auth.signUp({email,password:pass}));if(!error){okEl.textContent='Account created! You can sign in now.';okEl.style.display='block';}}
-  btn.disabled=false;btn.textContent=authMode==='in'?'Sign in':'Create account';
-  if(error){errEl.textContent=error.message;errEl.style.display='block';}
+function showAuth() {
+  currentUser = null; courses = [];
+  const tb = $('tbody'); if (tb) tb.innerHTML = '';
+  $('auth-email').value = ''; $('auth-pass').value = '';
+  $('auth-err').style.display = 'none'; $('auth-ok').style.display = 'none';
+  $('app-screen').style.display = 'none';
+  $('auth-screen').style.display = 'flex';
+  updateStats();
 }
-async function signOut(){if(activeTimerCourseId)await stopActiveTimer();setSync('syncing','Signing out…');await sb.auth.signOut();showAuth();}
+function showApp(user) {
+  currentUser = user;
+  $('auth-screen').style.display = 'none';
+  $('app-screen').style.display = 'block';
+  const email = user.email || '';
+  $('disp-name').textContent = email.split('@')[0];
+  $('disp-email').textContent = email;
+  $('avatar').textContent = initials(email.split('@')[0]);
+}
+let authMode = 'in';
+function switchTab(m) {
+  authMode = m;
+  $('tab-in').classList.toggle('active', m === 'in');
+  $('tab-up').classList.toggle('active', m === 'up');
+  $('auth-submit-btn').textContent = m === 'in' ? 'Sign in' : 'Create account';
+  $('auth-err').style.display = 'none';
+  $('auth-ok').style.display = 'none';
+}
+async function authSubmit() {
+  const email = $('auth-email').value.trim(), pass = $('auth-pass').value;
+  const btn = $('auth-submit-btn'), errEl = $('auth-err'), okEl = $('auth-ok');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Please enter email and password.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Please wait…';
+  if (authMode === 'in') {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+    if (!error && data.session) { showApp(data.session.user); await loadAll(); }
+    else if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; }
+  } else {
+    const { error } = await sb.auth.signUp({ email, password: pass });
+    if (!error) { okEl.textContent = 'Account created! You can sign in now.'; okEl.style.display = 'block'; }
+    else { errEl.textContent = error.message; errEl.style.display = 'block'; }
+  }
+  btn.disabled = false;
+  btn.textContent = authMode === 'in' ? 'Sign in' : 'Create account';
+}
+async function signOut() {
+  if (activeTimerCourseId) await stopActiveTimer();
+  setSync('syncing', 'Signing out…');
+  await sb.auth.signOut();
+  showAuth();
+}
 
 // ── Data ─────────────────────────────────────────────────────
-async function loadAll(){await loadCourses();await checkDeadlines();await loadTimers();await loadTaskCounts();await loadLeaderboard();}
-async function loadCourses(){setSync('syncing','Loading…');const{data,error}=await sb.from('courses').select('*').order('created_at');if(error){setSync('err','Failed: '+error.message);return;}courses=data||[];render();setSync('ok','Connected — changes save automatically');}
-async function checkDeadlines(){const today=todayStr();const toUp=courses.filter(c=>c.status==='progress'&&c.end_date&&c.end_date<today);if(!toUp.length)return;for(const c of toUp){c.status='dropped';await saveCourse(c);}render();}
-async function saveCourse(c){setSync('syncing','Saving…');const{error}=await sb.from('courses').upsert({id:c.id,user_id:currentUser.id,name:c.name,start_date:c.start_date||'',end_date:c.end_date||'',status:c.status||'progress'});setSync(error?'err':'ok',error?'Save failed: '+error.message:'Saved');}
-function debounceSave(c){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveCourse(c),800);}
+async function loadAll() {
+  await loadCourses();
+  await checkDeadlines();
+  await loadTimers();
+  await loadTaskCounts();
+  await loadLeaderboard();
+}
+async function loadCourses() {
+  setSync('syncing', 'Loading…');
+  const { data, error } = await sb.from('courses').select('*').order('created_at');
+  if (error) { setSync('err', 'Failed: ' + error.message); return; }
+  courses = data || [];
+  render();
+  setSync('ok', 'Connected — changes save automatically');
+}
+async function checkDeadlines() {
+  const today = todayStr();
+  const toUp = courses.filter(c => c.status === 'progress' && c.end_date && c.end_date < today);
+  if (!toUp.length) return;
+  for (const c of toUp) { c.status = 'dropped'; await saveCourse(c); }
+  render();
+}
+async function saveCourse(c) {
+  setSync('syncing', 'Saving…');
+  const { error } = await sb.from('courses').upsert({
+    id: c.id, user_id: currentUser.id,
+    name: c.name, start_date: c.start_date || '',
+    end_date: c.end_date || '', status: c.status || 'progress'
+  });
+  setSync(error ? 'err' : 'ok', error ? 'Save failed: ' + error.message : 'Saved');
+}
+function debounceSave(c) { clearTimeout(saveTimer); saveTimer = setTimeout(() => saveCourse(c), 800); }
 
 // ── Modal ─────────────────────────────────────────────────────
-function openAddModal(){$('modal-name').value='';$('modal-start').value='';$('modal-end').value='';$('modal-err').style.display='none';$('modal-overlay').style.display='block';$('modal').style.display='block';setTimeout(()=>{$('modal').classList.add('open');$('modal-name').focus();},10);}
-function closeAddModal(){$('modal').classList.remove('open');setTimeout(()=>{$('modal-overlay').style.display='none';$('modal').style.display='none';},220);}
-async function addCourse(){
-  const name=$('modal-name').value.trim(),start=$('modal-start').value,end=$('modal-end').value,errEl=$('modal-err');errEl.style.display='none';
-  if(!name){errEl.textContent='Course name is required.';errEl.style.display='block';$('modal-name').focus();return;}
-  if(!start){errEl.textContent='Start date is required.';errEl.style.display='block';$('modal-start').focus();return;}
-  if(!end){errEl.textContent='End date is required.';errEl.style.display='block';$('modal-end').focus();return;}
-  if(end<start){errEl.textContent='End date must be after start date.';errEl.style.display='block';$('modal-end').focus();return;}
-  const btn=$('modal-submit-btn');btn.disabled=true;btn.textContent='Adding…';
-  const{data,error}=await sb.from('courses').insert({user_id:currentUser.id,name,start_date:start,end_date:end,status:'progress'}).select().single();
-  btn.disabled=false;btn.textContent='Add course';
-  if(error){errEl.textContent='Failed: '+error.message;errEl.style.display='block';return;}
-  closeAddModal();courses.push(data);render();
-  setTimeout(()=>{const rows=document.querySelectorAll('#tbody tr');if(rows.length)rows[rows.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});},250);
+function openAddModal() {
+  $('modal-name').value = ''; $('modal-start').value = ''; $('modal-end').value = '';
+  $('modal-err').style.display = 'none';
+  $('modal-overlay').style.display = 'block';
+  $('modal').style.display = 'block';
+  setTimeout(() => { $('modal').classList.add('open'); $('modal-name').focus(); }, 10);
 }
-async function deleteCourse(id){
-  if(courses.length<=1){alert('Keep at least one course.');return;}
-  if(activeTimerCourseId===id)await stopActiveTimer();
-  const{error}=await sb.from('courses').delete().eq('id',id);
-  if(error){setSync('err','Delete failed: '+error.message);return;}
-  courses=courses.filter(c=>c.id!==id);render();
+function closeAddModal() {
+  $('modal').classList.remove('open');
+  setTimeout(() => { $('modal-overlay').style.display = 'none'; $('modal').style.display = 'none'; }, 220);
+}
+async function addCourse() {
+  const name = $('modal-name').value.trim();
+  const start = $('modal-start').value;
+  const end = $('modal-end').value;
+  const errEl = $('modal-err');
+  errEl.style.display = 'none';
+  if (!name) { errEl.textContent = 'Course name is required.'; errEl.style.display = 'block'; $('modal-name').focus(); return; }
+  if (!start) { errEl.textContent = 'Start date is required.'; errEl.style.display = 'block'; $('modal-start').focus(); return; }
+  if (!end) { errEl.textContent = 'End date is required.'; errEl.style.display = 'block'; $('modal-end').focus(); return; }
+  if (end < start) { errEl.textContent = 'End date must be after start date.'; errEl.style.display = 'block'; $('modal-end').focus(); return; }
+  const btn = $('modal-submit-btn'); btn.disabled = true; btn.textContent = 'Adding…';
+  const { data, error } = await sb.from('courses').insert({
+    user_id: currentUser.id, name, start_date: start, end_date: end, status: 'progress'
+  }).select().single();
+  btn.disabled = false; btn.textContent = 'Add course';
+  if (error) { errEl.textContent = 'Failed: ' + error.message; errEl.style.display = 'block'; return; }
+  closeAddModal();
+  courses.push(data);
+  render();
+  setTimeout(() => {
+    const rows = document.querySelectorAll('#tbody tr');
+    if (rows.length) rows[rows.length - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 250);
+}
+async function deleteCourse(id) {
+  if (courses.length <= 1) { alert('Keep at least one course.'); return; }
+  if (activeTimerCourseId === id) await stopActiveTimer();
+  const { error } = await sb.from('courses').delete().eq('id', id);
+  if (error) { setSync('err', 'Delete failed: ' + error.message); return; }
+  courses = courses.filter(c => c.id !== id);
+  render();
 }
 
 // ── Timers ────────────────────────────────────────────────────
-async function loadTimers(){if(!currentUser)return;const{data,error}=await sb.from('study_sessions').select('course_id,duration_seconds').eq('user_id',currentUser.id).not('duration_seconds','is',null);if(error){console.warn(error.message);return;}courseTimers={};(data||[]).forEach(r=>{if(!courseTimers[r.course_id])courseTimers[r.course_id]={elapsed:0,sessionStart:null};courseTimers[r.course_id].elapsed+=r.duration_seconds;});refreshTimerDisplays();updateTotalTimePill();}
-function getElapsed(id){const t=courseTimers[id];if(!t)return 0;let s=t.elapsed;if(t.sessionStart)s+=Math.floor((Date.now()-t.sessionStart)/1000);return s;}
-async function toggleTimer(courseId){
-  if(activeTimerCourseId===courseId){await stopActiveTimer();return;}
-  const course=courses.find(c=>c.id===courseId);
-  if(!course?.start_date||!course?.end_date){const idx=courses.indexOf(course);const rows=document.querySelectorAll('#tbody tr');if(rows[idx]){rows[idx].querySelectorAll('input.di,input.ei').forEach(inp=>{inp.style.outline='2px solid var(--r-dark)';setTimeout(()=>inp.style.outline='',1800);});}setSync('err','Set start & end dates before starting the timer.');setTimeout(()=>setSync('ok','Connected — changes save automatically'),3000);return;}
-  if(activeTimerCourseId)await stopActiveTimer();
-  if(!courseTimers[courseId])courseTimers[courseId]={elapsed:0,sessionStart:null};
-  courseTimers[courseId].sessionStart=new Date();activeTimerCourseId=courseId;
-  updateBanner();refreshTimerDisplays();startTick();
+async function loadTimers() {
+  if (!currentUser) return;
+  const { data, error } = await sb.from('study_sessions')
+    .select('course_id,duration_seconds').eq('user_id', currentUser.id).not('duration_seconds', 'is', null);
+  if (error) { console.warn(error.message); return; }
+  courseTimers = {};
+  (data || []).forEach(r => {
+    if (!courseTimers[r.course_id]) courseTimers[r.course_id] = { elapsed: 0, sessionStart: null };
+    courseTimers[r.course_id].elapsed += r.duration_seconds;
+  });
+  refreshTimerDisplays();
+  updateTotalTimePill();
 }
-async function stopActiveTimer(){
-  const courseId=activeTimerCourseId;if(!courseId)return;
-  const t=courseTimers[courseId];if(!t||!t.sessionStart){activeTimerCourseId=null;updateBanner();return;}
-  const duration=Math.floor((Date.now()-t.sessionStart)/1000),course=courses.find(c=>c.id===courseId);
-  setSync('syncing','Saving session…');
-  const{error}=await sb.from('study_sessions').insert({user_id:currentUser.id,user_email:currentUser.email||'',course_id:courseId,course_name:course?.name||'',started_at:t.sessionStart.toISOString(),duration_seconds:duration});
-  if(error)setSync('err','Failed: '+error.message);else setSync('ok','Session saved');
-  t.elapsed+=duration;t.sessionStart=null;activeTimerCourseId=null;
-  clearInterval(tickInterval);tickInterval=null;
-  updateBanner();refreshTimerDisplays();updateTotalTimePill();loadLeaderboard();
+function getElapsed(id) {
+  const t = courseTimers[id];
+  if (!t) return 0;
+  let s = t.elapsed;
+  if (t.sessionStart) s += Math.floor((Date.now() - t.sessionStart) / 1000);
+  return s;
 }
-function startTick(){if(tickInterval)clearInterval(tickInterval);tickInterval=setInterval(()=>{updateBanner();if(activeTimerCourseId){const idx=courses.findIndex(c=>c.id===activeTimerCourseId);if(idx!==-1){const rows=document.querySelectorAll('#tbody tr');if(rows[idx]){const d=rows[idx].querySelector('.timer-display');if(d){d.textContent=fmtTime(getElapsed(activeTimerCourseId));d.classList.add('active');}}}}updateTotalTimePill();},1000);}
-function updateBanner(){const b=$('session-banner');if(!activeTimerCourseId){b.classList.remove('visible');return;}b.classList.add('visible');const c=courses.find(c=>c.id===activeTimerCourseId);$('session-course-name').textContent=c?.name||'—';$('session-elapsed').textContent=fmtTimeLong(getElapsed(activeTimerCourseId));}
-function refreshTimerDisplays(){const rows=document.querySelectorAll('#tbody tr');courses.forEach((c,i)=>{const row=rows[i];if(!row)return;const d=row.querySelector('.timer-display'),btn=row.querySelector('.timer-toggle');if(!d||!btn)return;const run=activeTimerCourseId===c.id;d.textContent=fmtTime(getElapsed(c.id));d.classList.toggle('active',run);btn.classList.toggle('running',run);row.classList.toggle('timer-running',run);btn.innerHTML=run?`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`:`<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;});}
-function updateTotalTimePill(){let t=0;courses.forEach(c=>{t+=getElapsed(c.id);});$('total-time-pill').textContent=fmtHours(t)+' studied';}
+async function toggleTimer(courseId) {
+  if (activeTimerCourseId === courseId) { await stopActiveTimer(); return; }
+  const course = courses.find(c => c.id === courseId);
+  if (!course?.start_date || !course?.end_date) {
+    setSync('err', 'Set start & end dates before starting the timer.');
+    setTimeout(() => setSync('ok', 'Connected — changes save automatically'), 3000);
+    return;
+  }
+  if (activeTimerCourseId) await stopActiveTimer();
+  if (!courseTimers[courseId]) courseTimers[courseId] = { elapsed: 0, sessionStart: null };
+  courseTimers[courseId].sessionStart = new Date();
+  activeTimerCourseId = courseId;
+  updateBanner(); refreshTimerDisplays(); startTick();
+}
+async function stopActiveTimer() {
+  const courseId = activeTimerCourseId;
+  if (!courseId) return;
+  const t = courseTimers[courseId];
+  if (!t || !t.sessionStart) { activeTimerCourseId = null; updateBanner(); return; }
+  const duration = Math.floor((Date.now() - t.sessionStart) / 1000);
+  const course = courses.find(c => c.id === courseId);
+  setSync('syncing', 'Saving session…');
+  const { error } = await sb.from('study_sessions').insert({
+    user_id: currentUser.id, user_email: currentUser.email || '',
+    course_id: courseId, course_name: course?.name || '',
+    started_at: t.sessionStart.toISOString(), duration_seconds: duration
+  });
+  if (error) setSync('err', 'Failed: ' + error.message);
+  else setSync('ok', 'Session saved');
+  t.elapsed += duration; t.sessionStart = null; activeTimerCourseId = null;
+  clearInterval(tickInterval); tickInterval = null;
+  updateBanner(); refreshTimerDisplays(); updateTotalTimePill(); loadLeaderboard();
+}
+function startTick() {
+  if (tickInterval) clearInterval(tickInterval);
+  tickInterval = setInterval(() => {
+    updateBanner();
+    if (activeTimerCourseId) {
+      const idx = courses.findIndex(c => c.id === activeTimerCourseId);
+      if (idx !== -1) {
+        const rows = document.querySelectorAll('#tbody tr');
+        if (rows[idx]) {
+          const d = rows[idx].querySelector('.timer-display');
+          if (d) { d.textContent = fmtTime(getElapsed(activeTimerCourseId)); d.classList.add('active'); }
+        }
+      }
+    }
+    updateTotalTimePill();
+  }, 1000);
+}
+function updateBanner() {
+  const b = $('session-banner');
+  if (!activeTimerCourseId) { b.classList.remove('visible'); return; }
+  b.classList.add('visible');
+  const c = courses.find(c => c.id === activeTimerCourseId);
+  $('session-course-name').textContent = c?.name || '—';
+  $('session-elapsed').textContent = fmtTimeLong(getElapsed(activeTimerCourseId));
+}
+function refreshTimerDisplays() {
+  const rows = document.querySelectorAll('#tbody tr');
+  courses.forEach((c, i) => {
+    const row = rows[i]; if (!row) return;
+    const d = row.querySelector('.timer-display'), btn = row.querySelector('.timer-toggle');
+    if (!d || !btn) return;
+    const run = activeTimerCourseId === c.id;
+    d.textContent = fmtTime(getElapsed(c.id));
+    d.classList.toggle('active', run);
+    btn.classList.toggle('running', run);
+    row.classList.toggle('timer-running', run);
+    btn.innerHTML = run
+      ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  });
+}
+function updateTotalTimePill() {
+  let t = 0;
+  courses.forEach(c => { t += getElapsed(c.id); });
+  $('total-time-pill').textContent = fmtHours(t) + ' studied';
+}
 
 // ── Tasks ─────────────────────────────────────────────────────
-async function loadTaskCounts(){if(!currentUser)return;const{data}=await sb.from('tasks').select('course_id,done').eq('user_id',currentUser.id);taskCounts={};taskMiniData={};(data||[]).forEach(t=>{taskCounts[t.course_id]=(taskCounts[t.course_id]||0)+1;if(!taskMiniData[t.course_id])taskMiniData[t.course_id]={total:0,done:0};taskMiniData[t.course_id].total++;if(t.done)taskMiniData[t.course_id].done++;});}
-async function openTaskPanel(courseId){activePanelCourseId=courseId;const course=courses.find(c=>c.id===courseId);$('tp-course-name').textContent=course?.name||'—';$('tp-body').innerHTML='<div style="padding:2.5rem;text-align:center;color:var(--text3);font-size:13px;">Loading…</div>';$('task-panel-overlay').style.display='block';$('task-panel').classList.add('open');setTimeout(()=>$('tp-new-task').focus(),300);await loadTasks(courseId);}
-function closeTaskPanel(){$('task-panel-overlay').style.display='none';$('task-panel').classList.remove('open');activePanelCourseId=null;tasks=[];}
-async function loadTasks(courseId){const{data,error}=await sb.from('tasks').select('*').eq('course_id',courseId).eq('user_id',currentUser.id).order('created_at');if(error){$('tp-body').innerHTML=`<div class="tp-empty">Error: ${error.message}</div>`;return;}tasks=data||[];renderTasks();}
-function renderTasks(){
-  const body=$('tp-body'),total=tasks.length,done=tasks.filter(t=>t.done).length;
-  $('tp-prog-label').textContent=`${done} / ${total}`;
-  $('tp-fill').style.width=total?Math.round(done/total*100)+'%':'0%';
-  if(activePanelCourseId){taskMiniData[activePanelCourseId]={total,done};updateMiniBar(activePanelCourseId);}
-  if(!total){body.innerHTML=`<div class="tp-empty"><span class="tp-empty-icon">📋</span>No tasks yet.<br>Add your first task below!</div>`;updateTaskBadge(activePanelCourseId,0);return;}
-  body.innerHTML=tasks.map((t,i)=>`<div class="task-item" id="task-${t.id}"><div class="task-cb ${t.done?'checked':''}" onclick="toggleTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="task-name ${t.done?'done':''}">${escHtml(t.name)}</span><button class="task-del" onclick="deleteTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`).join('');
-  updateTaskBadge(activePanelCourseId,total);
+async function loadTaskCounts() {
+  if (!currentUser) return;
+  const { data } = await sb.from('tasks').select('course_id,done').eq('user_id', currentUser.id);
+  taskCounts = {}; taskMiniData = {};
+  (data || []).forEach(t => {
+    taskCounts[t.course_id] = (taskCounts[t.course_id] || 0) + 1;
+    if (!taskMiniData[t.course_id]) taskMiniData[t.course_id] = { total: 0, done: 0 };
+    taskMiniData[t.course_id].total++;
+    if (t.done) taskMiniData[t.course_id].done++;
+  });
 }
-function updateTaskBadge(courseId,count){taskCounts[courseId]=count;const b=$('tbadge-'+courseId),c=$('tbadge-count-'+courseId);if(b)b.classList.toggle('has-tasks',count>0);if(c)c.textContent=count;}
-function updateMiniBar(courseId){const fill=$('mini-fill-'+courseId),lbl=$('mini-lbl-'+courseId),d=taskMiniData[courseId];if(!fill||!d)return;fill.style.width=d.total?Math.round(d.done/d.total*100)+'%':'0%';if(lbl)lbl.textContent=d.total?`${d.done}/${d.total}`:'0/0';}
-async function addTask(){const inp=$('tp-new-task'),name=inp.value.trim();if(!name){inp.focus();return;}inp.value='';const{data,error}=await sb.from('tasks').insert({user_id:currentUser.id,course_id:activePanelCourseId,name,done:false}).select().single();if(error){console.error(error.message);return;}tasks.push(data);renderTasks();inp.focus();}
-async function toggleTask(i){tasks[i].done=!tasks[i].done;renderTasks();await sb.from('tasks').update({done:tasks[i].done}).eq('id',tasks[i].id);}
-async function deleteTask(i){const el=$('task-'+tasks[i].id);if(el){el.classList.add('removing');await new Promise(r=>setTimeout(r,180));}const id=tasks[i].id;tasks.splice(i,1);renderTasks();await sb.from('tasks').delete().eq('id',id);}
+async function openTaskPanel(courseId) {
+  activePanelCourseId = courseId;
+  const course = courses.find(c => c.id === courseId);
+  $('tp-course-name').textContent = course?.name || '—';
+  $('tp-body').innerHTML = '<div style="padding:2.5rem;text-align:center;color:var(--text3);font-size:13px;">Loading…</div>';
+  $('task-panel-overlay').style.display = 'block';
+  $('task-panel').classList.add('open');
+  setTimeout(() => $('tp-new-task').focus(), 300);
+  await loadTasks(courseId);
+}
+function closeTaskPanel() {
+  $('task-panel-overlay').style.display = 'none';
+  $('task-panel').classList.remove('open');
+  activePanelCourseId = null; tasks = [];
+}
+async function loadTasks(courseId) {
+  const { data, error } = await sb.from('tasks').select('*')
+    .eq('course_id', courseId).eq('user_id', currentUser.id).order('created_at');
+  if (error) { $('tp-body').innerHTML = `<div class="tp-empty">Error: ${error.message}</div>`; return; }
+  tasks = data || [];
+  renderTasks();
+}
+function renderTasks() {
+  const body = $('tp-body'), total = tasks.length, done = tasks.filter(t => t.done).length;
+  $('tp-prog-label').textContent = `${done} / ${total}`;
+  $('tp-fill').style.width = total ? Math.round(done / total * 100) + '%' : '0%';
+  if (activePanelCourseId) { taskMiniData[activePanelCourseId] = { total, done }; updateMiniBar(activePanelCourseId); }
+  if (!total) {
+    body.innerHTML = `<div class="tp-empty"><span class="tp-empty-icon">📋</span>No tasks yet.<br>Add your first task below!</div>`;
+    updateTaskBadge(activePanelCourseId, 0); return;
+  }
+  body.innerHTML = tasks.map((t, i) => `
+    <div class="task-item" id="task-${t.id}">
+      <div class="task-cb ${t.done ? 'checked' : ''}" onclick="toggleTask(${i})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <span class="task-name ${t.done ? 'done' : ''}">${escHtml(t.name)}</span>
+      <button class="task-del" onclick="deleteTask(${i})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`).join('');
+  updateTaskBadge(activePanelCourseId, total);
+}
+function updateTaskBadge(courseId, count) {
+  taskCounts[courseId] = count;
+  const b = $('tbadge-' + courseId), c = $('tbadge-count-' + courseId);
+  if (b) b.classList.toggle('has-tasks', count > 0);
+  if (c) c.textContent = count;
+}
+function updateMiniBar(courseId) {
+  const fill = $('mini-fill-' + courseId), lbl = $('mini-lbl-' + courseId), d = taskMiniData[courseId];
+  if (!fill || !d) return;
+  fill.style.width = d.total ? Math.round(d.done / d.total * 100) + '%' : '0%';
+  if (lbl) lbl.textContent = d.total ? `${d.done}/${d.total}` : '0/0';
+}
+async function addTask() {
+  const inp = $('tp-new-task'), name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  inp.value = '';
+  const { data, error } = await sb.from('tasks').insert({
+    user_id: currentUser.id, course_id: activePanelCourseId, name, done: false
+  }).select().single();
+  if (error) { console.error(error.message); return; }
+  tasks.push(data); renderTasks(); inp.focus();
+}
+async function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  renderTasks();
+  await sb.from('tasks').update({ done: tasks[i].done }).eq('id', tasks[i].id);
+}
+async function deleteTask(i) {
+  const el = $('task-' + tasks[i].id);
+  if (el) { el.classList.add('removing'); await new Promise(r => setTimeout(r, 180)); }
+  const id = tasks[i].id;
+  tasks.splice(i, 1);
+  renderTasks();
+  await sb.from('tasks').delete().eq('id', id);
+}
 
 // ── Leaderboard ───────────────────────────────────────────────
-async function loadLeaderboard(){const btn=$('lb-refresh-btn');btn.classList.add('spinning');const{data,error}=await sb.from('study_sessions').select('user_id,duration_seconds,user_email').not('duration_seconds','is',null);btn.classList.remove('spinning');if(error){$('lb-list').innerHTML=`<div class="lb-empty">Failed: ${error.message}</div>`;return;}const map={};(data||[]).forEach(r=>{if(!map[r.user_id])map[r.user_id]={user_id:r.user_id,email:r.user_email||r.user_id,total:0};map[r.user_id].total+=(r.duration_seconds||0);});renderLeaderboard(Object.values(map).sort((a,b)=>b.total-a.total));}
-function renderLeaderboard(rows){const list=$('lb-list');if(!rows.length){list.innerHTML='<div class="lb-empty">No study time yet.<br>Start a timer to appear here!</div>';return;}const medals=['🥇','🥈','🥉'],rankCls=['gold','silver','bronze'];list.innerHTML=rows.map((r,i)=>{const isMe=currentUser&&r.user_id===currentUser.id,name=(r.email||'').split('@')[0];return`<div class="lb-row${isMe?' me':''}"><div class="lb-rank ${i<3?rankCls[i]:''}">${i+1}</div><div class="lb-medal">${i<3?medals[i]:''}</div><div class="lb-avatar">${initials(name)}</div><div class="lb-name${isMe?' me':''}">${escHtml(name)}${isMe?'<span class="lb-you-badge">you</span>':''}</div><div class="lb-time">${fmtTimeLong(r.total)}</div></div>`;}).join('');}
-function toggleLb(){lbOpen=!lbOpen;$('lb-body').style.maxHeight=lbOpen?'600px':'0';$('lb-chevron').classList.toggle('open',lbOpen);}
+async function loadLeaderboard() {
+  const btn = $('lb-refresh-btn'); btn.classList.add('spinning');
+  const { data, error } = await sb.from('study_sessions')
+    .select('user_id,duration_seconds,user_email').not('duration_seconds', 'is', null);
+  btn.classList.remove('spinning');
+  if (error) { $('lb-list').innerHTML = `<div class="lb-empty">Failed: ${error.message}</div>`; return; }
+  const map = {};
+  (data || []).forEach(r => {
+    if (!map[r.user_id]) map[r.user_id] = { user_id: r.user_id, email: r.user_email || r.user_id, total: 0 };
+    map[r.user_id].total += (r.duration_seconds || 0);
+  });
+  renderLeaderboard(Object.values(map).sort((a, b) => b.total - a.total));
+}
+function renderLeaderboard(rows) {
+  const list = $('lb-list');
+  if (!rows.length) { list.innerHTML = '<div class="lb-empty">No study time yet.<br>Start a timer to appear here!</div>'; return; }
+  const medals = ['🥇','🥈','🥉'], rankCls = ['gold','silver','bronze'];
+  list.innerHTML = rows.map((r, i) => {
+    const isMe = currentUser && r.user_id === currentUser.id, name = (r.email || '').split('@')[0];
+    return `<div class="lb-row${isMe ? ' me' : ''}">
+      <div class="lb-rank ${i < 3 ? rankCls[i] : ''}">${i + 1}</div>
+      <div class="lb-medal">${i < 3 ? medals[i] : ''}</div>
+      <div class="lb-avatar">${escHtml(initials(name))}</div>
+      <div class="lb-name${isMe ? ' me' : ''}">${escHtml(name)}${isMe ? '<span class="lb-you-badge">you</span>' : ''}</div>
+      <div class="lb-time">${fmtTimeLong(r.total)}</div>
+    </div>`;
+  }).join('');
+}
+function toggleLb() {
+  lbOpen = !lbOpen;
+  $('lb-body').style.maxHeight = lbOpen ? '600px' : '0';
+  $('lb-chevron').classList.toggle('open', lbOpen);
+}
 
 // ── Render ────────────────────────────────────────────────────
-function statusCell(c,i){const st=c.status||'progress';if(st==='done')return`<span class="status-badge s-done">✓ Finished</span>`;if(st==='dropped')return`<span class="status-badge s-dropped">✕ Dropped</span>`;const overdue=c.end_date&&c.end_date<todayStr();return`<button class="mark-done-btn${overdue?' overdue':''}" onclick="markDone(${i})">${overdue?'⚠ Overdue':'✓ Mark done'}</button>`;}
-async function markDone(i){courses[i].status='done';await saveCourse(courses[i]);render();}
-
-function updateStats(){
-  const t=courses.length,done=courses.filter(c=>c.status==='done').length,prog=courses.filter(c=>c.status==='progress').length,drop=courses.filter(c=>c.status==='dropped').length,pct=t?Math.round(done/t*100):0;
-  animateCount('s-total',t);animateCount('s-done',done);animateCount('s-prog',prog);animateCount('s-drop',drop);
-  $('s-pct').textContent=pct+'%';
-  $('course-pill').textContent=t+' course'+(t===1?'':'s');
-  $('prog-label').textContent=done+' / '+t+' finished';
-  $('seg-done').style.width=(t?Math.round(done/t*100):0)+'%';
-  $('seg-prog').style.width=(t?Math.round(prog/t*100):0)+'%';
-  $('seg-drop').style.width=(t?Math.round(drop/t*100):0)+'%';
-  // Donut
-  const circ=176,dp=t?done/t:0,pp=t?prog/t:0;
-  $('donut-done').setAttribute('stroke-dasharray',`${dp*circ} ${circ}`);
-  $('donut-prog').setAttribute('stroke-dasharray',`${pp*circ} ${circ}`);
-  $('donut-prog').setAttribute('stroke-dashoffset',`${-dp*circ}`);
-  $('donut-pct').textContent=pct+'%';
+function statusCell(c, i) {
+  const st = c.status || 'progress';
+  if (st === 'done') return `<span class="status-badge s-done">✓ Finished</span>`;
+  if (st === 'dropped') return `<span class="status-badge s-dropped">✕ Dropped</span>`;
+  const overdue = c.end_date && c.end_date < todayStr();
+  return `<button class="mark-done-btn${overdue ? ' overdue' : ''}" onclick="markDone(${i})">${overdue ? '⚠ Overdue' : '✓ Mark done'}</button>`;
 }
-function applyVisibility(){document.querySelectorAll('#tbody tr').forEach(tr=>{const mf=activeFilter==='all'||tr.dataset.status===activeFilter,ms=!searchQ||tr.dataset.name.includes(searchQ);tr.classList.toggle('hidden',!mf||!ms);});}
-function setFilter(f){activeFilter=f;['all','progress','done','dropped'].forEach(id=>$('f-'+id).classList.toggle('active',id===f));applyVisibility();}
-function filterRows(q){searchQ=q.toLowerCase();applyVisibility();}
+async function markDone(i) {
+  courses[i].status = 'done';
+  await saveCourse(courses[i]);
+  render();
+}
+function updateStats() {
+  const t = courses.length;
+  const done = courses.filter(c => c.status === 'done').length;
+  const prog = courses.filter(c => c.status === 'progress').length;
+  const drop = courses.filter(c => c.status === 'dropped').length;
+  const pct = t ? Math.round(done / t * 100) : 0;
+  animateCount('s-total', t); animateCount('s-done', done);
+  animateCount('s-prog', prog); animateCount('s-drop', drop);
+  $('s-pct').textContent = pct + '%';
+  $('course-pill').textContent = t + ' course' + (t === 1 ? '' : 's');
+  $('prog-label').textContent = done + ' / ' + t + ' finished';
+  $('seg-done').style.width = (t ? Math.round(done / t * 100) : 0) + '%';
+  $('seg-prog').style.width = (t ? Math.round(prog / t * 100) : 0) + '%';
+  $('seg-drop').style.width = (t ? Math.round(drop / t * 100) : 0) + '%';
+  const circ = 176, dp = t ? done / t : 0, pp = t ? prog / t : 0;
+  $('donut-done').setAttribute('stroke-dasharray', `${dp * circ} ${circ}`);
+  $('donut-prog').setAttribute('stroke-dasharray', `${pp * circ} ${circ}`);
+  $('donut-prog').setAttribute('stroke-dashoffset', `${-dp * circ}`);
+  $('donut-pct').textContent = pct + '%';
+}
+function applyVisibility() {
+  document.querySelectorAll('#tbody tr').forEach(tr => {
+    const mf = activeFilter === 'all' || tr.dataset.status === activeFilter;
+    const ms = !searchQ || tr.dataset.name.includes(searchQ);
+    tr.classList.toggle('hidden', !mf || !ms);
+  });
+}
+function setFilter(f) {
+  activeFilter = f;
+  ['all','progress','done','dropped'].forEach(id => $('f-' + id).classList.toggle('active', id === f));
+  applyVisibility();
+}
+function filterRows(q) { searchQ = q.toLowerCase(); applyVisibility(); }
 
-function render(){
-  const tb=$('tbody');tb.innerHTML='';const today=todayStr();
-  courses.forEach((c,i)=>{
-    const st=c.status||'progress',elapsed=getElapsed(c.id),running=activeTimerCourseId===c.id;
-    const overdue=st==='progress'&&c.end_date&&c.end_date<today;
-    const mini=taskMiniData[c.id]||{total:0,done:0};
-    const miniPct=mini.total?Math.round(mini.done/mini.total*100):0;
-    const tr=document.createElement('tr');
-    tr.dataset.name=(c.name||'').toLowerCase();tr.dataset.status=st;
-    tr.classList.add('status-'+st);
-    if(running)tr.classList.add('timer-running');
-    if(overdue)tr.classList.add('overdue-row');
-    tr.innerHTML=`
-      <td><span class="num">${i+1}</span></td>
+function render() {
+  const tb = $('tbody'); tb.innerHTML = '';
+  const today = todayStr();
+  courses.forEach((c, i) => {
+    const st = c.status || 'progress';
+    const elapsed = getElapsed(c.id), running = activeTimerCourseId === c.id;
+    const overdue = st === 'progress' && c.end_date && c.end_date < today;
+    const mini = taskMiniData[c.id] || { total: 0, done: 0 };
+    const miniPct = mini.total ? Math.round(mini.done / mini.total * 100) : 0;
+    const tr = document.createElement('tr');
+    tr.dataset.name = (c.name || '').toLowerCase();
+    tr.dataset.status = st;
+    tr.classList.add('status-' + st);
+    if (running) tr.classList.add('timer-running');
+    if (overdue) tr.classList.add('overdue-row');
+    tr.innerHTML = `
+      <td><span class="num">${i + 1}</span></td>
       <td><div class="course-cell">
-        <input class="course-name-input" type="text" value="${escHtml(c.name||'')}" placeholder="Course name"
+        <input class="course-name-input" type="text" value="${escHtml(c.name || '')}" placeholder="Course name"
           oninput="courses[${i}].name=this.value;this.closest('tr').dataset.name=this.value.toLowerCase();debounceSave(courses[${i}])"/>
-        ${mini.total>0?`<div class="mini-task-bar"><div class="mini-track"><div class="mini-fill" id="mini-fill-${c.id}" style="width:${miniPct}%"></div></div><span class="mini-label" id="mini-lbl-${c.id}">${mini.done}/${mini.total}</span></div>`:''}
+        ${mini.total > 0 ? `<div class="mini-task-bar"><div class="mini-track"><div class="mini-fill" id="mini-fill-${c.id}" style="width:${miniPct}%"></div></div><span class="mini-label" id="mini-lbl-${c.id}">${mini.done}/${mini.total}</span></div>` : ''}
       </div></td>
-      <td><input class="di" type="date" value="${c.start_date||''}" oninput="courses[${i}].start_date=this.value;debounceSave(courses[${i}])"/></td>
-      <td><input class="ei" type="date" value="${c.end_date||''}" oninput="courses[${i}].end_date=this.value;debounceSave(courses[${i}])"/></td>
-      <td style="text-align:center">${statusCell(c,i)}</td>
+      <td><input class="di" type="date" value="${c.start_date || ''}" oninput="courses[${i}].start_date=this.value;debounceSave(courses[${i}])"/></td>
+      <td><input class="ei" type="date" value="${c.end_date || ''}" oninput="courses[${i}].end_date=this.value;debounceSave(courses[${i}])"/></td>
+      <td style="text-align:center">${statusCell(c, i)}</td>
       <td><div class="timer-cell">
-        <span class="timer-display${running?' active':''}">${fmtTime(elapsed)}</span>
-        <button class="timer-toggle${running?' running':''}" onclick="toggleTimer('${c.id}')" title="${running?'Stop':'Start'} timer">
-          ${running?`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`:`<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`}
+        <span class="timer-display${running ? ' active' : ''}">${fmtTime(elapsed)}</span>
+        <button class="timer-toggle${running ? ' running' : ''}" onclick="toggleTimer('${c.id}')" title="${running ? 'Stop' : 'Start'} timer">
+          ${running
+            ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+            : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`}
         </button>
       </div></td>
       <td style="text-align:center">
-        <button class="task-badge ${(taskCounts[c.id]||0)>0?'has-tasks':''}" onclick="openTaskPanel('${c.id}')" id="tbadge-${c.id}">
+        <button class="task-badge ${(taskCounts[c.id] || 0) > 0 ? 'has-tasks' : ''}" onclick="openTaskPanel('${c.id}')" id="tbadge-${c.id}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span id="tbadge-count-${c.id}">${taskCounts[c.id]||0}</span>
+          <span id="tbadge-count-${c.id}">${taskCounts[c.id] || 0}</span>
         </button>
       </td>
       <td><button class="del-btn" onclick="deleteCourse('${c.id}')" title="Remove">✕</button></td>`;
     tb.appendChild(tr);
   });
-  updateStats();applyVisibility();updateTotalTimePill();
+  updateStats(); applyVisibility(); updateTotalTimePill();
 }
 
 // ── Dark mode ─────────────────────────────────────────────────
-function applyDark(){document.body.classList.add('dark');[$('page'),$('auth-card-el')].forEach(el=>el&&el.classList.add('dark'));$('mlbl').textContent='Light';$('mico').innerHTML='<circle cx="12" cy="12" r="4"/><path stroke="currentColor" stroke-width="2" fill="none" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>';}
-function applyLight(){document.body.classList.remove('dark');[$('page'),$('auth-card-el')].forEach(el=>el&&el.classList.remove('dark'));$('mlbl').textContent='Dark';$('mico').innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';}
-function toggleDark(){isDark=!isDark;isDark?applyDark():applyLight();}
+function applyDark() {
+  document.body.classList.add('dark');
+  $('mlbl').textContent = 'Light';
+  $('mico').innerHTML = '<circle cx="12" cy="12" r="4"/><path stroke="currentColor" stroke-width="2" fill="none" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>';
+}
+function applyLight() {
+  document.body.classList.remove('dark');
+  $('mlbl').textContent = 'Dark';
+  $('mico').innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+}
+function toggleDark() { isDark = !isDark; isDark ? applyDark() : applyLight(); }
 
 // ── Boot ──────────────────────────────────────────────────────
-(async()=>{const{data:{session}}=await sb.auth.getSession();if(session){showApp(session.user);await loadAll();}else showAuth();appReady=true;})();
-sb.auth.onAuthStateChange((event,session)=>{if(!appReady)return;if(event==='SIGNED_OUT')showAuth();else if(event==='TOKEN_REFRESHED'&&session)currentUser=session.user;});
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTaskPanel();closeAddModal();}});
-setInterval(()=>{if(currentUser)checkDeadlines();},60*60*1000);
-window.addEventListener('beforeunload',e=>{if(activeTimerCourseId){stopActiveTimer();e.preventDefault();e.returnValue='Active study timer running. Leave?';}});
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) { showApp(session.user); await loadAll(); }
+  else showAuth();
+  appReady = true;
+})();
+
+sb.auth.onAuthStateChange((event, session) => {
+  if (!appReady) return;
+  if (event === 'SIGNED_OUT') showAuth();
+  else if (event === 'TOKEN_REFRESHED' && session) currentUser = session.user;
+});
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeTaskPanel(); closeAddModal(); }
+});
+setInterval(() => { if (currentUser) checkDeadlines(); }, 60 * 60 * 1000);
+window.addEventListener('beforeunload', e => {
+  if (activeTimerCourseId) {
+    stopActiveTimer();
+    e.preventDefault();
+    e.returnValue = 'Active study timer running. Leave?';
+  }
+});
 </script>
 </body>
 </html>
