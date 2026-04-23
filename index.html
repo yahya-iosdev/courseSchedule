@@ -23,8 +23,6 @@
 html{scroll-behavior:smooth;}
 body{background:var(--bg);font-family:'Sora',sans-serif;color:var(--t1);min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 15% 10%,rgba(192,132,252,.05),transparent 55%),radial-gradient(ellipse 50% 35% at 85% 90%,rgba(0,229,176,.04),transparent 50%);pointer-events:none;z-index:0;}
-
-/* ─── AUTH ──────────────────────────────────────────────────── */
 #auth{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
 .acard{background:var(--s1);border:1px solid var(--b1);border-radius:24px;padding:2.5rem;width:100%;max-width:380px;margin:1.5rem;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
 .acard::after{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;background:radial-gradient(circle,rgba(192,132,252,.08),transparent 70%);pointer-events:none;}
@@ -46,12 +44,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .amsg{font-size:12px;border-radius:10px;padding:10px 14px;margin-top:10px;display:none;line-height:1.5;}
 .aerr{background:var(--rb);border:1px solid var(--rbr);color:var(--r);}
 .aok{background:var(--gb);border:1px solid var(--gbr);color:var(--g);}
-
-/* ─── APP ───────────────────────────────────────────────────── */
 #app{display:none;position:relative;z-index:1;}
 .wrap{max-width:1120px;margin:0 auto;padding:2rem 1.5rem;}
-
-/* Topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2rem;flex-wrap:wrap;}
 .topbar-l{display:flex;align-items:center;gap:12px;}
 .brand{font-family:'Playfair Display',serif;font-size:22px;color:var(--t1);}
@@ -65,8 +59,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .chip svg{width:13px;height:13px;}
 .chip.gchip{border-color:var(--abr);background:var(--ab);color:var(--a);}
 .chip.danger:hover{border-color:var(--rbr);color:var(--r);}
-
-/* Stats */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem;}
 @media(max-width:640px){.stats{grid-template-columns:repeat(3,1fr);}}
 .sc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:1rem;transition:all .22s;}
@@ -76,8 +68,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sc.vp .sc-val{color:var(--p);}
 .sc.vg .sc-val{color:var(--g);}
 .sc.vr .sc-val{color:var(--r);}
-
-/* Progress */
 .prog{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;}
 .donut{position:relative;width:68px;height:68px;flex-shrink:0;}
 .donut svg{transform:rotate(-90deg);}
@@ -89,8 +79,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lgd{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
 .li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3);}
 .ld{width:7px;height:7px;border-radius:50%;}
-
-/* Session banner */
 .sbanner{display:none;margin-bottom:1.25rem;background:linear-gradient(135deg,rgba(192,132,252,.07),rgba(0,212,255,.05));border:1px solid var(--pb);border-radius:16px;padding:1rem 1.5rem;align-items:center;gap:14px;flex-wrap:wrap;}
 .sbanner.on{display:flex;}
 .spulse{width:8px;height:8px;border-radius:50%;background:var(--p);flex-shrink:0;animation:pulse 1s ease infinite alternate;}
@@ -103,12 +91,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sbtimer.brk{color:var(--g);}
 .sbstop{padding:7px 16px;border-radius:999px;border:1px solid var(--rbr);background:var(--rb);color:var(--r);font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
 .sbstop:hover{background:rgba(255,85,119,.2);}
-
-/* Main grid */
 .mgrid{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start;}
 @media(max-width:860px){.mgrid{grid-template-columns:1fr;}}
-
-/* Section head */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px;}
 .shtitle{font-family:'Playfair Display',serif;font-size:22px;color:var(--t1);}
 .shright{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -120,11 +104,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .srch svg{width:12px;height:12px;color:var(--t3);}
 .srch input{background:none;border:none;outline:none;font-size:12px;color:var(--t1);font-family:'Sora',sans-serif;width:100px;}
 .srch input::placeholder{color:var(--t3);}
-
-/* Course cards */
 .cgrid{display:flex;flex-direction:column;gap:10px;}
-
-/* ═══ COURSE CARD ═══════════════════════════════════════════ */
 .ccard{background:var(--s1);border:1px solid var(--b1);border-radius:20px;overflow:hidden;transition:all .22s;position:relative;}
 .ccard:hover{border-color:var(--b2);box-shadow:var(--shadow);}
 .ccard.st-done{border-left:3px solid var(--g);}
@@ -133,7 +113,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ccard.pomo-running{background:rgba(192,132,252,.03);border-color:var(--pb);}
 .ccard.pomo-break{background:rgba(0,229,176,.03);border-color:var(--gbr);}
 .ccard.hidden{display:none;}
-
 .cbody{padding:1.1rem 1.25rem .85rem;}
 .ctop{display:flex;align-items:flex-start;gap:10px;margin-bottom:.85rem;}
 .cnum{width:22px;height:22px;border-radius:7px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0;margin-top:3px;}
@@ -150,34 +129,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .bd{background:var(--gb);border:1px solid var(--gbr);color:var(--g);}
 .br{background:var(--rb);border:1px solid var(--rbr);color:var(--r);}
 .bo{background:var(--ab);border:1px solid var(--abr);color:var(--a);}
-
-/* Dates */
 .cdates{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .dfield{display:flex;align-items:center;gap:6px;flex:1;min-width:110px;}
 .dlbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;width:26px;}
 .dinput{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:5px 9px;font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;outline:none;transition:all .2s;min-width:0;}
 .dinput:focus{border-color:var(--p);color:var(--t1);}
 .dsep{color:var(--t3);font-size:14px;flex-shrink:0;}
-
-/* Actions bar */
 .cact{display:flex;align-items:center;gap:7px;padding:.7rem 1.25rem;border-top:1px solid var(--b1);background:var(--s2);flex-wrap:wrap;}
-
-/* ═══ POMODORO BUTTON IN CARD ═══════════════════════════════ */
 .pomo-btn{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;border:1px solid;font-size:11px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
-/* Idle state */
 .pomo-btn.idle{border-color:var(--cbr);background:var(--cb);color:var(--c);}
 .pomo-btn.idle:hover{background:rgba(0,212,255,.18);}
-/* Focus running */
 .pomo-btn.focus-on{border-color:var(--pb);background:var(--pg);color:var(--p);animation:glowp 2s ease infinite alternate;}
 @keyframes glowp{from{box-shadow:none}to{box-shadow:0 0 12px rgba(192,132,252,.35)}}
-/* Break running */
 .pomo-btn.break-on{border-color:var(--gbr);background:var(--gb);color:var(--g);animation:glowg 2s ease infinite alternate;}
 @keyframes glowg{from{box-shadow:none}to{box-shadow:0 0 12px rgba(0,229,176,.3)}}
 .pomo-btn svg{width:11px;height:11px;flex-shrink:0;}
 .pomo-ring{width:18px;height:18px;flex-shrink:0;}
 .pomo-ring circle{transition:stroke-dashoffset .5s ease,stroke .4s;}
-
-/* Task + other action buttons */
 .abtn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--b1);background:transparent;color:var(--t2);font-size:11px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;white-space:nowrap;}
 .abtn:hover{border-color:var(--b2);color:var(--t1);}
 .abtn svg{width:11px;height:11px;}
@@ -191,45 +159,30 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .delbtn{margin-left:auto;width:27px;height:27px;border-radius:8px;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
 .delbtn:hover{border-color:var(--rbr);background:var(--rb);color:var(--r);}
 .delbtn svg{width:11px;height:11px;}
-
-/* Add card */
 .addcard{border:1px dashed var(--b1);border-radius:20px;padding:1.2rem;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .2s;color:var(--t3);font-size:13px;font-weight:500;margin-top:10px;}
 .addcard:hover{border-color:var(--pb);color:var(--p);background:rgba(192,132,252,.03);}
 .addcard svg{width:15px;height:15px;}
-
-/* Sync */
 .syncbar{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t3);margin-top:.75rem;}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0;}
 .sdot.sy{background:var(--a);animation:pulse .8s infinite alternate;}
 .sdot.er{background:var(--r);}
-
-/* ─── POMODORO PANEL (right sidebar) ─────────────────────── */
 .pomo-panel{background:var(--s1);border:1px solid var(--b1);border-radius:20px;overflow:hidden;position:sticky;top:1.5rem;}
 .pp-head{padding:1rem 1.25rem;border-bottom:1px solid var(--b1);}
 .pp-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--t1);margin-bottom:2px;}
 .pp-sub{font-size:11px;color:var(--t3);}
 .pp-body{padding:1.25rem;}
-
-/* Pomo modes */
 .pmodes{display:flex;gap:4px;margin-bottom:1.25rem;}
 .pmode{flex:1;padding:6px 4px;border-radius:9px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--b1);background:transparent;color:var(--t3);font-family:'Sora',sans-serif;transition:all .2s;text-align:center;}
 .pmode:hover{color:var(--t2);}
 .pmode.on{background:var(--s3);color:var(--t1);border-color:var(--b2);}
-
-/* Ring */
 .ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 1.25rem;}
 .ring-wrap svg{transform:rotate(-90deg);}
 .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
 .rtime{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:600;color:var(--t1);line-height:1;}
 .rlbl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.15em;font-weight:600;}
-
-/* Session dots */
 .sdots{display:flex;gap:5px;justify-content:center;margin-bottom:1rem;}
 .sdot2{width:8px;height:8px;border-radius:50%;background:var(--s3);border:1.5px solid var(--b2);transition:all .3s;}
 .sdot2.dn{background:var(--p);border-color:var(--p);box-shadow:0 0 6px rgba(192,132,252,.4);}
-.pmode-break .sdot2.dn{background:var(--g);border-color:var(--g);}
-
-/* Controls */
 .pctrl-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:1.25rem;}
 .pc{width:42px;height:42px;border-radius:50%;border:1px solid var(--b2);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:all .2s;}
 .pc:hover{border-color:var(--b3);color:var(--t1);transform:scale(1.06);}
@@ -238,20 +191,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .pc.main:hover{transform:scale(1.08);}
 .pc svg{width:16px;height:16px;}
 .pc.main svg{width:18px;height:18px;}
-
-/* Course selector */
 .pcourse-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-weight:600;}
 .pcourse-sel{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:8px 11px;font-size:12px;color:var(--t1);outline:none;font-family:'Sora',sans-serif;cursor:pointer;transition:border-color .2s;margin-bottom:1.1rem;}
 .pcourse-sel:focus{border-color:var(--p);}
-
-/* Settings */
 .psettings{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:1rem;border-top:1px solid var(--b1);}
 .pset{display:flex;flex-direction:column;gap:5px;}
 .pset label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
 .pset input{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600;color:var(--t1);outline:none;font-family:'JetBrains Mono',monospace;text-align:center;transition:border-color .2s;width:100%;}
 .pset input:focus{border-color:var(--p);}
-
-/* History in panel */
 .phist{margin-top:1rem;border-top:1px solid var(--b1);padding-top:1rem;}
 .phist-title{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;}
 .phist-clear{font-size:10px;color:var(--t3);cursor:pointer;background:none;border:none;font-family:'Sora',sans-serif;transition:color .2s;}
@@ -263,14 +210,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hitem:last-child{border-bottom:none;}
 .hdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .hdot.wk{background:var(--p);}
-.hdot.bk{background:var(--g);}
 .hinfo{flex:1;min-width:0;}
 .hlbl{font-size:11px;font-weight:500;color:var(--t1);}
 .hcname{font-size:10px;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px;}
 .htime{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);white-space:nowrap;}
 .hempty{padding:1.5rem 0;text-align:center;color:var(--t3);font-size:12px;line-height:1.7;}
-
-/* Leaderboard */
 .lb{background:var(--s1);border:1px solid var(--b1);border-radius:20px;overflow:hidden;margin-top:1.25rem;}
 .lb-head{padding:.9rem 1.25rem;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .15s;}
 .lb-head:hover{background:var(--s2);}
@@ -291,9 +235,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lbrow:hover{background:var(--s2);}
 .lbrow.me{background:rgba(192,132,252,.05);}
 .lbrnk{width:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);flex-shrink:0;}
-.lbrnk.g{color:var(--a);}
-.lbrnk.s{color:#94a3b8;}
-.lbrnk.b{color:#b07c4f;}
+.lbrnk.g{color:var(--a);}.lbrnk.s{color:#94a3b8;}.lbrnk.b{color:#b07c4f;}
 .lbmedal{width:16px;text-align:center;font-size:12px;flex-shrink:0;}
 .lbav{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--p2));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
 .lbname{flex:1;font-size:11px;font-weight:500;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -301,8 +243,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lbyou{font-size:9px;font-weight:700;padding:1px 5px;border-radius:999px;background:var(--pg);border:1px solid var(--pb);color:var(--p);margin-left:3px;}
 .lbt{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);}
 .lbempty{padding:2rem 1.25rem;text-align:center;color:var(--t3);font-size:12px;line-height:1.7;}
-
-/* ─── TASK PANEL ─────────────────────────────────────────── */
 #tpov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(7px);z-index:200;}
 #tp{position:fixed;top:0;right:0;height:100vh;width:390px;max-width:96vw;background:var(--s1);border-left:1px solid var(--b1);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-10px 0 50px rgba(0,0,0,.5);}
 #tp.open{transform:translateX(0);}
@@ -342,8 +282,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tpaddinput::placeholder{color:var(--t3);}
 .tpaddbtn{padding:9px 16px;border-radius:9px;border:1px solid var(--pb);background:var(--pg);color:var(--p);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;transition:all .2s;}
 .tpaddbtn:hover{background:rgba(192,132,252,.2);}
-
-/* ─── ADD COURSE MODAL ───────────────────────────────────── */
 #mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(7px);z-index:300;}
 #mbox{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-55%);opacity:0;z-index:301;width:100%;max-width:430px;padding:0 1.25rem;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s;}
 #mbox.open{transform:translate(-50%,-50%);opacity:1;}
@@ -360,15 +298,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .msub{width:100%;padding:12px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
 .msub:hover{transform:translateY(-2px);box-shadow:var(--gp);}
 .msub:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
-/* Notification toast */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--s2);border:1px solid var(--b2);border-radius:13px;padding:.8rem 1.2rem;font-size:13px;font-weight:500;color:var(--t1);box-shadow:var(--shadow-lg);transform:translateY(70px);opacity:0;transition:all .32s cubic-bezier(.4,0,.2,1);z-index:500;display:flex;align-items:center;gap:9px;}
 .toast.show{transform:translateY(0);opacity:1;}
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
 <div id="auth">
   <div class="acard">
     <div class="alogo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
@@ -386,11 +321,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
 <div class="wrap">
-
-  <!-- Topbar -->
   <div class="topbar">
     <div class="topbar-l">
       <div class="av" id="av">?</div>
@@ -412,7 +344,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </div>
 
-  <!-- Session banner -->
   <div class="sbanner" id="sbanner">
     <div class="spulse"></div>
     <div class="sblbl" id="sb-lbl">Studying: <strong id="sb-course">—</strong></div>
@@ -421,7 +352,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <button class="sbstop" onclick="stopPomo()">Stop</button>
   </div>
 
-  <!-- Stats -->
   <div class="stats">
     <div class="sc"><div class="sc-val" id="s-total">0</div><div class="sc-lbl">Total</div></div>
     <div class="sc vp"><div class="sc-val" id="s-prog">0</div><div class="sc-lbl">In progress</div></div>
@@ -430,7 +360,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="sc"><div class="sc-val" id="s-pct">0%</div><div class="sc-lbl">Completion</div></div>
   </div>
 
-  <!-- Progress bar -->
   <div class="prog">
     <div class="donut">
       <svg width="68" height="68" viewBox="0 0 68 68">
@@ -455,10 +384,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </div>
 
-  <!-- Main grid -->
   <div class="mgrid">
-
-    <!-- Left: courses -->
     <div>
       <div class="sh">
         <div class="shtitle">Courses</div>
@@ -473,7 +399,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           </div>
         </div>
       </div>
-
       <div class="cgrid" id="cgrid"></div>
       <div class="addcard" onclick="openModal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -485,7 +410,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
     </div>
 
-    <!-- Right: Pomodoro panel -->
     <div>
       <div class="pomo-panel">
         <div class="pp-head">
@@ -493,15 +417,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="pp-sub">Pomodoro — linked to your courses</div>
         </div>
         <div class="pp-body">
-
           <div class="pmodes">
             <button class="pmode on" id="pm-work" onclick="setMode('work')">Focus</button>
             <button class="pmode" id="pm-short" onclick="setMode('short')">Short</button>
             <button class="pmode" id="pm-long" onclick="setMode('long')">Long</button>
           </div>
-
           <div class="sdots" id="sdots"></div>
-
           <div class="ring-wrap">
             <svg width="160" height="160" viewBox="0 0 160 160">
               <circle cx="80" cy="80" r="68" fill="none" stroke="var(--s3)" stroke-width="7"/>
@@ -512,7 +433,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="rlbl" id="rlbl">FOCUS</div>
             </div>
           </div>
-
           <div class="pctrl-row">
             <button class="pc" onclick="resetPomo()" title="Reset">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
@@ -524,22 +444,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
             </button>
           </div>
-
           <div style="margin-bottom:1rem;">
             <div class="pcourse-lbl">Studying course</div>
             <select class="pcourse-sel" id="course-sel">
               <option value="">— Select a course —</option>
             </select>
           </div>
-
           <div class="psettings">
             <div class="pset"><label>Focus (min)</label><input type="number" id="set-work" value="25" min="1" max="90" onchange="applySettings()"/></div>
             <div class="pset"><label>Short break</label><input type="number" id="set-short" value="5" min="1" max="30" onchange="applySettings()"/></div>
             <div class="pset"><label>Long break</label><input type="number" id="set-long" value="15" min="1" max="60" onchange="applySettings()"/></div>
             <div class="pset"><label>Sessions→long</label><input type="number" id="set-sessions" value="4" min="2" max="8" onchange="applySettings()"/></div>
           </div>
-
-          <!-- Session history inside panel -->
           <div class="phist">
             <div class="phist-title">
               Recent sessions
@@ -550,7 +466,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
 
-      <!-- Leaderboard -->
       <div class="lb">
         <div class="lb-head" onclick="toggleLb()">
           <div class="lb-title"><span class="lb-star">★</span> Leaderboard</div>
@@ -566,12 +481,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
     </div>
-
   </div>
 </div>
 </div>
 
-<!-- Task panel -->
 <div id="tpov" onclick="closeTP()"></div>
 <div id="tp">
   <div class="tptop">
@@ -592,7 +505,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 </div>
 
-<!-- Add course modal -->
 <div id="mov" onclick="closeModal()"></div>
 <div id="mbox">
   <div class="modal">
@@ -613,33 +525,27 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast">
   <span id="toast-ico">✓</span>
   <span id="toast-msg">Done!</span>
 </div>
 
 <script>
-// ── Supabase ───────────────────────────────────────────────────
 const SUPABASE_URL='https://rwjiqxwzaeieyedpvsth.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3amlxeHd6YWVpZXllZHB2c3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzUxMTcsImV4cCI6MjA5MjI1MTExN30.hqy1voaeek_AcpYQiUD-efVlIAbrR30MaMQRAXnM9dE';
 const{createClient}=supabase;
 const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
 
-// ── App State ──────────────────────────────────────────────────
 let user=null,appReady=false;
 let courses=[],taskCounts={},taskMiniData={};
-let pomoSessions=[];      // from DB
+let pomoSessions=[];
 let tasks=[],activePanelId=null;
 let saveTimer=null,activeFilter='all',searchQ='',countTimers={};
 let lbOpen=true;
-
-// ── Pomodoro State ─────────────────────────────────────────────
 let poMode='work',poRunning=false,poSec=0,poTotal=0,poInterval=null;
 let poSessionsDone=0,poActiveCourseId=null;
 let workMin=25,shortMin=5,longMin=15,sessBeforeLong=4;
 
-// ── Helpers ────────────────────────────────────────────────────
 function $(id){return document.getElementById(id);}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function todayStr(){return new Date().toISOString().slice(0,10);}
@@ -653,7 +559,20 @@ function animCount(id,target){clearInterval(countTimers[id]);const el=$(id);cons
 let toastTimer=null;
 function toast(msg,ico='✓'){$('toast-msg').textContent=msg;$('toast-ico').textContent=ico;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3200);}
 
-// ── Auth ───────────────────────────────────────────────────────
+// ── FIX: deduplicate sessions by id to prevent double-counting ──
+// Root cause: loadPomoSessions() fetches all sessions from DB on login.
+// Then savePomoSession() inserts a new session AND does pomoSessions.unshift(data).
+// Without dedup, the next reload would show the session twice in the local array,
+// causing getTotalSeconds() and getAllTotalSeconds() to sum it twice.
+function dedupSessions(arr){
+  const seen=new Set();
+  return arr.filter(s=>{
+    if(!s.id||seen.has(s.id))return false;
+    seen.add(s.id);
+    return true;
+  });
+}
+
 let authMode='in';
 function switchTab(m){authMode=m;$('tab-in').classList.toggle('on',m==='in');$('tab-up').classList.toggle('on',m==='up');$('a-btn').textContent=m==='in'?'Sign in':'Create account';$('a-err').style.display='none';$('a-ok').style.display='none';}
 async function doAuth(){
@@ -677,14 +596,12 @@ function showApp(u){user=u;$('auth').style.display='none';$('app').style.display
 function showAuth(){user=null;$('app').style.display='none';$('auth').style.display='flex';}
 async function signOut(){stopPomo(true);await sb.auth.signOut();showAuth();}
 
-// ── Data load ──────────────────────────────────────────────────
 async function loadAll(){await loadCourses();await loadTaskCounts();await loadPomoSessions();updateCourseSel();renderCards();renderHistory();updateTimePill();loadLb();}
 async function loadCourses(){
   setSync('syncing','Loading…');
   const{data,error}=await sb.from('courses').select('*').order('created_at');
   if(error){setSync('err','Failed: '+error.message);return;}
   courses=data||[];
-  // auto-drop overdue
   const today=todayStr();let changed=false;
   for(const c of courses){if(c.status==='progress'&&c.end_date&&c.end_date<today){c.status='dropped';await saveCourse(c);changed=true;}}
   if(!changed)setSync('ok','Connected — changes save automatically');
@@ -692,16 +609,30 @@ async function loadCourses(){
 async function saveCourse(c){setSync('syncing','Saving…');const{error}=await sb.from('courses').upsert({id:c.id,user_id:user.id,name:c.name,start_date:c.start_date||'',end_date:c.end_date||'',status:c.status||'progress'});setSync(error?'err':'ok',error?'Save failed: '+error.message:'Saved');}
 function debounceSave(c){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveCourse(c),800);}
 
-// ── Task counts ────────────────────────────────────────────────
 async function loadTaskCounts(){if(!user)return;const{data}=await sb.from('tasks').select('course_id,done').eq('user_id',user.id);taskCounts={};taskMiniData={};(data||[]).forEach(t=>{taskCounts[t.course_id]=(taskCounts[t.course_id]||0)+1;if(!taskMiniData[t.course_id])taskMiniData[t.course_id]={total:0,done:0};taskMiniData[t.course_id].total++;if(t.done)taskMiniData[t.course_id].done++;});}
 
-// ── Pomo sessions ──────────────────────────────────────────────
-async function loadPomoSessions(){if(!user)return;const{data}=await sb.from('study_sessions').select('*').eq('user_id',user.id).order('started_at',{ascending:false}).limit(60);pomoSessions=data||[];}
+// FIX applied: deduplicate after fetching from DB
+async function loadPomoSessions(){
+  if(!user)return;
+  const{data}=await sb.from('study_sessions').select('*').eq('user_id',user.id).order('started_at',{ascending:false}).limit(60);
+  pomoSessions=dedupSessions(data||[]);
+}
+
 async function savePomoSession(courseId,courseName,durationSec){
-  const{data,error}=await sb.from('study_sessions').insert({user_id:user.id,user_email:user.email||'',course_id:courseId||null,course_name:courseName||'',started_at:new Date().toISOString(),duration_seconds:durationSec}).select().single();
-  if(!error&&data){pomoSessions.unshift(data);renderHistory();}
+  const{data,error}=await sb.from('study_sessions').insert({
+    user_id:user.id,user_email:user.email||'',
+    course_id:courseId||null,course_name:courseName||'',
+    started_at:new Date().toISOString(),duration_seconds:durationSec
+  }).select().single();
+  if(!error&&data){
+    // FIX applied: unshift then deduplicate to prevent double-counting
+    pomoSessions.unshift(data);
+    pomoSessions=dedupSessions(pomoSessions);
+    renderHistory();
+  }
   updateTimePill();loadLb();
 }
+
 function getTotalSeconds(courseId){return pomoSessions.filter(s=>s.course_id===courseId).reduce((a,s)=>a+(s.duration_seconds||0),0);}
 function getAllTotalSeconds(){return pomoSessions.reduce((a,s)=>a+(s.duration_seconds||0),0);}
 function updateTimePill(){$('time-pill').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${fmtHours(getAllTotalSeconds())} focused`;}
@@ -722,7 +653,6 @@ function renderHistory(){
 }
 async function clearHistory(){if(!confirm('Clear all session history?'))return;await sb.from('study_sessions').delete().eq('user_id',user.id);pomoSessions=[];renderHistory();updateTimePill();toast('History cleared','🗑');}
 
-// ── Course CRUD ────────────────────────────────────────────────
 function openModal(){$('m-name').value='';$('m-start').value='';$('m-end').value='';$('m-err').style.display='none';$('mov').style.display='block';$('mbox').style.display='block';setTimeout(()=>{$('mbox').classList.add('open');$('m-name').focus();},10);}
 function closeModal(){$('mbox').classList.remove('open');setTimeout(()=>{$('mov').style.display='none';$('mbox').style.display='none';},220);}
 async function addCourse(){
@@ -746,7 +676,6 @@ async function deleteCourse(id){
 }
 async function markDone(i){courses[i].status='done';await saveCourse(courses[i]);renderCards();toast('Course finished! 🎉','🎉');}
 
-// ── Pomodoro Engine ────────────────────────────────────────────
 function modeMin(){return poMode==='work'?workMin:poMode==='short'?shortMin:longMin;}
 function applySettings(){workMin=parseInt($('set-work').value)||25;shortMin=parseInt($('set-short').value)||5;longMin=parseInt($('set-long').value)||15;sessBeforeLong=parseInt($('set-sessions').value)||4;if(!poRunning)setMode(poMode);}
 
@@ -757,7 +686,6 @@ function setMode(m){
   const isBreak=m!=='work';
   $('ring').style.stroke=isBreak?'var(--g)':'var(--p)';
   $('play-btn').classList.toggle('brk',isBreak);
-  // update banner
   $('sb-mode').textContent=m==='work'?'Focus':m==='short'?'Short break':'Long break';
   $('sb-mode').classList.toggle('brk',isBreak);
   $('sb-timer').classList.toggle('brk',isBreak);
@@ -770,11 +698,10 @@ function _startRunning(){
   if(poSec<=0)setMode(poMode);
   poRunning=true;
   $('play-ico').innerHTML='<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>';
-  // capture selected course
   const sel=$('course-sel');poActiveCourseId=sel.value||null;
   updateBanner(true);
   poInterval=setInterval(tick,1000);
-  renderCards(); // update card button states
+  renderCards();
 }
 function _stopInterval(){
   poRunning=false;clearInterval(poInterval);poInterval=null;
@@ -798,15 +725,13 @@ async function completeSession(skipped=false){
     poSessionsDone++;
     const course=courses.find(c=>c.id===poActiveCourseId);
     await savePomoSession(poActiveCourseId,course?.name||'',workMin*60);
-    renderCards();
-    renderDots();
+    renderCards();renderDots();
     toast('Focus session complete! 🎯','🎯');
     if(poSessionsDone%sessBeforeLong===0)setMode('long');else setMode('short');
     _startRunning();
   }else if(!skipped){
     toast('Break over! Back to work ⚡','⚡');
-    setMode('work');
-    updateBanner(false);renderCards();
+    setMode('work');updateBanner(false);renderCards();
   }else{
     setMode(poMode==='work'?'short':'work');
     updateBanner(false);renderCards();
@@ -822,7 +747,6 @@ function updateRing(){
   const m=Math.floor(poSec/60),s=poSec%60;
   const str=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   $('rtime').textContent=str;$('sb-timer').textContent=str;
-  // update mini ring on card
   if(poActiveCourseId){
     const miniRing=document.querySelector(`[data-mini-ring="${poActiveCourseId}"]`);
     if(miniRing){const r=miniRing.querySelector('.ring-fill');if(r){const c=2*Math.PI*8;r.setAttribute('stroke-dashoffset',String(c*(1-pct)));}}
@@ -833,20 +757,16 @@ function updateBanner(on){
   const b=$('sbanner');b.classList.toggle('on',on);
   if(on){const c=courses.find(c=>c.id===poActiveCourseId);$('sb-course').textContent=c?.name||'General';}
 }
-
 function renderDots(){
   const n=sessBeforeLong;const cur=poSessionsDone%n||(poSessionsDone>0&&poSessionsDone%n===0?n:0);
   $('sdots').innerHTML=Array.from({length:n},(_,i)=>`<div class="sdot2${i<cur?' dn':''}"></div>`).join('');
 }
-
-// Course selector for pomo
 function updateCourseSel(){
   const sel=$('course-sel');const cur=sel.value;
   sel.innerHTML='<option value="">— Select a course —</option>'+courses.filter(c=>c.status==='progress').map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
   if(cur)sel.value=cur;
 }
 
-// ── Render cards ───────────────────────────────────────────────
 function updateStats(){
   const t=courses.length,done=courses.filter(c=>c.status==='done').length,prog=courses.filter(c=>c.status==='progress').length,drop=courses.filter(c=>c.status==='dropped').length,pct=t?Math.round(done/t*100):0;
   animCount('s-total',t);animCount('s-done',done);animCount('s-prog',prog);animCount('s-drop',drop);
@@ -857,10 +777,6 @@ function updateStats(){
   $('seg-prog').style.width=(t?Math.round(prog/t*100):0)+'%';
   $('seg-drop').style.width=(t?Math.round(drop/t*100):0)+'%';
   const circ=176,dp=t?done/t:0,pp=t?prog/t:0;
-  $('dn-done').setAttribute('stroke-dashoffset',String(circ-(dp*circ)));
-  $('dn-prog').setAttribute('stroke-dashoffset',String(circ-(pp*circ)));
-  $('dn-prog').setAttribute('stroke-dashoffset',String(circ-pp*circ));
-  // stacked donut
   $('dn-done').setAttribute('stroke-dasharray',`${dp*circ} ${circ}`);
   $('dn-done').setAttribute('stroke-dashoffset','0');
   $('dn-prog').setAttribute('stroke-dasharray',`${pp*circ} ${circ}`);
@@ -879,30 +795,23 @@ function renderCards(){
     const miniPct=mini.total?Math.round(mini.done/mini.total*100):0;
     const tc=taskCounts[c.id]||0;
     const totalFocusSec=getTotalSeconds(c.id);
-
-    // Pomodoro button state
     const isActive=poActiveCourseId===c.id&&poRunning;
     const isBreak=isActive&&poMode!=='work';
     const pomoPct=poTotal>0?1-(poSec/poTotal):0;
-    const miniCirc=2*Math.PI*8; // r=8
-
-    let pomoBtnClass='pomo-btn idle';let pomoBtnTxt='Start Focus';let pomoBtnIco='▶';
-    if(isActive&&!isBreak){pomoBtnClass='pomo-btn focus-on';pomoBtnTxt='Focusing…';pomoBtnIco='⏸';}
-    if(isActive&&isBreak){pomoBtnClass='pomo-btn break-on';pomoBtnTxt='On break';pomoBtnIco='☕';}
-
+    const miniCirc=2*Math.PI*8;
+    let pomoBtnClass='pomo-btn idle';let pomoBtnTxt='Start Focus';
+    if(isActive&&!isBreak){pomoBtnClass='pomo-btn focus-on';pomoBtnTxt='Focusing…';}
+    if(isActive&&isBreak){pomoBtnClass='pomo-btn break-on';pomoBtnTxt='On break';}
     let badge='';
     if(st==='done')badge=`<span class="cbadge bd">✓ Done</span>`;
     else if(st==='dropped')badge=`<span class="cbadge br">✕ Dropped</span>`;
     else if(overdue)badge=`<span class="cbadge bo">⚠ Overdue</span>`;
     else badge=`<span class="cbadge bp">● Progress</span>`;
-
     let mkbtn='';
     if(st==='progress')mkbtn=`<button class="abtn mkbtn${overdue?' ov':''}" onclick="markDone(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Mark done</button>`;
-
     const card=document.createElement('div');
     card.className=`ccard st-${st}${isActive&&!isBreak?' pomo-running':''}${isActive&&isBreak?' pomo-break':''}`;
     card.dataset.name=(c.name||'').toLowerCase();card.dataset.status=st;
-
     card.innerHTML=`
       <div class="cbody">
         <div class="ctop">
@@ -924,13 +833,11 @@ function renderCards(){
         </div>
       </div>
       <div class="cact">
-        <!-- Pomodoro button with mini ring -->
         <button class="${pomoBtnClass}" onclick="handlePomoBtn('${c.id}')">
           ${isActive?`<svg class="pomo-ring" data-mini-ring="${c.id}" viewBox="0 0 20 20" style="transform:rotate(-90deg)"><circle cx="10" cy="10" r="8" fill="none" stroke="${isBreak?'rgba(0,229,176,.2)':'rgba(192,132,252,.2)'}" stroke-width="2.5"/><circle class="ring-fill" cx="10" cy="10" r="8" fill="none" stroke="${isBreak?'var(--g)':'var(--p)'}" stroke-width="2.5" stroke-dasharray="${miniCirc}" stroke-dashoffset="${miniCirc*(1-pomoPct)}" stroke-linecap="round"/></svg>`
           :`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`}
           ${pomoBtnTxt}
         </button>
-        <!-- Tasks -->
         <button class="abtn tbtn${tc>0?' ht':''}" onclick="openTP('${c.id}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           Tasks${tc>0?`<span class="tcnt">${tc}</span>`:''}
@@ -945,26 +852,14 @@ function renderCards(){
   updateStats();applyVis();updateTimePill();
 }
 
-// When clicking pomo button on a card
 async function handlePomoBtn(courseId){
-  if(poRunning&&poActiveCourseId===courseId){
-    // stop current
-    await stopPomo();
-    return;
-  }
-  if(poRunning){
-    // switch course — save current first
-    await stopPomo(true);
-  }
-  // Select this course in the panel selector
+  if(poRunning&&poActiveCourseId===courseId){await stopPomo();return;}
+  if(poRunning){await stopPomo(true);}
   const sel=$('course-sel');sel.value=courseId;poActiveCourseId=courseId;
-  // Start focus mode
-  setMode('work');
-  _startRunning();
+  setMode('work');_startRunning();
   toast('Focus session started!','🎯');
 }
 
-// ── Tasks ──────────────────────────────────────────────────────
 async function openTP(courseId){
   activePanelId=courseId;const c=courses.find(c=>c.id===courseId);
   $('tp-name').textContent=c?.name||'—';
@@ -978,18 +873,15 @@ async function loadTasks(cid){const{data,error}=await sb.from('tasks').select('*
 function renderTasks(){
   const body=$('tp-body'),total=tasks.length,done=tasks.filter(t=>t.done).length;
   $('tp-plbl').textContent=`${done}/${total}`;$('tp-fill').style.width=total?Math.round(done/total*100)+'%':'0%';
-  if(activePanelId){taskMiniData[activePanelId]={total,done};updateMiniBar(activePanelId);}
-  if(!total){body.innerHTML=`<div class="tpempty"><span class="tpei">📋</span>No tasks yet.<br>Add your first task below!</div>`;updateTaskBadge(activePanelId,0);return;}
+  if(activePanelId){taskMiniData[activePanelId]={total,done};renderCards();}
+  if(!total){body.innerHTML=`<div class="tpempty"><span class="tpei">📋</span>No tasks yet.<br>Add your first task below!</div>`;taskCounts[activePanelId]=0;renderCards();return;}
   body.innerHTML=tasks.map((t,i)=>`<div class="titem" id="task-${t.id}"><div class="tcb${t.done?' ck':''}" onclick="toggleTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tname${t.done?' done':''}">${esc(t.name)}</span><button class="tdel" onclick="deleteTask(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`).join('');
-  updateTaskBadge(activePanelId,total);
+  taskCounts[activePanelId]=total;renderCards();
 }
-function updateTaskBadge(cid,count){taskCounts[cid]=count;const card=document.querySelector(`.ccard[data-name]`);renderCards();}
-function updateMiniBar(cid){const card=document.querySelector(`[data-name="${(courses.find(c=>c.id===cid)?.name||'').toLowerCase()}"]`);/* re-render handled by renderCards */}
 async function addTask(){const inp=$('tp-inp'),name=inp.value.trim();if(!name){inp.focus();return;}inp.value='';const{data,error}=await sb.from('tasks').insert({user_id:user.id,course_id:activePanelId,name,done:false}).select().single();if(error){console.error(error);return;}tasks.push(data);renderTasks();}
 async function toggleTask(i){tasks[i].done=!tasks[i].done;renderTasks();await sb.from('tasks').update({done:tasks[i].done}).eq('id',tasks[i].id);}
 async function deleteTask(i){const el=$('task-'+tasks[i].id);if(el){el.classList.add('rem');await new Promise(r=>setTimeout(r,180));}const id=tasks[i].id;tasks.splice(i,1);renderTasks();await sb.from('tasks').delete().eq('id',id);}
 
-// ── Leaderboard ────────────────────────────────────────────────
 async function loadLb(){
   const btn=$('lbr-btn');btn.classList.add('sp');
   const{data,error}=await sb.from('study_sessions').select('user_id,duration_seconds,user_email').not('duration_seconds','is',null);
@@ -1003,7 +895,6 @@ async function loadLb(){
 }
 function toggleLb(){lbOpen=!lbOpen;$('lbbody').style.maxHeight=lbOpen?'500px':'0';$('lbchev').classList.toggle('op',lbOpen);}
 
-// ── Boot ───────────────────────────────────────────────────────
 setMode('work');renderDots();
 (async()=>{
   const{data:{session}}=await sb.auth.getSession();
